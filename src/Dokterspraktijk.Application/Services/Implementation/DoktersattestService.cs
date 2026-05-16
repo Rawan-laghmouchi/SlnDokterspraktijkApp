@@ -28,7 +28,6 @@ namespace Dokterspraktijk.Application.Services.Implementation
             _afspraakRepository = afspraakRepository;
             _doktersattestRepository = doktersattestRepository;
         }
-
         public ResultaatDto GeefDoktersattestVrij(string dokterNaam, string patientNaam, DateOnly datum, TimeOnly tijd)
         {
             Afspraak? afspraak = ZoekAfspraak(patientNaam, dokterNaam, datum, tijd);
@@ -67,18 +66,24 @@ namespace Dokterspraktijk.Application.Services.Implementation
         {
             Afspraak? afspraak = ZoekAfspraak(patientNaam, dokterNaam, datum, tijd);
 
-            if (afspraak is null)
+            if (afspraak == null)
             {
                 return ResultaatDto.Mislukt("De afspraak werd niet gevonden.");
             }
 
             Doktersattest? doktersattest = _doktersattestRepository.ZoekOpAfspraakId(afspraak.Id);
 
-            if (doktersattest is null)
+            if (doktersattest == null)
             {
                 return ResultaatDto.Mislukt("Er bestaat geen doktersattest voor deze afspraak.");
             }
 
+            if (!doktersattest.KanGedownloadWorden())
+            {
+                return ResultaatDto.Mislukt("Het doktersattest is nog niet vrijgegeven.");
+            }
+
+            doktersattest.Download();
             _doktersattestRepository.WerkBij(doktersattest);
 
             return ResultaatDto.Succes("Het doktersattest werd gedownload.");
@@ -88,14 +93,14 @@ namespace Dokterspraktijk.Application.Services.Implementation
         {
             Afspraak? afspraak = ZoekAfspraak(patientNaam, dokterNaam, datum, tijd);
 
-            if (afspraak is null)
+            if (afspraak == null)
             {
                 return null;
             }
 
             Doktersattest? doktersattest = _doktersattestRepository.ZoekOpAfspraakId(afspraak.Id);
 
-            if (doktersattest is null)
+            if (doktersattest == null)
             {
                 return null;
             }

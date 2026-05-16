@@ -148,7 +148,6 @@ namespace Dokterspraktijk.Tests.BDD.StepDefinitions
         }
 
         [When(@"patiënt (.*) haar doktersattest probeert te downloaden")]
-        [When(@"patiënt (.*) haar doktersattest probeert te downloaden")]
         public void WhenPatientHaarDoktersattestProbeertTeDownloaden(string patientNaam)
         {
             WhenPatientHaarDoktersattestDownloadt(patientNaam);

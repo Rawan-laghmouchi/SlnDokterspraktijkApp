@@ -1,28 +1,25 @@
 ﻿using Dokterspraktijk.Application.Repositories;
 using Dokterspraktijk.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Dokterspraktijk.Infrastructure.Fakes
 {
     public class FakeAfspraakRepository : IAfspraakRepository
     {
         private readonly FakeDokterspraktijkDatastore _dataStore;
-        private readonly FakeTijdslotRepository _tijdslotRepo;
+        private readonly ITijdslotRepository _tijdslotRepository;
 
-        public FakeAfspraakRepository(FakeDokterspraktijkDatastore dataStore, FakeTijdslotRepository tijdslotRepo)
+        public FakeAfspraakRepository(
+            FakeDokterspraktijkDatastore dataStore,
+            ITijdslotRepository tijdslotRepository)
         {
             _dataStore = dataStore;
-            _tijdslotRepo = tijdslotRepo;
+            _tijdslotRepository = tijdslotRepository;
         }
+
         public List<Afspraak> GeefAfsprakenVoorPatient(int patientId)
         {
             return _dataStore.Afspraken
-                .Where(afspraak => 
-                afspraak.Id == patientId)
+                .Where(afspraak => afspraak.PatientId == patientId)
                 .ToList();
         }
 
@@ -34,6 +31,7 @@ namespace Dokterspraktijk.Infrastructure.Fakes
         public void WerkBij(Afspraak afspraak)
         {
             Afspraak? bestaandeAfspraak = ZoekOpId(afspraak.Id);
+
             if (bestaandeAfspraak == null)
             {
                 _dataStore.Afspraken.Add(afspraak);
@@ -45,11 +43,15 @@ namespace Dokterspraktijk.Infrastructure.Fakes
             return _dataStore.Afspraken.FirstOrDefault(afspraak => afspraak.Id == id);
         }
 
-        public Afspraak? ZoekOpPatientDokterDatumEnTijd(int patientId, int dokterId, DateOnly datum, TimeOnly tijd)
+        public Afspraak? ZoekOpPatientDokterDatumEnTijd(
+            int patientId,
+            int dokterId,
+            DateOnly datum,
+            TimeOnly tijd)
         {
             return _dataStore.Afspraken.FirstOrDefault(afspraak =>
             {
-                Tijdslot? tijdslot = _tijdslotRepo.ZoekOpId(afspraak.TijdslotId);
+                Tijdslot? tijdslot = _tijdslotRepository.ZoekOpId(afspraak.TijdslotId);
 
                 return afspraak.PatientId == patientId &&
                        afspraak.DokterId == dokterId &&

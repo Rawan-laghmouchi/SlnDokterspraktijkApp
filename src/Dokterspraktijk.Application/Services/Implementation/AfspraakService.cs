@@ -158,7 +158,11 @@ namespace Dokterspraktijk.Application.Services.Implementation
             {
                 return ResultaatDto.Mislukt("De afspraak werd niet gevonden.");
             }
-
+            if (!afspraak.KanGeannuleerdWorden())
+            {
+                return ResultaatDto.Mislukt("Een afgeronde afspraak kan niet geannuleerd worden.");
+            }
+            afspraak.Annuleer();
             _afspraakRepository.WerkBij(afspraak);
 
             Tijdslot? tijdslot = _tijdslotRepository.ZoekOpId(afspraak.TijdslotId);
@@ -198,11 +202,17 @@ namespace Dokterspraktijk.Application.Services.Implementation
             {
                 return ResultaatDto.Mislukt("De afspraak werd niet gevonden.");
             }
+            if (!afspraak.KanAfgerondWorden())
+            {
+                return ResultaatDto.Mislukt("Deze afspraak kan niet afgerond worden.");
+            }
 
+            afspraak.RondAf();
             _afspraakRepository.WerkBij(afspraak);
 
             return ResultaatDto.Succes("De consultatie werd afgerond.");
         }
+
 
         private static string VertaalAfspraakStatus(AfspraakStatus status)
         {

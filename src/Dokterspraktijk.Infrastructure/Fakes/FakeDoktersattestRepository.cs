@@ -21,7 +21,8 @@ namespace Dokterspraktijk.Infrastructure.Fakes
 
         public Doktersattest? ZoekOpAfspraakId(int afspraakId)
         {
-            throw new NotImplementedException();
+            return _dataStore.Doktersattesten.FirstOrDefault(doktersattest =>
+                doktersattest.AfspraakId == afspraakId);
         }
 
         public void VoegToe(Doktersattest doktersattest)
@@ -32,11 +33,12 @@ namespace Dokterspraktijk.Infrastructure.Fakes
         public void WerkBij(Doktersattest doktersattest)
         {
             Doktersattest? bestaandDoktersattest = ZoekOpId(doktersattest.Id);
+
             if (bestaandDoktersattest == null)
             {
                 _dataStore.Doktersattesten.Add(doktersattest);
             }
         }
-        
+
     }
 }

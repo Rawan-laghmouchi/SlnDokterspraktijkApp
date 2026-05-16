@@ -19,6 +19,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\src\Dokterspraktijk.Application\Dokterspraktijk.Application.csproj" />
 		<ProjectReference Include="..\..\src\Dokterspraktijk.Domain\Dokterspraktijk.Domain.csproj" />
+		<ProjectReference Include="..\..\src\Dokterspraktijk.Infrastructure\Dokterspraktijk.Infrastructure.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

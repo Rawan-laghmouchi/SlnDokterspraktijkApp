@@ -11,7 +11,6 @@ using Xunit;
 namespace Dokterspraktijk.Tests.BDD.StepDefinitions
 {
     [Binding]
-    [Scope(Feature = "Afspraak maken bij een specifieke dokter")]
     public class AfspraakMakenBijEenSpecifiekeDokterStepDefinitions
     {
         private readonly IAfspraakService _afspraakService;

@@ -33,28 +33,23 @@ namespace Dokterspraktijk.Domain.Entities
             FotoBestandsnaam = fotoBestandsnaam;
         }
 
+        public bool KanGeannuleerdWorden()
+        {
+            return Status != AfspraakStatus.Afgerond;
+        }
+        public bool KanAfgerondWorden()
+        {
+            return Status != AfspraakStatus.Geannuleerd &&
+                   Status != AfspraakStatus.Afgerond;
+        }
+
         public void Annuleer()
         {
-            if (Status == AfspraakStatus.Afgerond)
-            {
-                throw new InvalidOperationException("Een afgeronde afspraak kan niet geannuleerd worden.");
-            }
-
             Status = AfspraakStatus.Geannuleerd;
         }
 
         public void RondAf()
         {
-            if (Status == AfspraakStatus.Geannuleerd)
-            {
-                throw new InvalidOperationException("Een geannuleerde afspraak kan niet afgerond worden.");
-            }
-
-            if (Status == AfspraakStatus.Afgerond)
-            {
-                throw new InvalidOperationException("Een afgeronde afspraak kan niet opnieuw afgerond worden.");
-            }
-
             Status = AfspraakStatus.Afgerond;
         }
 

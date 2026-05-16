@@ -25,14 +25,13 @@ namespace Dokterspraktijk.Domain.Entities
         {
             IsVrijgegeven = true;
         }
+        public bool KanGedownloadWorden()
+        {
+            return IsVrijgegeven;
+        }
 
         public void Download()
         {
-            if (!IsVrijgegeven)
-            {
-                throw new InvalidOperationException("Het doktersattest is nog niet vrijgegeven.");
-            }
-
             IsGedownload = true;
         }
     }
