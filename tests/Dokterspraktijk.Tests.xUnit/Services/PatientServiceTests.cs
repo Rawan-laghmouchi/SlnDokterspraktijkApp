@@ -1,10 +1,5 @@
 ﻿using Dokterspraktijk.Application.Dto_s;
 using Dokterspraktijk.Tests.xUnit.Support;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Dokterspraktijk.Tests.xUnit.Services
 {

@@ -80,7 +80,7 @@ namespace Dokterspraktijk.Tests.xUnit.Services
         }
 
         [Fact]
-        public void GeefDoktersattestVrij_OnbestaandeAfspraak_GeeftMisluktResultaat()
+        public void DownloadDoktersattest_VrijgegevenDoktersattest_MarkeertAlsGedownload()
         {
             // Arrange
             DokterspraktijkServiceTestContext context = new DokterspraktijkServiceTestContext();
@@ -119,44 +119,7 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             Assert.True(doktersattest.IsVrijgegeven);
             Assert.True(doktersattest.IsGedownload);
         }
-        [Fact]
-        public void DownloadDoktersattest_VrijgegevenDoktersattest_MarkeertAlsGedownload() 
-        {
-            // Arrange
-            DokterspraktijkServiceTestContext context = new DokterspraktijkServiceTestContext();
-
-            string patientNaam = "Rawan";
-            string dokterNaam = "Timmermans";
-            DateOnly datum = new DateOnly(2026, 5, 15);
-            TimeOnly tijd = new TimeOnly(10, 30);
-
-            Afspraak afspraak = MaakAfgerondeAfspraak(context, patientNaam, dokterNaam, datum, tijd);
-
-            Doktersattest doktersattest = new Doktersattest(
-                afspraak.Id,
-                afspraak.Id);
-
-            context.DoktersattestRepository.VoegToe(doktersattest);
-
-            // Act
-            ResultaatDto resultaat = context.DoktersattestService.DownloadDoktersattest(
-                patientNaam,
-                dokterNaam,
-                datum,
-                tijd);
-
-            DoktersattestDto? opgehaaldDoktersattest = context.DoktersattestService.ZoekDoktersattest(
-                patientNaam,
-                dokterNaam,
-                datum,
-                tijd);
-
-            // Assert
-            Assert.False(resultaat.IsGelukt);
-            Assert.NotNull(opgehaaldDoktersattest);
-            Assert.False(opgehaaldDoktersattest.IsVrijgegeven);
-            Assert.False(opgehaaldDoktersattest.IsGedownload);
-        }
+        
         [Fact]
         public void DownloadDoktersattest_NietVrijgegevenDoktersattest_GeeftMisluktResultaat()
         {
@@ -203,7 +166,7 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             Assert.False(opgehaaldDoktersattest.IsGedownload);
         }
         [Fact]
-        public void DownloadDoktersattest_OnbestaandeDoktersattest_GeeftMisluktResultaat() 
+        public void DownloadDoktersattest_OnbestaandDoktersattest_GeeftMisluktResultaat() 
         {
             // Arrange
             DokterspraktijkServiceTestContext context = new DokterspraktijkServiceTestContext();
@@ -270,7 +233,7 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             Assert.False(doktersattest.IsGedownload);
         }
         [Fact]
-        public void DownloadDoktersattest_GeenBeschikbaarDoktersattest_GeeftMisluktResultaat()
+        public void GeefDoktersattestVrij_OnbestaandeAfspraak_GeeftMisluktResultaat()
         {
             // Arrange
             DokterspraktijkServiceTestContext context = new DokterspraktijkServiceTestContext();
@@ -280,15 +243,14 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             DateOnly datum = new DateOnly(2026, 5, 15);
             TimeOnly tijd = new TimeOnly(10, 30);
 
-            MaakAfgerondeAfspraak(
-                context,
-                patientNaam,
+            // Act
+            ResultaatDto resultaat = context.DoktersattestService.GeefDoktersattestVrij(
                 dokterNaam,
+                patientNaam,
                 datum,
                 tijd);
 
-            // Act
-            ResultaatDto resultaat = context.DoktersattestService.DownloadDoktersattest(
+            DoktersattestDto? doktersattest = context.DoktersattestService.ZoekDoktersattest(
                 patientNaam,
                 dokterNaam,
                 datum,
@@ -296,7 +258,8 @@ namespace Dokterspraktijk.Tests.xUnit.Services
 
             // Assert
             Assert.False(resultaat.IsGelukt);
-            Assert.Equal("Er bestaat geen doktersattest voor deze afspraak.", resultaat.Melding);
+            Assert.Equal("De afspraak werd niet gevonden.", resultaat.Melding);
+            Assert.Null(doktersattest);
         }
 
         private static Afspraak MaakGeplandeAfspraak(
@@ -355,6 +318,5 @@ namespace Dokterspraktijk.Tests.xUnit.Services
 
             return afspraak;
         }
-
     }
 }

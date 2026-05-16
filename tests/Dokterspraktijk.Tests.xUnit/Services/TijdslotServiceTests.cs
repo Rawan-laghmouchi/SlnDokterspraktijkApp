@@ -62,43 +62,6 @@ namespace Dokterspraktijk.Tests.xUnit.Services
         }
 
         [Fact]
-        public void RaadpleegTijdsloten_BestaandDoktereZonderTijdsloten_GeeftLegeLijstTerug()
-        {
-            // Arrange
-            DokterspraktijkServiceTestContext context = new DokterspraktijkServiceTestContext();
-
-            string dokterNaam = "Timmermans";
-            DateOnly datum = new DateOnly(2026, 5, 15);
-
-            context.VoegTijdslotToe(
-                dokterNaam,
-                datum,
-                new TimeOnly(10, 0),
-                TijdslotStatus.Beschikbaar);
-
-            context.VoegTijdslotToe(
-                dokterNaam,
-                datum,
-                new TimeOnly(9, 0),
-                TijdslotStatus.Beschikbaar);
-
-            context.VoegTijdslotToe(
-                dokterNaam,
-                datum,
-                new TimeOnly(9, 30),
-                TijdslotStatus.NietBeschikbaar);
-
-            // Act
-            List<TijdslotDto> tijdsloten = context.TijdslotService.RaadpleegTijdsloten(
-                dokterNaam,
-                datum);
-
-            // Assert
-            Assert.Equal(new TimeOnly(9, 0), tijdsloten[0].Tijd);
-            Assert.Equal(new TimeOnly(9, 30), tijdsloten[1].Tijd);
-            Assert.Equal(new TimeOnly(10, 0), tijdsloten[2].Tijd);
-        }
-        [Fact]
         public void RaadpleegTijdsloten_OnbestaandeDokter_GeeftLegeLijstTerug()
         {
             // Arrange
@@ -159,6 +122,23 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             Assert.Equal(new TimeOnly(10, 0), tijdsloten[2].Tijd);
             Assert.Equal("beschikbaar", tijdsloten[2].Status);
 
+        }
+        [Fact]
+        public void RaadpleegTijdsloten_BestaandeDokterZonderTijdsloten_GeeftLegeLijstTerug()
+        {
+            // Arrange
+            DokterspraktijkServiceTestContext context = new DokterspraktijkServiceTestContext();
+
+            string dokterNaam = "Timmermans";
+            DateOnly datum = new DateOnly(2026, 5, 15);
+
+            // Act
+            List<TijdslotDto> tijdsloten = context.TijdslotService.RaadpleegTijdsloten(
+                dokterNaam,
+                datum);
+
+            // Assert
+            Assert.Empty(tijdsloten);
         }
     }
 }

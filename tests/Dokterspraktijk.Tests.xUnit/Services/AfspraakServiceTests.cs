@@ -289,7 +289,7 @@ namespace Dokterspraktijk.Tests.xUnit.Services
         }
 
         [Fact]
-        public void RondConsultatieAf_GeannuleerdeAfspraak_GeeftMisluktResultaat() 
+        public void RondConsultatieAf_AfgerondeAfspraak_GeeftMisluktResultaat()
         {
             // Arrange
             DokterspraktijkServiceTestContext context = new DokterspraktijkServiceTestContext();
@@ -373,7 +373,7 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             Assert.Equal(bestandsnaam, afspraak.FotoBestandsnaam);
         }
         [Fact]
-        public void VoegFotoToeAanAfspraak_OnbestaandeAfspraak_VoegtFotoToe() 
+        public void VoegFotoToeAanAfspraak_OnbestaandeAfspraak_GeeftMisluktResultaat()
         {
             // Arrange
             DokterspraktijkServiceTestContext context = new DokterspraktijkServiceTestContext();
@@ -432,7 +432,7 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             Assert.Equal(new DateOnly(2026, 5, 20), afspraken[1].Datum);
         }
         [Fact]
-        public void GeeftKomendeAfspraken_OnbestaandePatient_GeeftLegeLijstTerug() 
+        public void GeefKomendeAfspraken_OnbestaandPatient_GeeftLegeLijstTerug() 
         {
             // Arrange
             DokterspraktijkServiceTestContext context = new DokterspraktijkServiceTestContext();
@@ -533,6 +533,99 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             // Assert
             Assert.False(resultaat.IsGelukt);
             Assert.Equal("Het bestandstype wordt niet ondersteund.", resultaat.Melding);
+        }
+        [Fact]
+        public void GeefKomendeAfspraken_MeerderePatienten_GeeftEnkelAfsprakenVanGevraagdePatientTerug()
+        {
+            // Arrange
+            DokterspraktijkServiceTestContext context = new DokterspraktijkServiceTestContext();
+
+            DateOnly datumRawan = new DateOnly(2026, 5, 15);
+            TimeOnly tijdRawan = new TimeOnly(10, 30);
+
+            DateOnly datumHans = new DateOnly(2026, 5, 20);
+            TimeOnly tijdHans = new TimeOnly(9, 0);
+
+            context.VoegTijdslotToe(
+                "Timmermans",
+                datumRawan,
+                tijdRawan,
+                TijdslotStatus.Beschikbaar);
+
+            context.VoegTijdslotToe(
+                "Brancaert",
+                datumHans,
+                tijdHans,
+                TijdslotStatus.Beschikbaar);
+
+            context.AfspraakService.MaakAfspraak(
+                "Rawan",
+                "Timmermans",
+                datumRawan,
+                tijdRawan,
+                "algemene consultatie");
+
+            context.AfspraakService.MaakAfspraak(
+                "Hans",
+                "Brancaert",
+                datumHans,
+                tijdHans,
+                "huidcontrole");
+
+            // Act
+            List<AfspraakDto> afspraken = context.AfspraakService.GeefKomendeAfspraken(
+                "Rawan",
+                new DateOnly(2026, 1, 1));
+
+            // Assert
+            Assert.Single(afspraken);
+            Assert.Equal("Rawan", afspraken[0].PatientNaam);
+            Assert.Equal("Timmermans", afspraken[0].DokterNaam);
+            Assert.Equal("algemene consultatie", afspraken[0].Reden);
+        }
+        [Fact]
+        public void MaakAfspraak_NietBeschikbaarTijdslot_GeeftMisluktResultaat()
+        {
+            // Arrange
+            DokterspraktijkServiceTestContext context = new DokterspraktijkServiceTestContext();
+
+            string patientNaam = "Rawan";
+            string dokterNaam = "Timmermans";
+            DateOnly datum = new DateOnly(2026, 5, 15);
+            TimeOnly tijd = new TimeOnly(10, 30);
+
+            context.VoegTijdslotToe(
+                dokterNaam,
+                datum,
+                tijd,
+                TijdslotStatus.NietBeschikbaar);
+
+            // Act
+            ResultaatDto resultaat = context.AfspraakService.MaakAfspraak(
+                patientNaam,
+                dokterNaam,
+                datum,
+                tijd,
+                "consultatie");
+
+            Afspraak? afspraak = context.ZoekAfspraak(
+                patientNaam,
+                dokterNaam,
+                datum,
+                tijd);
+
+            Tijdslot? tijdslot = context.ZoekTijdslot(
+                dokterNaam,
+                datum,
+                tijd);
+
+            // Assert
+            Assert.False(resultaat.IsGelukt);
+            Assert.Equal("Het gekozen tijdslot is niet beschikbaar.", resultaat.Melding);
+            Assert.Null(afspraak);
+
+            Assert.NotNull(tijdslot);
+            Assert.Equal(TijdslotStatus.NietBeschikbaar, tijdslot.Status);
         }
 
 
