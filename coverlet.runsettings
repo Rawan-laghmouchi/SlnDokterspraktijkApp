@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<RunSettings>
+  <DataCollectionRunSettings>
+    <DataCollectors>
+      <DataCollector friendlyName="XPlat Code Coverage">
+        <Configuration>
+          <Format>cobertura</Format>
+
+          <Include>[Dokterspraktijk.Application]*,[Dokterspraktijk.Domain]*</Include>
+
+          <Exclude>[Dokterspraktijk.Tests.xUnit]*,[Dokterspraktijk.Tests.BDD]*,[Dokterspraktijk.Infrastructure]*,[Dokterspraktijk.WebUI]*</Exclude>
+
+          <ExcludeByAttribute>Obsolete,GeneratedCodeAttribute,CompilerGeneratedAttribute</ExcludeByAttribute>
+
+          <ExcludeByFile>**/Migrations/*.cs,**/*.feature.cs,**/bin/**/*.cs,**/obj/**/*.cs</ExcludeByFile>
+        </Configuration>
+      </DataCollector>
+    </DataCollectors>
+  </DataCollectionRunSettings>
+</RunSettings>
