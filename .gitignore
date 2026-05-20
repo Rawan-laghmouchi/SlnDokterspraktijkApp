@@ -399,3 +399,7 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Onderzoeksoutput coverage
+onderzoek-resultaten/deelvraag-4-testdekking/**/raw/
+onderzoek-resultaten/deelvraag-4-testdekking/**/report/
