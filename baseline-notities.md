@@ -20,3 +20,5 @@ Niet gemeten lagen:
 - Dokterspraktijk.WebUI
 - Testprojecten
 - Gegenereerde Reqnroll-bestanden
+
+Morgen verdgaan bij 1.4 coverlet.
