@@ -21,4 +21,9 @@ Niet gemeten lagen:
 - Testprojecten
 - Gegenereerde Reqnroll-bestanden
 
-Morgen verdgaan bij 1.4 coverlet.
+xUnit line coverage: 92,7%
+xUnit branch coverage: 77,7%
+Aantal uitgevoerde xUnit-tests: 36
+Datum coverage-meting: 20/05/2026 om 16:16:02
+Rapport gegenereerd op: 20/05/2026 om 16:29:57
+Commit hash: nog invullen met git rev-parse HEAD
