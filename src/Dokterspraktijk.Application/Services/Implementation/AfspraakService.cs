@@ -240,7 +240,7 @@ namespace Dokterspraktijk.Application.Services.Implementation
 
             string extensie = Path.GetExtension(bestandsnaam).ToLowerInvariant();
 
-            if (extensie == ".jpg" || extensie == ".jpeg" || extensie == ".png")
+            if (extensie == ".jpg" || extensie == ".jpeg" || extensie == ".png" || extensie == ".pdf")
             {
                 return ResultaatDto.Succes("Het bestand werd geaccepteerd.");
             }
