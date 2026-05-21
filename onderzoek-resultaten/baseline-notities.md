@@ -26,4 +26,11 @@ xUnit branch coverage: 77,7%
 Aantal uitgevoerde xUnit-tests: 36
 Datum coverage-meting: 20/05/2026 om 16:16:02
 Rapport gegenereerd op: 20/05/2026 om 16:29:57
-Commit hash: nog invullen met git rev-parse HEAD
+Commit hash: c28472a6a427dd5032c4befb461425778f27c5f6
+
+Reqnroll line coverage: 91,3%
+Reqnroll branch coverage: 70,0%
+Aantal uitgevoerde BDD-tests/scenario-uitvoeringen: 18
+Datum coverage-meting: 20/05/2026 om 18:21:20
+Rapport gegenereerd op: 20/05/2026 om 18:22:46
+Commit hash: c28472a6a427dd5032c4befb461425778f27c5f6

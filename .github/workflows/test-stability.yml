@@ -1,0 +1,59 @@
+name: test-stability
+
+on:
+  workflow_dispatch:
+
+jobs:
+  xunit-stability:
+    name: xUnit run ${{ matrix.run }}
+    runs-on: windows-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        run: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Run xUnit tests
+        run: dotnet test .\tests\Dokterspraktijk.Tests.xUnit\Dokterspraktijk.Tests.xUnit.csproj --configuration Release --no-build --verbosity normal
+
+  reqnroll-stability:
+    name: Reqnroll run ${{ matrix.run }}
+    runs-on: windows-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        run: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Run Reqnroll tests
+        run: dotnet test .\tests\Dokterspraktijk.Tests.BDD\Dokterspraktijk.Tests.BDD.csproj --configuration Release --no-build --verbosity normal
