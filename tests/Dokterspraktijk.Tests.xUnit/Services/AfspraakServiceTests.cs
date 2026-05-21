@@ -450,6 +450,7 @@ namespace Dokterspraktijk.Tests.xUnit.Services
         [InlineData("huidprobleem.jpg")]
         [InlineData("huidprobleem.jpeg")]
         [InlineData("huidprobleem.png")]
+        [InlineData("huidprobleem.pdf")]
         public void ValideerBestaandeAfspraakAanvraag_GeldigeExtensie_GeeftSucces(string bestandsnaam) 
         {
             // Arrange
@@ -491,7 +492,7 @@ namespace Dokterspraktijk.Tests.xUnit.Services
         }
 
         [Theory]
-        [InlineData("document.pdf")]
+         // [InlineData("document.pdf")]
         [InlineData("bestand.docx")]
         [InlineData("foto.gif")]
         public void ValideerBestandVoorAfspraakaanvraag_OngeldigeExtensie_GeeftMisluktResultaat(string bestandsnaam) 
