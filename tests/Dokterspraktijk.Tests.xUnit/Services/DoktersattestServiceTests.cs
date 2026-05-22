@@ -194,6 +194,53 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             Assert.False(resultaat.IsGelukt);
             Assert.Equal("Er bestaat geen doktersattest voor deze afspraak.", resultaat.Melding);
         }
+
+        [Fact]
+        public void DownloadDoktersattest_ReedsGedownloadDoktersattest_GeeftMisluktResultaat()
+        {
+            // Arrange
+            DokterspraktijkServiceTestContext context = new DokterspraktijkServiceTestContext();
+
+            string patientNaam = "Rawan";
+            string dokterNaam = "Timmermans";
+            DateOnly datum = new DateOnly(2026, 5, 15);
+            TimeOnly tijd = new TimeOnly(10, 30);
+
+            MaakAfgerondeAfspraak(
+                context,
+                patientNaam,
+                dokterNaam,
+                datum,
+                tijd);
+
+            ResultaatDto vrijgaveResultaat = context.DoktersattestService.GeefDoktersattestVrij(
+                dokterNaam,
+                patientNaam,
+                datum,
+                tijd);
+
+            Assert.True(vrijgaveResultaat.IsGelukt, vrijgaveResultaat.Melding);
+
+            ResultaatDto eersteDownload = context.DoktersattestService.DownloadDoktersattest(
+                patientNaam,
+                dokterNaam,
+                datum,
+                tijd);
+
+            Assert.True(eersteDownload.IsGelukt, eersteDownload.Melding);
+
+            // Act
+            ResultaatDto tweedeDownload = context.DoktersattestService.DownloadDoktersattest(
+                patientNaam,
+                dokterNaam,
+                datum,
+                tijd);
+
+            // Assert
+            Assert.False(tweedeDownload.IsGelukt);
+            Assert.Equal("Het doktersattest werd al gedownload.", tweedeDownload.Melding);
+        }
+
         [Fact]
         public void ZoekDoktersattest_BestaandDoktersattest_GeeftDoktersattestDtoTerug() 
         {
