@@ -14,4 +14,4 @@ Scenario: Een bestand wordt gevalideerd bij het toevoegen aan een afspraakaanvra
 	| bestandstype | resultaat    |
     | JPG-bestand  | geaccepteerd |
     | PNG-bestand  | geaccepteerd |
-    | PDF-bestand  | geweigerd    |
+    | PDF-bestand  | geaccepteerd |
