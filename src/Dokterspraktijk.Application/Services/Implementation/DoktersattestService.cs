@@ -78,9 +78,14 @@ namespace Dokterspraktijk.Application.Services.Implementation
                 return ResultaatDto.Mislukt("Er bestaat geen doktersattest voor deze afspraak.");
             }
 
-            if (!doktersattest.KanGedownloadWorden())
+            if (!doktersattest.IsVrijgegeven)
             {
                 return ResultaatDto.Mislukt("Het doktersattest is nog niet vrijgegeven.");
+            }
+
+            if (doktersattest.IsGedownload)
+            {
+                return ResultaatDto.Mislukt("Het doktersattest werd al gedownload.");
             }
 
             doktersattest.Download();
