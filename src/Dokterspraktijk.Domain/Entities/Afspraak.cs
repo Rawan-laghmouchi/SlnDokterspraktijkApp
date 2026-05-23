@@ -35,8 +35,9 @@ namespace Dokterspraktijk.Domain.Entities
 
         public bool KanGeannuleerdWorden()
         {
-            return Status != AfspraakStatus.Afgerond;
+            return Status == AfspraakStatus.Gepland;
         }
+
         public bool KanAfgerondWorden()
         {
             return Status != AfspraakStatus.Geannuleerd &&

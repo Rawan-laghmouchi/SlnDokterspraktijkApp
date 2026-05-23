@@ -160,7 +160,7 @@ namespace Dokterspraktijk.Application.Services.Implementation
             }
             if (!afspraak.KanGeannuleerdWorden())
             {
-                return ResultaatDto.Mislukt("Een afgeronde afspraak kan niet geannuleerd worden.");
+                return ResultaatDto.Mislukt("Alleen een geplande afspraak kan geannuleerd worden.");
             }
             afspraak.Annuleer();
             _afspraakRepository.WerkBij(afspraak);
