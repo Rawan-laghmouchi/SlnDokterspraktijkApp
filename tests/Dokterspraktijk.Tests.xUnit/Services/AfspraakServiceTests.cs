@@ -242,7 +242,49 @@ namespace Dokterspraktijk.Tests.xUnit.Services
 
             // Assert
             Assert.False(resultaat.IsGelukt);
-            Assert.Equal("Een afgeronde afspraak kan niet geannuleerd worden.", resultaat.Melding);
+            Assert.Equal("Alleen een geplande afspraak kan geannuleerd worden.", resultaat.Melding);
+        }
+        [Fact]
+        public void AnnuleerAfpsraak_GeannuleerdeAfspraak_GeeftMisluktResultaat()
+        {
+            DokterspraktijkServiceTestContext context = new DokterspraktijkServiceTestContext();
+
+            string patientNaam = "Rawan";
+            string dokterNaam = "Timmermans";
+            DateOnly datum = new DateOnly(2026, 5, 15);
+            TimeOnly tijd = new TimeOnly(10, 30);
+
+            context.VoegTijdslotToe(
+                dokterNaam,
+                datum,
+                tijd,
+                TijdslotStatus.Beschikbaar);
+
+            ResultaatDto maakAfspraakResultaat = context.AfspraakService.MaakAfspraak(
+                patientNaam,
+                dokterNaam,
+                datum,
+                tijd,
+                "consultatie");
+
+            Assert.True(maakAfspraakResultaat.IsGelukt, maakAfspraakResultaat.Melding);
+
+            ResultaatDto eersteAnnulatie = context.AfspraakService.AnnuleerAfspraak(
+                patientNaam,
+                dokterNaam,
+                datum,
+                tijd);
+
+            Assert.True(eersteAnnulatie.IsGelukt, eersteAnnulatie.Melding);
+
+            ResultaatDto tweedeAnnulatie = context.AfspraakService.AnnuleerAfspraak(
+                patientNaam,
+                dokterNaam,
+                datum,
+                tijd);
+
+            Assert.False(tweedeAnnulatie.IsGelukt);
+            Assert.Equal("Alleen een geplande afspraak kan geannuleerd worden.", tweedeAnnulatie.Melding);
         }
 
         [Fact]
