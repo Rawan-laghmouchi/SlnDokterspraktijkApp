@@ -129,6 +129,18 @@ namespace Dokterspraktijk.Tests.BDD.StepDefinitions
             Assert.Null(_context.LaatsteDoktersattest);
         }
 
+        [Given(@"patiënt (.*) heeft haar doktersattest al gedownload")]
+        public void GivenPatientHeeftHaarDoktersattestAlGedownload(string patientNaam)
+        {
+            WhenPatientHaarDoktersattestDownloadt(patientNaam);
+
+            Assert.NotNull(_context.LaatsteResultaat);
+            Assert.True(_context.LaatsteResultaat.IsGelukt, _context.LaatsteResultaat.Melding);
+
+            Assert.NotNull(_context.LaatsteDoktersattest);
+            Assert.True(_context.LaatsteDoktersattest.IsGedownload);
+        }
+
         [When(@"patiënt (.*) haar doktersattest downloadt")]
         public void WhenPatientHaarDoktersattestDownloadt(string patientNaam)
         {
