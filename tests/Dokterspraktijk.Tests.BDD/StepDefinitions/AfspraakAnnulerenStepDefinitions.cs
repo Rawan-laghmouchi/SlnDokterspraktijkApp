@@ -81,6 +81,63 @@ namespace Dokterspraktijk.Tests.BDD.StepDefinitions
             };
         }
 
+        [Given(@"patiënt (.*) heeft een geannuleerde afspraak bij dokter (.*) op (.*) om (.*)")]
+        public void GivenPatientHeeftEenGeannuleerdeAfspraakBijDokterOpOm(
+    string patientNaam,
+    string dokterNaam,
+    string datumTekst,
+    string tijdTekst)
+        {
+            DateOnly datum = ParseDatum(datumTekst);
+            TimeOnly tijd = TimeOnly.Parse(tijdTekst);
+
+            Patient patient = ZorgDatPatientBestaat(patientNaam);
+            Dokter dokter = ZorgDatDokterBestaat(dokterNaam);
+
+            ZorgDatTijdslotBestaat(
+                dokter.Id,
+                datum,
+                tijd,
+                TijdslotStatus.Beschikbaar);
+
+            ResultaatDto maakAfspraakResultaat = _afspraakService.MaakAfspraak(
+                patient.Naam,
+                dokter.Naam,
+                datum,
+                tijd,
+                "consultatie");
+
+            Assert.True(maakAfspraakResultaat.IsGelukt, maakAfspraakResultaat.Melding);
+
+            ResultaatDto annulatieResultaat = _afspraakService.AnnuleerAfspraak(
+                patient.Naam,
+                dokter.Naam,
+                datum,
+                tijd);
+
+            Assert.True(annulatieResultaat.IsGelukt, annulatieResultaat.Melding);
+
+            Afspraak? afspraak = _afspraakRepository.ZoekOpPatientDokterDatumEnTijd(
+                patient.Id,
+                dokter.Id,
+                datum,
+                tijd);
+
+            Assert.NotNull(afspraak);
+
+            _context.LaatsteAfspraak = new AfspraakDto
+            {
+                Id = afspraak.Id,
+                PatientNaam = patient.Naam,
+                DokterNaam = dokter.Naam,
+                Datum = datum,
+                Tijd = tijd,
+                Reden = afspraak.Reden,
+                Status = "Geannuleerd",
+                FotoBestandsnaam = afspraak.FotoBestandsnaam
+            };
+        }
+
         [When(@"zij deze afspraak annuleert")]
         public void WhenZijDezeAfspraakAnnuleert()
         {

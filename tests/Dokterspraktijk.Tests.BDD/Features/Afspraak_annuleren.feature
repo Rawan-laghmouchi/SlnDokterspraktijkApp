@@ -15,3 +15,8 @@ Scenario: Een patiënt kan geen afgeronde afspraak annuleren
 	Given patiënt Rawan heeft een afgeronde afspraak bij de dokter Timmermans op 10-05-2026 
 	When zij deze afspraak probeert te annuleren 
 	Then wordt de annulatie geweigerd
+
+Scenario: Een patiënt kan een geannuleerde afspraakniet opnieuw annuleren
+	Given patiënt Rawan heeft een geannuleerde afspraak bij dokter Timmermans op 15-05-2026 om 10:30
+	When zij deze afspraak probeert te annuleren
+	Then wordt de annulatie geweigerd
