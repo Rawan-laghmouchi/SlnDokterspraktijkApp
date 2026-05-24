@@ -1,0 +1,36 @@
+Summary
+  Generated on: 20/05/2026 - 16:29:57
+  Coverage date: 20/05/2026 - 16:16:02
+  Parser: Cobertura
+  Assemblies: 2
+  Classes: 12
+  Files: 12
+  Line coverage: 92.7%
+  Covered lines: 280
+  Uncovered lines: 22
+  Coverable lines: 302
+  Total lines: 790
+  Branch coverage: 77.7% (70 of 90)
+  Covered branches: 70
+  Total branches: 90
+  Method coverage: 97.7% (43 of 44)
+  Full method coverage: 72.7% (32 of 44)
+  Covered methods: 43
+  Fully covered methods: 32
+  Total methods: 44
+
+Dokterspraktijk.Application                                                  91.8%
+  Dokterspraktijk.Application.Dto_s.AfspraakDto                               100%
+  Dokterspraktijk.Application.Dto_s.ResultaatDto                              100%
+  Dokterspraktijk.Application.Dto_s.TijdslotDto                               100%
+  Dokterspraktijk.Application.Services.Implementation.AfspraakService          90%
+  Dokterspraktijk.Application.Services.Implementation.DoktersattestService   90.9%
+  Dokterspraktijk.Application.Services.Implementation.PatientService         91.6%
+  Dokterspraktijk.Application.Services.Implementation.TijdslotService        95.4%
+
+Dokterspraktijk.Domain                                                       96.4%
+  Dokterspraktijk.Domain.Entities.Afspraak                                    100%
+  Dokterspraktijk.Domain.Entities.Dokter                                      100%
+  Dokterspraktijk.Domain.Entities.Doktersattest                               100%
+  Dokterspraktijk.Domain.Entities.Patient                                     100%
+  Dokterspraktijk.Domain.Entities.Tijdslot                                   85.7%

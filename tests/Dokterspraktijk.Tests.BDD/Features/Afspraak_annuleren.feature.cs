@@ -106,7 +106,7 @@ namespace Dokterspraktijk.Tests.BDD.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Afspraak_annuleren.feature.ndjson", 4);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Afspraak_annuleren.feature.ndjson", 5);
         }
         
         async System.Threading.Tasks.ValueTask Xunit.IAsyncLifetime.InitializeAsync()
@@ -202,6 +202,41 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
  await testRunner.WhenAsync("zij deze afspraak probeert te annuleren", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 17
+ await testRunner.ThenAsync("wordt de annulatie geweigerd", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Xunit.FactAttribute(DisplayName="Een patiënt kan een geannuleerde afspraakniet opnieuw annuleren")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Een afspraak annuleren")]
+        [global::Xunit.TraitAttribute("Description", "Een patiënt kan een geannuleerde afspraakniet opnieuw annuleren")]
+        public async global::System.Threading.Tasks.Task EenPatientKanEenGeannuleerdeAfspraaknietOpnieuwAnnuleren()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "2";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Een patiënt kan een geannuleerde afspraakniet opnieuw annuleren", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 19
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 20
+ await testRunner.GivenAsync("patiënt Rawan heeft een geannuleerde afspraak bij dokter Timmermans op 15-05-2026" +
+                        " om 10:30", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 21
+ await testRunner.WhenAsync("zij deze afspraak probeert te annuleren", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 22
  await testRunner.ThenAsync("wordt de annulatie geweigerd", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
