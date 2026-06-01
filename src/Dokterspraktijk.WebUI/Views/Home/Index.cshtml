@@ -1,8 +1,308 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+	ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<main class="container app-container py-3">
+
+	<section class="home-hero p-4 p-lg-5 mb-4">
+		<div class="row align-items-center gy-4">
+
+			<div class="col-12 col-lg-7">
+				<span class="badge rounded-pill bg-light text-dark px-3 py-2 mb-3">
+					Dokterspraktijk Laghmouchi
+				</span>
+
+				<h1 class="display-5 fw-bold mb-3">
+					Zorg dichtbij, duidelijk en betrouwbaar.
+				</h1>
+
+				<p class="lead mb-4">
+					Maak eenvoudig een afspraak bij een dokter, kies een beschikbaar tijdstip
+					en beheer je afspraak op één overzichtelijke plaats.
+				</p>
+
+				<div class="d-flex flex-column flex-sm-row gap-2">
+					<a asp-controller="Afspraak"
+					   asp-action="Create"
+					   class="btn btn-appointment-filled">
+						Afspraak maken
+					</a>
+
+					<a asp-controller="Afspraak"
+					   asp-action="Index"
+					   class="btn btn-outline-light rounded-pill px-4 fw-semibold btn-home-outline">
+						Bekijk afspraken
+					</a>
+				</div>
+			</div>
+
+			<div class="col-12 col-lg-5">
+				<div class="home-practice-photo-card">
+					<img src="~/images/banner-dokter-1.png"
+						 alt="Team van Dokterspraktijk Laghmouchi"
+						 class="home-practice-photo" />
+
+					<div class="home-practice-photo-overlay">
+						<div class="home-practice-photo-text">
+							<h5 class="fw-bold mb-1">
+								Welkom in onze praktijk
+							</h5>
+
+							<p class="text-secondary mb-0 small">
+								Een vertrouwd team dat klaarstaat voor duidelijke en persoonlijke zorg.
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</section>
+
+	<section class="home-info-strip p-4 mb-4">
+		<div class="row gy-3 text-center text-lg-start">
+
+			<div class="col-12 col-md-4">
+				<div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
+					<span class="home-icon-circle">
+						<i class="bi bi-clock"></i>
+					</span>
+
+					<div>
+						<h6 class="fw-bold mb-1">Open vandaag</h6>
+						<p class="text-secondary mb-0 small">08:00 - 18:00</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-12 col-md-4">
+				<div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
+					<span class="home-icon-circle">
+						<i class="bi bi-telephone"></i>
+					</span>
+
+					<div>
+						<h6 class="fw-bold mb-1">Telefonisch bereikbaar</h6>
+						<p class="text-secondary mb-0 small">015 / 12 34 56</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-12 col-md-4">
+				<div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
+					<span class="home-icon-circle">
+						<i class="bi bi-geo-alt"></i>
+					</span>
+
+					<div>
+						<h6 class="fw-bold mb-1">Locatie</h6>
+						<p class="text-secondary mb-0 small">Naamsestraat 120, Leuven</p>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</section>
+
+	<section class="row gy-4 mb-4">
+
+		<div class="col-12 col-md-4">
+			<div class="home-soft-card h-100 p-4">
+				<span class="home-icon-circle mb-3">
+					<i class="bi bi-calendar-check"></i>
+				</span>
+
+				<h5 class="fw-bold home-section-title mb-2">
+					Snel afspraak maken
+				</h5>
+
+				<p class="text-secondary mb-0">
+					Kies een dokter, datum en tijdstip. Je ziet meteen welke momenten nog beschikbaar zijn.
+				</p>
+			</div>
+		</div>
+
+		<div class="col-12 col-md-4">
+			<div class="home-soft-card h-100 p-4">
+				<span class="home-icon-circle mb-3">
+					<i class="bi bi-person-heart"></i>
+				</span>
+
+				<h5 class="fw-bold home-section-title mb-2">
+					Persoonlijke zorg
+				</h5>
+
+				<p class="text-secondary mb-0">
+					Onze dokters begeleiden je met duidelijke uitleg en zorg op maat van jouw situatie.
+				</p>
+			</div>
+		</div>
+
+		<div class="col-12 col-md-4">
+			<div class="home-soft-card h-100 p-4">
+				<span class="home-icon-circle mb-3">
+					<i class="bi bi-x-circle"></i>
+				</span>
+
+				<h5 class="fw-bold home-section-title mb-2">
+					Eenvoudig annuleren
+				</h5>
+
+				<p class="text-secondary mb-0">
+					Kan je niet komen? Annuleer je geplande afspraak tijdig via het afsprakenoverzicht.
+				</p>
+			</div>
+		</div>
+
+	</section>
+
+	<section class="home-soft-card p-4 mb-4">
+		<h3 class="fw-bold home-section-title mb-3">
+			Openingsuren
+		</h3>
+
+		<div class="d-flex justify-content-between border-bottom py-2">
+			<span class="text-secondary">Maandag - vrijdag</span>
+			<strong>08:30 - 17:30</strong>
+		</div>
+
+		<div class="d-flex justify-content-between border-bottom py-2">
+			<span class="text-secondary">Zaterdag</span>
+			<strong>Gesloten</strong>
+		</div>
+
+		<div class="d-flex justify-content-between border-bottom py-2 mb-3">
+			<span class="text-secondary">Zondag</span>
+			<strong>Gesloten</strong>
+		</div>
+
+		<p class="text-secondary small fst-italic mb-0">
+			Voor dringende hulp buiten de openingsuren: bel <strong>1733</strong>.
+		</p>
+	</section>
+
+	<section class="home-soft-card p-4 mb-4">
+		<h3 class="fw-bold home-section-title mb-3">
+			Onze dokters
+		</h3>
+
+		<p class="text-secondary mb-4">
+			Maak een afspraak bij één van onze artsen. Je kiest zelf de dokter en het beschikbare tijdslot.
+		</p>
+
+		<div class="row gy-4">
+
+			<div class="col-12 col-md-6 col-lg-3">
+				<div class="card home-doctor-card h-100">
+					<img src="~/images/dr-brancaert.png"
+						 alt="Dr. Brancaert"
+						 class="card-img-top home-doctor-photo" />
+
+					<div class="card-body">
+						<h5 class="card-title fw-bold mb-2">
+							Dr. Brancaert
+						</h5>
+
+						<p class="card-text text-secondary small mb-2">
+							Algemene geneeskunde
+						</p>
+
+						<p class="card-text text-secondary small mb-0">
+							Luistert aandachtig en helpt patiënten met duidelijke uitleg en persoonlijke opvolging.
+						</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-12 col-md-6 col-lg-3">
+				<div class="card home-doctor-card h-100">
+					<img src="~/images/dr-timmermans.png"
+						 alt="Dr. Timmermans"
+						 class="card-img-top home-doctor-photo" />
+
+					<div class="card-body">
+						<h5 class="card-title fw-bold mb-2">
+							Dr. Timmermans
+						</h5>
+
+						<p class="card-text text-secondary small mb-2">
+							Algemene geneeskunde
+						</p>
+
+						<p class="card-text text-secondary small mb-0">
+							Biedt rustige en professionele zorg voor dagelijkse klachten en preventieve controles.
+						</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-12 col-md-6 col-lg-3">
+				<div class="card home-doctor-card h-100">
+					<img src="~/images/dr-okondo.png"
+						 alt="Dr. Okondo"
+						 class="card-img-top home-doctor-photo" />
+
+					<div class="card-body">
+						<h5 class="card-title fw-bold mb-2">
+							Dr. Okondo
+						</h5>
+
+						<p class="card-text text-secondary small mb-2">
+							Algemene geneeskunde
+						</p>
+
+						<p class="card-text text-secondary small mb-0">
+							Helpt patiënten op een rustige en betrokken manier met dagelijkse medische vragen.
+						</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-12 col-md-6 col-lg-3">
+				<div class="card home-doctor-card h-100">
+					<img src="~/images/dr-olali.png"
+						 alt="Dr. Olali"
+						 class="card-img-top home-doctor-photo" />
+
+					<div class="card-body">
+						<h5 class="card-title fw-bold mb-2">
+							Dr. Olali
+						</h5>
+
+						<p class="card-text text-secondary small mb-2">
+							Algemene geneeskunde
+						</p>
+
+						<p class="card-text text-secondary small mb-0">
+							Staat klaar voor duidelijke opvolging, preventieve zorg en persoonlijke begeleiding.
+						</p>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</section>
+
+	<section class="home-soft-card p-4 mb-4">
+		<div class="row align-items-center gy-3">
+			<div class="col-12 col-lg-8">
+				<h3 class="fw-bold home-section-title mb-2">
+					Klaar om een afspraak te maken?
+				</h3>
+
+				<p class="text-secondary mb-0">
+					Start meteen met het kiezen van een dokter, datum en beschikbaar tijdstip.
+				</p>
+			</div>
+
+			<div class="col-12 col-lg-4 text-lg-end">
+				<a asp-controller="Afspraak"
+				   asp-action="Create"
+				   class="btn btn-appointment-outline">
+					Afspraak maken
+				</a>
+			</div>
+		</div>
+	</section>
+
+</main>

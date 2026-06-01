@@ -9,7 +9,7 @@ namespace Dokterspraktijk.Application.Services.Interfaces
 {
     public interface IPatientService
     {
-        ResultaatDto StelVoorkeursdokterIn(string patientNaam, string dokterNaam);
-        string? GeefVoorkeursdokter(string patientNaam);
+        ResultaatDto StelVoorkeursdokterIn(string patientVoornaam, string patientAchternaam, string dokterNaam);
+        string? GeefVoorkeursdokter(string patientVoornaam, string patientAchternaam);
     }
 }

@@ -8,10 +8,10 @@ namespace Dokterspraktijk.Application.Services.Implementation
 {
     public class AfspraakService : IAfspraakService
     {
-        private readonly IPatientRepository _patientRepository;
-        private readonly IDokterRepository _dokterRepository;
-        private readonly ITijdslotRepository _tijdslotRepository;
-        private readonly IAfspraakRepository _afspraakRepository;
+        private IPatientRepository _patientRepository;
+        private IDokterRepository _dokterRepository;
+        private ITijdslotRepository _tijdslotRepository;
+        private IAfspraakRepository _afspraakRepository;
 
         public AfspraakService(
             IPatientRepository patientRepository,
@@ -25,13 +25,39 @@ namespace Dokterspraktijk.Application.Services.Implementation
             _afspraakRepository = afspraakRepository;
         }
 
-        public ResultaatDto MaakAfspraak(string patientNaam, string dokterNaam, DateOnly datum, TimeOnly tijd, string reden)
+        public ResultaatDto MaakAfspraak(
+            string patientVoornaam,
+            string patientAchternaam,
+            string email,
+            string telefoonnummer,
+            string rijksregisternummer,
+            string dokterNaam,
+            DateOnly datum,
+            TimeOnly tijd,
+            string reden)
         {
-            Patient? patient = _patientRepository.ZoekOpNaam(patientNaam);
+            Patient? patient = _patientRepository.ZoekOpNaam(patientVoornaam, patientAchternaam);
 
             if (patient == null)
             {
-                return ResultaatDto.Mislukt("De patiënt werd niet gevonden.");
+                patient = new Patient
+                {
+                    Voornaam = patientVoornaam,
+                    Achternaam = patientAchternaam,
+                    Email = email,
+                    Telefoonnummer = telefoonnummer,
+                    Rijksregisternummer = rijksregisternummer
+                };
+
+                _patientRepository.VoegToe(patient);
+            }
+            else
+            {
+                patient.Email = email;
+                patient.Telefoonnummer = telefoonnummer;
+                patient.Rijksregisternummer = rijksregisternummer;
+
+                _patientRepository.WerkBij(patient);
             }
 
             Dokter? dokter = _dokterRepository.ZoekOpNaam(dokterNaam);
@@ -48,26 +74,27 @@ namespace Dokterspraktijk.Application.Services.Implementation
 
             if (tijdslot == null)
             {
-                return ResultaatDto.Mislukt("Het gekozen tijdslot bestaat niet.");
+                tijdslot = new Tijdslot
+                {
+                    DokterId = dokter.Id,
+                    Datum = datum,
+                    Tijd = tijd,
+                    Status = TijdslotStatus.Beschikbaar
+                };
+
+                _tijdslotRepository.VoegToe(tijdslot);
             }
 
-            if (!tijdslot.IsBeschikbaar())
+            if (tijdslot.Status != TijdslotStatus.Beschikbaar)
             {
                 return ResultaatDto.Mislukt("Het gekozen tijdslot is niet beschikbaar.");
             }
 
-            int afspraakId = _afspraakRepository.GeefAfsprakenVoorPatient(patient.Id).Count + 1;
-
-            Afspraak afspraak = new Afspraak(
-                afspraakId,
-                patient.Id,
-                dokter.Id,
-                tijdslot.Id,
-                reden);
+            Afspraak afspraak = new Afspraak(patient.Id, dokter.Id, tijdslot.Id, reden);
 
             _afspraakRepository.VoegToe(afspraak);
 
-            tijdslot.MaakNietBeschikbaar();
+            tijdslot.Status = TijdslotStatus.NietBeschikbaar;
             _tijdslotRepository.WerkBij(tijdslot);
 
             return ResultaatDto.Succes("De afspraak werd aangemaakt.");
@@ -82,15 +109,18 @@ namespace Dokterspraktijk.Application.Services.Implementation
                 return ResultaatDto.Mislukt("De afspraak werd niet gevonden.");
             }
 
-            afspraak.VoegFotoToe(fotoBestandsnaam);
+            afspraak.FotoBestandsnaam = fotoBestandsnaam;
             _afspraakRepository.WerkBij(afspraak);
 
             return ResultaatDto.Succes("De foto werd toegevoegd aan de afspraak.");
         }
 
-        public List<AfspraakDto> GeefKomendeAfspraken(string patientNaam, DateOnly vanafDatum)
+        public List<AfspraakDto> GeefKomendeAfspraken(
+            string patientVoornaam,
+            string patientAchternaam,
+            DateOnly vanafDatum)
         {
-            Patient? patient = _patientRepository.ZoekOpNaam(patientNaam);
+            Patient? patient = _patientRepository.ZoekOpNaam(patientVoornaam, patientAchternaam);
 
             if (patient == null)
             {
@@ -105,7 +135,7 @@ namespace Dokterspraktijk.Application.Services.Implementation
                 Tijdslot? tijdslot = _tijdslotRepository.ZoekOpId(afspraak.TijdslotId);
                 Dokter? dokter = _dokterRepository.ZoekOpId(afspraak.DokterId);
 
-                if (!afspraak.IsGeannuleerd() &&
+                if (afspraak.Status != AfspraakStatus.Geannuleerd &&
                     tijdslot != null &&
                     dokter != null &&
                     tijdslot.Datum >= vanafDatum)
@@ -113,7 +143,8 @@ namespace Dokterspraktijk.Application.Services.Implementation
                     AfspraakDto afspraakDto = new AfspraakDto
                     {
                         Id = afspraak.Id,
-                        PatientNaam = patient.Naam,
+                        PatientVoornaam = patient.Voornaam,
+                        PatientAchternaam = patient.Achternaam,
                         DokterNaam = dokter.Naam,
                         Datum = tijdslot.Datum,
                         Tijd = tijdslot.Tijd,
@@ -132,9 +163,14 @@ namespace Dokterspraktijk.Application.Services.Implementation
                 .ToList();
         }
 
-        public ResultaatDto AnnuleerAfspraak(string patientNaam, string dokterNaam, DateOnly datum, TimeOnly tijd)
+        public ResultaatDto AnnuleerAfspraak(
+            string patientVoornaam,
+            string patientAchternaam,
+            string dokterNaam,
+            DateOnly datum,
+            TimeOnly tijd)
         {
-            Patient? patient = _patientRepository.ZoekOpNaam(patientNaam);
+            Patient? patient = _patientRepository.ZoekOpNaam(patientVoornaam, patientAchternaam);
 
             if (patient == null)
             {
@@ -158,27 +194,34 @@ namespace Dokterspraktijk.Application.Services.Implementation
             {
                 return ResultaatDto.Mislukt("De afspraak werd niet gevonden.");
             }
-            if (!afspraak.KanGeannuleerdWorden())
+
+            if (afspraak.Status == AfspraakStatus.Afgerond)
             {
                 return ResultaatDto.Mislukt("Een afgeronde afspraak kan niet geannuleerd worden.");
             }
-            afspraak.Annuleer();
+
+            afspraak.Status = AfspraakStatus.Geannuleerd;
             _afspraakRepository.WerkBij(afspraak);
 
             Tijdslot? tijdslot = _tijdslotRepository.ZoekOpId(afspraak.TijdslotId);
 
             if (tijdslot != null)
             {
-                tijdslot.MaakBeschikbaar();
+                tijdslot.Status = TijdslotStatus.Beschikbaar;
                 _tijdslotRepository.WerkBij(tijdslot);
             }
 
             return ResultaatDto.Succes("De afspraak werd geannuleerd.");
         }
 
-        public ResultaatDto RondConsultatieAf(string dokterNaam, string patientNaam, DateOnly datum, TimeOnly tijd)
+        public ResultaatDto RondConsultatieAf(
+            string dokterNaam,
+            string patientVoornaam,
+            string patientAchternaam,
+            DateOnly datum,
+            TimeOnly tijd)
         {
-            Patient? patient = _patientRepository.ZoekOpNaam(patientNaam);
+            Patient? patient = _patientRepository.ZoekOpNaam(patientVoornaam, patientAchternaam);
 
             if (patient == null)
             {
@@ -202,31 +245,17 @@ namespace Dokterspraktijk.Application.Services.Implementation
             {
                 return ResultaatDto.Mislukt("De afspraak werd niet gevonden.");
             }
-            if (!afspraak.KanAfgerondWorden())
+
+            if (afspraak.Status == AfspraakStatus.Geannuleerd ||
+                afspraak.Status == AfspraakStatus.Afgerond)
             {
                 return ResultaatDto.Mislukt("Deze afspraak kan niet afgerond worden.");
             }
 
-            afspraak.RondAf();
+            afspraak.Status = AfspraakStatus.Afgerond;
             _afspraakRepository.WerkBij(afspraak);
 
             return ResultaatDto.Succes("De consultatie werd afgerond.");
-        }
-
-
-        private static string VertaalAfspraakStatus(AfspraakStatus status)
-        {
-            if (status == AfspraakStatus.Gepland)
-            {
-                return "Gepland";
-            }
-
-            if (status == AfspraakStatus.Geannuleerd)
-            {
-                return "Geannuleerd";
-            }
-
-            return "Afgerond";
         }
 
         public ResultaatDto ValideerBestandVoorAfspraakaanvraag(int afspraakId, string bestandsnaam)
@@ -246,6 +275,144 @@ namespace Dokterspraktijk.Application.Services.Implementation
             }
 
             return ResultaatDto.Mislukt("Het bestandstype wordt niet ondersteund.");
+        }
+
+        private static string VertaalAfspraakStatus(AfspraakStatus status)
+        {
+            if (status == AfspraakStatus.Gepland)
+            {
+                return "Gepland";
+            }
+
+            if (status == AfspraakStatus.Geannuleerd)
+            {
+                return "Geannuleerd";
+            }
+
+            return "Afgerond";
+        }
+        public List<AfspraakDto> GeefAlleAfspraken()
+        {
+            List<Afspraak> afspraken = _afspraakRepository.GeefAlleAfspraken();
+            List<AfspraakDto> resultaat = new List<AfspraakDto>();
+
+            foreach (Afspraak afspraak in afspraken)
+            {
+                Patient? patient = _patientRepository.ZoekOpId(afspraak.PatientId);
+                Dokter? dokter = _dokterRepository.ZoekOpId(afspraak.DokterId);
+                Tijdslot? tijdslot = _tijdslotRepository.ZoekOpId(afspraak.TijdslotId);
+
+                if (patient != null && dokter != null && tijdslot != null)
+                {
+                    AfspraakDto afspraakDto = new AfspraakDto
+                    {
+                        Id = afspraak.Id,
+                        PatientVoornaam = patient.Voornaam,
+                        PatientAchternaam = patient.Achternaam,
+                        DokterNaam = dokter.Naam,
+                        Datum = tijdslot.Datum,
+                        Tijd = tijdslot.Tijd,
+                        Reden = afspraak.Reden,
+                        Status = VertaalAfspraakStatus(afspraak.Status),
+                        FotoBestandsnaam = afspraak.FotoBestandsnaam
+                    };
+
+                    resultaat.Add(afspraakDto);
+                }
+            }
+
+            return resultaat
+                .OrderBy(afspraak => afspraak.Datum)
+                .ThenBy(afspraak => afspraak.Tijd)
+                .ToList();
+        }
+        public AfspraakDto? ZoekAfspraak(
+    string patientVoornaam,
+    string patientAchternaam,
+    string dokterNaam,
+    DateOnly datum,
+    TimeOnly tijd)
+        {
+            Patient? patient = _patientRepository.ZoekOpNaam(patientVoornaam, patientAchternaam);
+
+            if (patient == null)
+            {
+                return null;
+            }
+
+            Dokter? dokter = _dokterRepository.ZoekOpNaam(dokterNaam);
+
+            if (dokter == null)
+            {
+                return null;
+            }
+
+            Afspraak? afspraak = _afspraakRepository.ZoekOpPatientDokterDatumEnTijd(
+                patient.Id,
+                dokter.Id,
+                datum,
+                tijd);
+
+            if (afspraak == null)
+            {
+                return null;
+            }
+
+            Tijdslot? tijdslot = _tijdslotRepository.ZoekOpId(afspraak.TijdslotId);
+
+            if (tijdslot == null)
+            {
+                return null;
+            }
+
+            AfspraakDto afspraakDto = new AfspraakDto
+            {
+                Id = afspraak.Id,
+                PatientVoornaam = patient.Voornaam,
+                PatientAchternaam = patient.Achternaam,
+                DokterNaam = dokter.Naam,
+                Datum = tijdslot.Datum,
+                Tijd = tijdslot.Tijd,
+                Reden = afspraak.Reden,
+                Status = VertaalAfspraakStatus(afspraak.Status),
+                FotoBestandsnaam = afspraak.FotoBestandsnaam
+            };
+
+            return afspraakDto;
+        }
+
+        public AfspraakDto? ZoekAfspraakOpId(int id)
+        {
+            Afspraak? afspraak = _afspraakRepository.ZoekOpId(id);
+
+            if (afspraak == null)
+            {
+                return null;
+            }
+
+            Patient? patient = _patientRepository.ZoekOpId(afspraak.PatientId);
+            Dokter? dokter = _dokterRepository.ZoekOpId(afspraak.DokterId);
+            Tijdslot? tijdslot = _tijdslotRepository.ZoekOpId(afspraak.TijdslotId);
+
+            if (patient == null || dokter == null || tijdslot == null)
+            {
+                return null;
+            }
+
+            AfspraakDto afspraakDto = new AfspraakDto
+            {
+                Id = afspraak.Id,
+                PatientVoornaam = patient.Voornaam,
+                PatientAchternaam = patient.Achternaam,
+                DokterNaam = dokter.Naam,
+                Datum = tijdslot.Datum,
+                Tijd = tijdslot.Tijd,
+                Reden = afspraak.Reden,
+                Status = VertaalAfspraakStatus(afspraak.Status),
+                FotoBestandsnaam = afspraak.FotoBestandsnaam
+            };
+
+            return afspraakDto;
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Dokterspraktijk.Infrastructure.Fakes
 {
     public class FakeDoktersattestRepository : IDoktersattestRepository
     {
-        private readonly FakeDokterspraktijkDatastore _dataStore;
+        private FakeDokterspraktijkDatastore _dataStore;
         public FakeDoktersattestRepository(FakeDokterspraktijkDatastore dataStore) {
             _dataStore = dataStore;
         }

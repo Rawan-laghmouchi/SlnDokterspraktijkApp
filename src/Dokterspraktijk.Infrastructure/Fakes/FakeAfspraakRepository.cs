@@ -5,12 +5,10 @@ namespace Dokterspraktijk.Infrastructure.Fakes
 {
     public class FakeAfspraakRepository : IAfspraakRepository
     {
-        private readonly FakeDokterspraktijkDatastore _dataStore;
-        private readonly ITijdslotRepository _tijdslotRepository;
+        private FakeDokterspraktijkDatastore _dataStore;
+        private ITijdslotRepository _tijdslotRepository;
 
-        public FakeAfspraakRepository(
-            FakeDokterspraktijkDatastore dataStore,
-            ITijdslotRepository tijdslotRepository)
+        public FakeAfspraakRepository(FakeDokterspraktijkDatastore dataStore, ITijdslotRepository tijdslotRepository)
         {
             _dataStore = dataStore;
             _tijdslotRepository = tijdslotRepository;
@@ -25,6 +23,18 @@ namespace Dokterspraktijk.Infrastructure.Fakes
 
         public void VoegToe(Afspraak afspraak)
         {
+            if (afspraak.Id == 0)
+            {
+                int nieuwId = 1;
+
+                if (_dataStore.Afspraken.Any())
+                {
+                    nieuwId = _dataStore.Afspraken.Max(bestaandeAfspraak => bestaandeAfspraak.Id) + 1;
+                }
+
+                afspraak.Id = nieuwId;
+            }
+
             _dataStore.Afspraken.Add(afspraak);
         }
 
@@ -59,6 +69,10 @@ namespace Dokterspraktijk.Infrastructure.Fakes
                        tijdslot.Datum == datum &&
                        tijdslot.Tijd == tijd;
             });
+        }
+        public List<Afspraak> GeefAlleAfspraken()
+        {
+            return _dataStore.Afspraken.ToList();
         }
     }
 }

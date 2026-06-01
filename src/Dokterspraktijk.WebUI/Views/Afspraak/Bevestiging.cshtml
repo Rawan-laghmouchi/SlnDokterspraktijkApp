@@ -1,0 +1,106 @@
+﻿@using Dokterspraktijk.Application.Dto_s
+@model AfspraakDto
+
+@{
+	ViewData["Title"] = "Afspraak bevestigd";
+}
+
+<main class="container app-container py-3">
+
+	<section class="appointment-confirmation-content mb-5">
+		<div class="text-center mb-4">
+			<div class="appointment-confirmation-icon d-inline-flex align-items-center justify-content-center mb-4">
+				✓
+			</div>
+
+			<h2 class="appointment-confirmation-title fw-bold mb-3">
+				Afspraak succesvol geregistreerd
+			</h2>
+
+			<p class="appointment-confirmation-text text-secondary mb-0">
+				Je afspraak werd succesvol geregistreerd in de dokterspraktijk.
+			</p>
+		</div>
+
+		<div class="alert border-0 rounded-4 mb-4 appointment-confirmation-alert" role="alert">
+			Kom een kwartier op voorhand naar de praktijk. Kan je niet aanwezig zijn?
+			Annuleer je afspraak dan minstens 24 uur op voorhand.
+			Meer informatie vind je op de pagina
+			<a asp-controller="Afspraak"
+			   asp-action="Annuleren"
+			   class="appointment-confirmation-alert-link">
+				afspraak annuleren
+			</a>.
+		</div>
+
+		<div class="card app-soft-card mb-4">
+			<div class="card-body p-4">
+				<h5 class="fw-semibold mb-3">
+					Gegevens van je afspraak
+				</h5>
+
+				<dl class="row mb-0">
+					<dt class="col-sm-3">Patiënt</dt>
+					<dd class="col-sm-9">@Model.PatientVoornaam @Model.PatientAchternaam</dd>
+
+					<dt class="col-sm-3">Dokter</dt>
+					<dd class="col-sm-9">@Model.DokterNaam</dd>
+
+					<dt class="col-sm-3">Datum</dt>
+					<dd class="col-sm-9">@Model.Datum.ToString("dd/MM/yyyy")</dd>
+
+					<dt class="col-sm-3">Tijd</dt>
+					<dd class="col-sm-9">@Model.Tijd.ToString("HH:mm")</dd>
+
+					<dt class="col-sm-3">Reden</dt>
+					<dd class="col-sm-9">@Model.Reden</dd>
+				</dl>
+			</div>
+		</div>
+
+		<div class="d-flex flex-column flex-sm-row justify-content-center gap-2">
+			<a asp-controller="Afspraak"
+			   asp-action="Create"
+			   class="btn btn-appointment-outline">
+				Nieuwe afspraak maken
+			</a>
+
+			<a asp-controller="Afspraak"
+			   asp-action="Index"
+			   class="btn btn-appointment-outline">
+				Terug naar overzicht
+			</a>
+
+			@if (Model.Status == "Gepland")
+			{
+				<a asp-controller="Afspraak"
+				   asp-action="Annuleer"
+				   asp-route-id="@Model.Id"
+				   class="btn btn-outline-danger rounded-pill px-4">
+					Afspraak annuleren
+				</a>
+			}
+		</div>
+	</section>
+
+	<div class="app-hero-carousel confirmation-banner mb-4">
+		<div class="carousel-inner">
+			<div class="carousel-item active">
+				<img src="~/images/bevestigingspagina.png"
+					 class="d-block w-100"
+					 alt="Dokter in dokterspraktijk">
+
+				<div class="carousel-caption app-hero-caption d-none d-md-block">
+					<h1 class="display-6 mb-2">
+						Je afspraak is bevestigd
+					</h1>
+
+					<p class="lead mb-0">
+						We hebben je afspraak goed ontvangen.
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</main>

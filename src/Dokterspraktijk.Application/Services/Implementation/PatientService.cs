@@ -7,20 +7,18 @@ namespace Dokterspraktijk.Application.Services.Implementation
 {
     public class PatientService : IPatientService
     {
-        private readonly IPatientRepository _patientRepository;
-        private readonly IDokterRepository _dokterRepository;
+        private IPatientRepository _patientRepository;
+        private IDokterRepository _dokterRepository;
 
-        public PatientService(
-            IPatientRepository patientRepository,
-            IDokterRepository dokterRepository)
+        public PatientService(IPatientRepository patientRepository, IDokterRepository dokterRepository)
         {
             _patientRepository = patientRepository;
             _dokterRepository = dokterRepository;
         }
 
-        public ResultaatDto StelVoorkeursdokterIn(string patientNaam, string dokterNaam)
+        public ResultaatDto StelVoorkeursdokterIn(string patientVoornaam, string patientAchternaam, string dokterNaam)
         {
-            Patient? patient = _patientRepository.ZoekOpNaam(patientNaam);
+            Patient? patient = _patientRepository.ZoekOpNaam(patientVoornaam, patientAchternaam);
 
             if (patient == null)
             {
@@ -34,15 +32,15 @@ namespace Dokterspraktijk.Application.Services.Implementation
                 return ResultaatDto.Mislukt("De dokter werd niet gevonden.");
             }
 
-            patient.StelVoorkeursdokterIn(dokter.Id);
+            patient.VoorkeursdokterId = dokter.Id;
             _patientRepository.WerkBij(patient);
 
             return ResultaatDto.Succes("De voorkeursdokter werd ingesteld.");
         }
 
-        public string? GeefVoorkeursdokter(string patientNaam)
+        public string? GeefVoorkeursdokter(string patientVoornaam, string patientAchternaam)
         {
-            Patient? patient = _patientRepository.ZoekOpNaam(patientNaam);
+            Patient? patient = _patientRepository.ZoekOpNaam(patientVoornaam, patientAchternaam);
 
             if (patient == null)
             {

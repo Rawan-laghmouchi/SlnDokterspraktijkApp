@@ -1,0 +1,120 @@
+﻿@using Dokterspraktijk.Application.Dto_s
+@model Dokterspraktijk.WebUI.ViewModels.AfspraakIndexViewModel
+
+@{
+	ViewData["Title"] = "Afsprakenoverzicht";
+
+	string filterTekst = "Filter op status";
+
+	if (!string.IsNullOrWhiteSpace(Model.GekozenStatus))
+	{
+		filterTekst = Model.GekozenStatus;
+	}
+}
+
+<main class="container app-container py-3">
+
+	<section class="app-header p-4 mb-4">
+		<div>
+			<h2 class="h3 fw-bold mb-1">Afsprakenoverzicht</h2>
+			<p class="mb-0">
+				Hieronder vind je een overzicht van de geregistreerde afspraken.
+			</p>
+		</div>
+	</section>
+
+	<div class="card app-soft-card">
+		<div class="card-body p-4">
+
+			<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-3">
+				<h5 class="fw-semibold mb-0">
+					Alle afspraken
+				</h5>
+
+				<div class="d-flex flex-column flex-sm-row justify-content-end align-items-sm-center gap-2">
+					<form asp-controller="Afspraak"
+						  asp-action="Index"
+						  method="get"
+						  class="appointment-filter-form">
+
+						<select asp-for="GekozenStatus"
+								asp-items="Model.StatusOpties"
+								class="form-select appointment-filter-select"
+								onchange="this.form.submit()"
+								aria-label="Filter op status">
+							<option value="">Alle statussen</option>
+						</select>
+					</form>
+
+					<a asp-controller="Afspraak"
+					   asp-action="Create"
+					   class="btn btn-appointment-outline">
+						Nieuwe afspraak maken
+					</a>
+				</div>
+			</div>
+
+			@if (Model.Afspraken.Count == 0)
+			{
+				<div class="alert alert-info mb-0" role="alert">
+					Er zijn geen afspraken gevonden.
+				</div>
+			}
+			else
+			{
+				<div class="table-responsive">
+					<table class="table align-middle mb-0">
+						<thead>
+							<tr>
+								<th>Patiënt</th>
+								<th>Dokter</th>
+								<th>Datum</th>
+								<th>Tijd</th>
+								<th>Reden</th>
+								<th>Status</th>
+								<th>Actie</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							@foreach (AfspraakDto afspraak in Model.Afspraken)
+							{
+								string statusCssClass = afspraak.Status.ToLower();
+
+								<tr class="appointment-row-@statusCssClass">
+									<td>@afspraak.PatientVoornaam @afspraak.PatientAchternaam</td>
+									<td>@afspraak.DokterNaam</td>
+									<td>@afspraak.Datum.ToString("dd/MM/yyyy")</td>
+									<td>@afspraak.Tijd.ToString("HH:mm")</td>
+									<td>@afspraak.Reden</td>
+									<td>
+										<span class="appointment-status-@statusCssClass">
+											@afspraak.Status
+										</span>
+									</td>
+									<td>
+										@if (afspraak.Status == "Gepland")
+										{
+											<a asp-controller="Afspraak"
+											   asp-action="Annuleer"
+											   asp-route-id="@afspraak.Id"
+											   class="btn btn-outline-danger rounded-pill px-3 py-1">
+												Annuleren
+											</a>
+										}
+										else
+										{
+											<span class="text-muted">-</span>
+										}
+									</td>
+								</tr>
+							}
+						</tbody>
+					</table>
+				</div>
+			}
+
+		</div>
+	</div>
+
+</main>

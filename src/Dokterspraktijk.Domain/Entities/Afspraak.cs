@@ -1,25 +1,26 @@
 ﻿using Dokterspraktijk.Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Dokterspraktijk.Domain.Entities
 {
     public class Afspraak
     {
-        public int Id { get; private set; }
-        public int PatientId { get; private set; }
-        public int DokterId { get; private set; }
-        public int TijdslotId { get; private set; }
-        public string Reden { get; private set; }
-        public AfspraakStatus Status { get; private set; }
-        public string? FotoBestandsnaam { get; private set; }
+        public int Id { get; set; }
+        public int PatientId { get; set; }
+        public int DokterId { get; set; }
+        public int TijdslotId { get; set; }
+        public string Reden { get; set; }
+        public AfspraakStatus Status { get; set; }
+        public string? FotoBestandsnaam { get; set; }
 
-        public Afspraak(int id, int patientId, int dokterId, int tijdslotId, string reden)
+        public Afspraak()
         {
-            Id = id;
+            Reden = string.Empty;
+            Status = AfspraakStatus.Gepland;
+            FotoBestandsnaam = null;
+        }
+
+        public Afspraak(int patientId, int dokterId, int tijdslotId, string reden)
+        {
             PatientId = patientId;
             DokterId = dokterId;
             TijdslotId = tijdslotId;
@@ -27,41 +28,5 @@ namespace Dokterspraktijk.Domain.Entities
             Status = AfspraakStatus.Gepland;
             FotoBestandsnaam = null;
         }
-
-        public void VoegFotoToe(string fotoBestandsnaam)
-        {
-            FotoBestandsnaam = fotoBestandsnaam;
-        }
-
-        public bool KanGeannuleerdWorden()
-        {
-            return Status != AfspraakStatus.Afgerond;
-        }
-        public bool KanAfgerondWorden()
-        {
-            return Status != AfspraakStatus.Geannuleerd &&
-                   Status != AfspraakStatus.Afgerond;
-        }
-
-        public void Annuleer()
-        {
-            Status = AfspraakStatus.Geannuleerd;
-        }
-
-        public void RondAf()
-        {
-            Status = AfspraakStatus.Afgerond;
-        }
-
-        public bool IsAfgerond()
-        {
-            return Status == AfspraakStatus.Afgerond;
-        }
-
-        public bool IsGeannuleerd()
-        {
-            return Status == AfspraakStatus.Geannuleerd;
-        }
-
     }
 }

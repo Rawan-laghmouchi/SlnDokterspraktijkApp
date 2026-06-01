@@ -10,7 +10,7 @@ namespace Dokterspraktijk.Application.Repositories
     public interface IPatientRepository
     {
         Patient? ZoekOpId(int id);
-        Patient? ZoekOpNaam(string naam);
+        Patient? ZoekOpNaam(string voornaam, string achternaam);
         void VoegToe(Patient patient);
         void WerkBij(Patient patient);
     }

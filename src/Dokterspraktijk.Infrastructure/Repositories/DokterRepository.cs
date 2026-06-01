@@ -1,0 +1,45 @@
+﻿using Dokterspraktijk.Application.Repositories;
+using Dokterspraktijk.Domain.Entities;
+using Dokterspraktijk.Infrastructure.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Dokterspraktijk.Infrastructure.Repositories
+{
+    public class DokterRepository : IDokterRepository
+    {
+
+        private AppDbContext _context;
+
+        public DokterRepository(AppDbContext context)
+        {
+            _context = context;
+        }
+
+        public Dokter? ZoekOpId(int id)
+        {
+            return _context.Dokters.FirstOrDefault(dokter => dokter.Id == id);
+        }
+
+        public Dokter? ZoekOpNaam(string naam)
+        {
+            return _context.Dokters.FirstOrDefault(dokter => dokter.Naam == naam);
+        }
+
+        public List<Dokter> GeefAlleDokters()
+        {
+            return _context.Dokters
+                .OrderBy(dokter => dokter.Naam)
+                .ToList();
+        }
+
+        public void VoegToe(Dokter dokter)
+        {
+            _context.Dokters.Add(dokter);
+            _context.SaveChanges();
+        }
+    }
+}
