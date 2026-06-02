@@ -1,5 +1,12 @@
-﻿<div align="center">
-  <img src="src/Dokterspraktijk.WebUI/wwwroot/images/logo-volledig.png" alt="Logo Dokterspraktijk Laghmouchi" />
+﻿<table>
+  <tr>
+    <td align="center" bgcolor="#ffffff">
+      <img src="src/Dokterspraktijk.WebUI/wwwroot/images/logo-volledig.png" alt="Logo Dokterspraktijk Laghmouchi" width="420" />
+      <h1>Dokterspraktijk Laghmouchi</h1>
+      <p><strong>ASP.NET Core webapplicatie voor het beheren en testen van afspraken binnen een dokterspraktijk.</strong></p>
+    </td>
+  </tr>
+</table>
 
 # Dokterspraktijk Laghmouchi
 
