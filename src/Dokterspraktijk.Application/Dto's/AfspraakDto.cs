@@ -9,7 +9,8 @@ namespace Dokterspraktijk.Application.Dto_s
     public class AfspraakDto
     {
         public int Id { get; set; }
-        public string PatientNaam { get; set; }
+        public string PatientVoornaam { get; set; }
+        public string PatientAchternaam { get; set; }
         public string DokterNaam { get; set; }
         public DateOnly Datum { get; set; }
         public TimeOnly Tijd { get; set; }
@@ -19,7 +20,8 @@ namespace Dokterspraktijk.Application.Dto_s
 
         public AfspraakDto()
         {
-            PatientNaam = string.Empty;
+            PatientVoornaam = string.Empty;
+            PatientAchternaam = string.Empty;
             DokterNaam = string.Empty;
             Reden = string.Empty;
             Status = string.Empty;

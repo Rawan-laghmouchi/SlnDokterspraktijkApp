@@ -20,11 +20,18 @@ builder.Services.AddSingleton<FakeDokterspraktijkDatastore>();
 
 // tijdelijke fake repo's
 // Later worden deze registraties vervangen door EF Core repositories.
-builder.Services.AddScoped<IDokterRepository, FakeDokterRepository>();
-builder.Services.AddScoped<IPatientRepository, FakePatientRepository>();
-builder.Services.AddScoped<ITijdslotRepository, FakeTijdslotRepository>();
-builder.Services.AddScoped<IAfspraakRepository, FakeAfspraakRepository>();
-builder.Services.AddScoped<IDoktersattestRepository, FakeDoktersattestRepository>();
+//builder.Services.AddScoped<IDokterRepository, FakeDokterRepository>();
+//builder.Services.AddScoped<IPatientRepository, FakePatientRepository>();
+//builder.Services.AddScoped<ITijdslotRepository, FakeTijdslotRepository>();
+//builder.Services.AddScoped<IAfspraakRepository, FakeAfspraakRepository>();
+//builder.Services.AddScoped<IDoktersattestRepository, FakeDoktersattestRepository>();
+
+builder.Services.AddScoped<IDokterRepository, DokterRepository>();
+builder.Services.AddScoped<IPatientRepository, PatientRepository>();
+builder.Services.AddScoped<ITijdslotRepository, TijdslotRepository>();
+builder.Services.AddScoped<IAfspraakRepository, AfspraakRepository>();
+builder.Services.AddScoped<IDoktersattestRepository, DoktersattestRepository>();
+builder.Services.AddScoped<IAfspraakCategorieRepository, AfspraakCategorieRepository>();
 
 // application services
 builder.Services.AddScoped<ITijdslotService, TijdslotService>();

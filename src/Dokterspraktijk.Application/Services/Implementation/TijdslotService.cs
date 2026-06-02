@@ -13,8 +13,8 @@ namespace Dokterspraktijk.Application.Services.Implementation
 {
     public class TijdslotService : ITijdslotService
     {
-        private readonly IDokterRepository _dokterRepository;
-        private readonly ITijdslotRepository _tijdslotRepository;
+        private IDokterRepository _dokterRepository;
+        private ITijdslotRepository _tijdslotRepository;
 
         public TijdslotService(IDokterRepository dokterRepository, ITijdslotRepository tijdslotRepository) 
         {

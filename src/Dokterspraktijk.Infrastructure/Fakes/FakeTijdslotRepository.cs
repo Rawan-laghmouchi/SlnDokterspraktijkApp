@@ -10,7 +10,7 @@ namespace Dokterspraktijk.Infrastructure.Fakes
 {
     public class FakeTijdslotRepository : ITijdslotRepository
     {
-        private readonly FakeDokterspraktijkDatastore _dataStore;
+        private FakeDokterspraktijkDatastore _dataStore;
         public FakeTijdslotRepository(FakeDokterspraktijkDatastore dataStore)
         {
             _dataStore = dataStore;
@@ -37,7 +37,7 @@ namespace Dokterspraktijk.Infrastructure.Fakes
                     nieuwId = _dataStore.Tijdsloten.Max(bestaandTijdslot => bestaandTijdslot.Id) + 1;
                 }
 
-                tijdslot.StelIdIn(nieuwId);
+                tijdslot.Id = nieuwId;
             }
 
             _dataStore.Tijdsloten.Add(tijdslot);

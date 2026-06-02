@@ -1,22 +1,544 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+    html {
+        font-size: 16px;
+    }
 }
 
 body {
-  margin-bottom: 60px;
+    background: #ffffff;
+    color: #1e293b;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
+
+.page-content {
+    flex: 1;
+}
+
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+.app-container {
+    max-width: 1180px;
+}
+
+.app-header {
+    background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
+    color: white;
+    border-radius: 1.25rem;
+    box-shadow: 0 1rem 2rem rgba(15, 118, 110, 0.18);
+}
+
+/* Banner op Create en Bevestiging */
+.app-hero-carousel {
+    border-radius: 1.5rem;
+    overflow: hidden;
+    box-shadow: 0 1.25rem 2.5rem rgba(15, 23, 42, 0.14);
+}
+
+    .app-hero-carousel .carousel-item {
+        height: 280px;
+        background-color: #0f766e;
+    }
+
+    .app-hero-carousel img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: brightness(0.68);
+    }
+
+.app-hero-caption {
+    left: 3rem;
+    right: auto;
+    top: 3rem;
+    bottom: auto;
+    text-align: left;
+    max-width: 560px;
+}
+
+    .app-hero-caption h1 {
+        font-weight: 800;
+    }
+
+.card {
+    border: 1px solid #ccfbf1;
+    border-radius: 1rem;
+    box-shadow: 0 0.75rem 1.5rem rgba(15, 23, 42, 0.06);
+}
+
+.app-soft-card {
+    background: #ffffff;
+}
+
+.card-title,
+.app-section-title {
+    color: #0f766e;
+}
+
+.app-link-action {
+    color: #0f766e;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+    .app-link-action:hover {
+        color: #f59e0b;
+        text-decoration: underline;
+    }
+
+.btn-primary {
+    background-color: #0f766e;
+    border-color: #0f766e;
+}
+
+    .btn-primary:hover {
+        background-color: #115e59;
+        border-color: #115e59;
+    }
+
+.btn-outline-primary {
+    color: #0f766e;
+    border-color: #0f766e;
+}
+
+    .btn-outline-primary:hover {
+        background-color: #ffffff;
+        border-color: #f59e0b;
+        color: #f59e0b;
+    }
+
+.btn-check:checked + .btn-outline-primary {
+    background-color: #0f766e;
+    border-color: #0f766e;
+    color: white;
+}
+
+.btn-check:focus + .btn-outline-primary,
+.btn-outline-primary:focus,
+.btn-outline-primary:active {
+    box-shadow: none;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #14b8a6;
+    box-shadow: 0 0 0 0.25rem rgba(20, 184, 166, 0.20);
+}
+
+.step-badge {
+    width: 2rem;
+    height: 2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background-color: #ccfbf1;
+    color: #0f766e;
+    font-weight: 700;
+    margin-right: .5rem;
+}
+
+.doctor-card {
+    border: 2px solid #ccfbf1;
+    cursor: pointer;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .doctor-card:hover {
+        border-color: #f59e0b;
+    }
+
+.btn-check:checked + .doctor-card {
+    border-color: #0f766e;
+    box-shadow: 0 0 0 0.2rem rgba(15, 118, 110, 0.15);
+    background-color: #ffffff;
+}
+
+.btn-check:focus + .doctor-card {
+    box-shadow: none;
+}
+
+.doctor-card.active {
+    border-color: #0f766e;
+    background: #ffffff;
+}
+
+.accent-text {
+    color: #f59e0b;
+}
+
+/* Bevestigingspagina */
+.appointment-confirmation-content {
+    padding-top: 2rem;
+}
+
+.appointment-confirmation-icon {
+    width: 95px;
+    height: 95px;
+    border-radius: 50%;
+    background-color: #ecfdf5;
+    color: #0f766e;
+    border: 1px solid #99f6e4;
+    font-size: 3rem;
+    line-height: 1;
+}
+
+.appointment-confirmation-title {
+    color: #073b4c;
+    font-size: 2rem;
+}
+
+.appointment-confirmation-text {
+    font-size: 1.25rem;
+}
+
+.appointment-confirmation-alert {
+    background-color: #cffafe;
+    color: #07576b;
+    font-size: 1rem;
+    line-height: 1.6;
+    padding: 1.25rem;
+}
+
+.btn-appointment-outline {
+    background-color: #ffffff;
+    color: #0f766e;
+    border: 2px solid #0f766e;
+    border-radius: 999px;
+    padding: 0.7rem 1.6rem;
+    font-weight: 600;
+    min-width: 210px;
+}
+
+    .btn-appointment-outline:hover {
+        background-color: #ffffff;
+        color: #f59e0b;
+        border-color: #f59e0b;
+    }
+
+.confirmation-banner {
+    margin-top: 2.5rem;
+}
+
+.appointment-confirmation-alert-link {
+    color: #0f766e;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+    .appointment-confirmation-alert-link:hover {
+        color: #f59e0b;
+        text-decoration: underline;
+    }
+.appointment-row-muted {
+    background-color: #f1f5f9;
+}
+
+.appointment-row-geannuleerd {
+    background-color: #f1f5f9;
+}
+
+.appointment-row-afgerond {
+    background-color: #f1f5f9;
+}
+
+.appointment-status-geannuleerd {
+    color: #dc3545;
+    font-weight: 600;
+}
+
+.appointment-status-afgerond {
+    color: #6c757d;
+    font-weight: 600;
+}
+.appointment-filter-button {
+    background-color: #ffffff;
+    color: #0f766e;
+    border: 2px solid #0f766e;
+    border-radius: 999px;
+    padding: 0.55rem 1.2rem;
+    font-weight: 600;
+    min-width: 180px;
+}
+
+    .appointment-filter-button:hover {
+        background-color: #ffffff;
+        color: #f59e0b;
+        border-color: #f59e0b;
+    }
+
+    .appointment-filter-button:focus {
+        box-shadow: none;
+    }
+
+.appointment-row-geannuleerd {
+    background-color: #f1f5f9;
+}
+
+.appointment-row-afgerond {
+    background-color: #f1f5f9;
+}
+
+.appointment-status-geannuleerd {
+    color: #dc3545;
+    font-weight: 600;
+}
+
+.appointment-status-afgerond {
+    color: #6c757d;
+    font-weight: 600;
+}
+
+.dropdown-menu {
+    border-radius: 0.75rem;
+    padding: 0.4rem 0;
+}
+
+.dropdown-item {
+    padding: 0.6rem 1.2rem;
+}
+
+.appointment-filter-form {
+    min-width: 230px;
+}
+
+.appointment-filter-select {
+    color: #0f766e;
+    border: 2px solid #0f766e;
+    border-radius: 999px;
+    padding: 0.7rem 3rem 0.7rem 1.6rem;
+    font-weight: 600;
+    min-width: 230px;
+}
+
+.btn-appointment-outline {
+    background-color: #ffffff;
+    color: #0f766e;
+    border: 2px solid #0f766e;
+    border-radius: 999px;
+    padding: 0.7rem 1.6rem;
+    font-weight: 600;
+    min-width: 230px;
+}
+
+.app-footer {
+    position: relative;
+    padding-top: 0.8rem;
+}
+    .app-footer::before {
+        content: "";
+        position: absolute;
+        top: -0.7rem;
+        left: 0;
+        right: 0;
+        border-top: 1px solid #ccfbf1;
+    }
+.footer-logo {
+    width: 32px;
+    height: 32px;
+}
+
+.app-footer i {
+    color: #0f766e;
+}
+.footer-description {
+    margin-left: 40px;
+}
+
+.home-hero {
+    background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
+    color: white;
+    border-radius: 1.5rem;
+    overflow: hidden;
+    box-shadow: 0 1rem 2rem rgba(15, 118, 110, 0.18);
+}
+
+.btn-appointment-filled {
+    background-color: #ffffff;
+    color: #0f766e;
+    border: 2px solid #ffffff;
+    border-radius: 999px;
+    padding: 0.7rem 1.6rem;
+    font-weight: 700;
+    min-width: 210px;
+}
+
+    .btn-appointment-filled:hover {
+        background-color: #f8fafc;
+        color: #f59e0b;
+        border-color: #f8fafc;
+    }
+
+.home-practice-photo-card {
+    position: relative;
+    border-radius: 1.25rem;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    box-shadow: 0 1rem 2rem rgba(15, 23, 42, 0.16);
+    background-color: #ecfdf5;
+}
+
+.home-practice-photo {
+    width: 100%;
+    height: 280px;
+    display: block;
+    object-fit: cover;
+}
+
+.home-practice-photo-text {
+    position: absolute;
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    background-color: rgba(255, 255, 255, 0.94);
+    border-radius: 1rem;
+    padding: 1rem 1.25rem;
+    color: #1e293b;
+}
+
+.home-info-strip {
+    background-color: #f0fdfa;
+    border: 1px solid #ccfbf1;
+    border-radius: 1.25rem;
+}
+
+.home-soft-card {
+    border: 1px solid #ccfbf1;
+    border-radius: 1.25rem;
+    box-shadow: 0 0.75rem 1.5rem rgba(15, 23, 42, 0.06);
+    background-color: #ffffff;
+}
+
+.home-section-title {
+    color: #0f766e;
+}
+
+.home-icon-circle {
+    width: 46px;
+    height: 46px;
+    border-radius: 999px;
+    background-color: #ccfbf1;
+    color: #0f766e;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+}
+
+.home-doctor-card {
+    border: 1px solid #ccfbf1;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: none;
+}
+
+.home-doctor-photo {
+    width: 100%;
+    height: 260px;
+    display: block;
+    object-fit: cover;
+    object-position: center top;
+}
+
+.home-doctor-card .card-body {
+    padding: 1rem;
+}
+
+.btn-home-outline {
+    min-width: 210px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.7rem 1.6rem;
+}
+
+.home-doctor-card {
+    border: 1px solid #ccfbf1;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: none;
+}
+
+.home-doctor-photo {
+    width: 100%;
+    height: 260px;
+    display: block;
+    object-fit: cover;
+    object-position: center top;
+}
+
+.home-doctor-card .card-body {
+    padding: 1.25rem;
+}
+
+.home-doctor-card .card-title {
+    color: #1e293b;
+}
+
+.app-navbar {
+    background-color: #ffffff;
+    border-bottom: 1px solid #ccfbf1;
+    box-shadow: 0 0.5rem 1.25rem rgba(15, 23, 42, 0.04);
+}
+
+.app-navbar-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0.8rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+}
+
+.app-navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    color: #0f766e;
+    font-weight: 800;
+    text-decoration: none;
+    font-size: 1.15rem;
+}
+
+    .app-navbar-brand:hover {
+        color: #f59e0b;
+    }
+
+.app-navbar-logo {
+    width: 42px;
+    height: auto;
+    display: block;
+}
+
+.app-navbar-links {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.app-navbar-link {
+    color: #1e293b;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 0.55rem 1rem;
+    border-radius: 999px;
+}
+
+    .app-navbar-link:hover {
+        color: #0f766e;
+        background-color: #ecfdf5;
+    }

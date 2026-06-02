@@ -1,26 +1,54 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Dokterspraktijk.Domain.Entities
+﻿namespace Dokterspraktijk.Domain.Entities
 {
     public class Patient
     {
-        public int Id { get; private set; }
-        public string Naam { get; private set; }
-        public int? VoorkeursdokterId { get; private set; }
+        public int Id { get; set; }
 
-        public Patient(int id, string naam)
+        public string Voornaam { get; set; }
+
+        public string Achternaam { get; set; }
+
+        public string Email { get; set; }
+
+        public string Telefoonnummer { get; set; }
+
+        public string Rijksregisternummer { get; set; }
+
+        public int? VoorkeursdokterId { get; set; }
+
+        public Patient()
+        {
+            Voornaam = string.Empty;
+            Achternaam = string.Empty;
+            Email = string.Empty;
+            Telefoonnummer = string.Empty;
+            Rijksregisternummer = string.Empty;
+        }
+
+        public Patient(int id, string voornaam, string achternaam)
         {
             Id = id;
-            Naam = naam;
-            VoorkeursdokterId = null;
+            Voornaam = voornaam;
+            Achternaam = achternaam;
+            Email = string.Empty;
+            Telefoonnummer = string.Empty;
+            Rijksregisternummer = string.Empty;
         }
-        public void StelVoorkeursdokterIn(int dokterId)
+
+        public Patient(
+            int id,
+            string voornaam,
+            string achternaam,
+            string email,
+            string telefoonnummer,
+            string rijksregisternummer)
         {
-            VoorkeursdokterId = dokterId;
+            Id = id;
+            Voornaam = voornaam;
+            Achternaam = achternaam;
+            Email = email;
+            Telefoonnummer = telefoonnummer;
+            Rijksregisternummer = rijksregisternummer;
         }
     }
 }

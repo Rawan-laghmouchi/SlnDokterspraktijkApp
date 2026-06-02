@@ -27,8 +27,8 @@ namespace Dokterspraktijk.Infrastructure.Fakes
             Dokters.Add(new Dokter(1, "Timmermans", "Huisarts"));
             Dokters.Add(new Dokter(2, "Brancaert", "Huisarts"));
 
-            Patienten.Add(new Patient(1, "Rawan"));
-            Patienten.Add(new Patient(2, "Hans"));
+            Patienten.Add(new Patient(1, "Rawan", "Laghmouchi"));
+            Patienten.Add(new Patient(2, "Hans", "Vandenbogaerde"));
 
             Tijdsloten.Add(new Tijdslot(
                 1,
