@@ -82,7 +82,8 @@
 								   class="btn-check"
 								   id="@dokterId"
 								   value="@Model.Dokters[i].Naam"
-								   autocomplete="off" />
+								   autocomplete="off"
+								   data-testid="dokter-keuze" />
 
 							<label class="card doctor-card h-100 p-3" for="@dokterId">
 								<span class="fw-bold d-block">@Model.Dokters[i].Naam</span>
@@ -106,7 +107,8 @@
 				<input asp-for="Datum"
 					   type="date"
 					   class="form-control"
-					   min="@minimumDatum" />
+					   min="@minimumDatum"
+					   data-testid="datum-veld" />
 
 				<span asp-validation-for="Datum" class="text-danger small"></span>
 
@@ -114,7 +116,9 @@
 					De praktijk is gesloten tijdens het weekend.
 				</p>
 
-				<button type="submit" class="btn btn-link p-0 app-link-action">
+				<button type="submit"
+						class="btn btn-link p-0 app-link-action"
+						data-testid="beschikbaarheden-knop">
 					Bekijk beschikbaarheden
 				</button>
 			</div>
@@ -145,7 +149,8 @@
 								   type="radio"
 								   class="btn-check"
 								   id="@tijdslotId"
-								   value="@tijdWaarde" />
+								   value="@tijdWaarde"
+								   data-testid="tijdslot-keuze" />
 
 							<label class="btn btn-outline-primary rounded-pill px-4" for="@tijdslotId">
 								@tijdWaarde
@@ -154,7 +159,7 @@
 					</div>
 				}
 
-				<span asp-validation-for="Tijd" class="text-danger small"></span>
+				<span asp-validation-for="Tijd" class="text-danger small" data-testid="tijdslot-foutmelding"></span>
 			</div>
 		</div>
 
@@ -168,31 +173,31 @@
 				<div class="row g-3">
 					<div class="col-md-6">
 						<label asp-for="PatientVoornaam" class="form-label">Voornaam</label>
-						<input asp-for="PatientVoornaam" class="form-control" placeholder="Voornaam" />
+						<input asp-for="PatientVoornaam" class="form-control" placeholder="Voornaam" data-testid="patient-voornaam-veld" />
 						<span asp-validation-for="PatientVoornaam" class="text-danger small"></span>
 					</div>
 
 					<div class="col-md-6">
 						<label asp-for="PatientAchternaam" class="form-label">Achternaam</label>
-						<input asp-for="PatientAchternaam" class="form-control" placeholder="Achternaam" />
+						<input asp-for="PatientAchternaam" class="form-control" placeholder="Achternaam" data-testid="patient-achternaam-veld" />
 						<span asp-validation-for="PatientAchternaam" class="text-danger small"></span>
 					</div>
 
 					<div class="col-md-6">
 						<label asp-for="Email" class="form-label">E-mail</label>
-						<input asp-for="Email" class="form-control" placeholder="naam@gmail.be" />
+						<input asp-for="Email" class="form-control" placeholder="naam@gmail.be" data-testid="email-veld" />
 						<span asp-validation-for="Email" class="text-danger small"></span>
 					</div>
 
 					<div class="col-md-6">
 						<label asp-for="Telefoonnummer" class="form-label">Telefoonnummer</label>
-						<input asp-for="Telefoonnummer" class="form-control" placeholder="+32 470 12 34 56" />
+						<input asp-for="Telefoonnummer" class="form-control" placeholder="+32 470 12 34 56" data-testid="telefoonnummer-veld" />
 						<span asp-validation-for="Telefoonnummer" class="text-danger small"></span>
 					</div>
 
 					<div class="col-12">
 						<label asp-for="Rijksregisternummer" class="form-label">Rijksregisternummer</label>
-						<input asp-for="Rijksregisternummer" class="form-control" placeholder="XX.XX.XX-XXX.XX" />
+						<input asp-for="Rijksregisternummer" class="form-control" placeholder="XX.XX.XX-XXX.XX" data-testid="rijksregisternummer-veld" />
 						<span asp-validation-for="Rijksregisternummer" class="text-danger small"></span>
 					</div>
 				</div>
@@ -206,7 +211,7 @@
 					Kies de afspraakcategorie
 				</h5>
 
-				<select asp-for="Reden" class="form-select">
+				<select asp-for="Reden" class="form-select" data-testid="reden-select">
 					<option value="">-- Kies een afspraakcategorie --</option>
 
 					@foreach (AfspraakCategorieViewModel categorie in Model.AfspraakCategorieen)
@@ -220,7 +225,7 @@
 		</div>
 
 		<div class="d-flex justify-content-center">
-			<button type="submit" class="btn btn-primary rounded-pill px-5 py-2 fw-semibold">
+			<button type="submit" class="btn btn-primary rounded-pill px-5 py-2 fw-semibold" data-testid="afspraak-bevestigen-knop">
 				Afspraak bevestigen
 			</button>
 		</div>
