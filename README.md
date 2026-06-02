@@ -1,5 +1,5 @@
 ﻿<div align="center">
-  <img src="src/Dokterspraktijk.WebUI/wwwroot/images/logo-volledig.png" alt="Logo Dokterspraktijk Laghmouchi" />
+  <img src="src/Dokterspraktijk.WebUI/wwwroot/images/logo-volledig.png" alt="Logo Dokterspraktijk Laghmouchi" width="420" />
 
 # Dokterspraktijk Laghmouchi
 
@@ -164,10 +164,6 @@ Bij de Playwright UI-tests moet rekening worden gehouden met testdata. Wanneer e
 
 Status
 
-Dit project werd ontwikkeld als onderdeel van een bachelorproef en dient als experimentele basis voor de vergelijking tussen xUnit en Reqnroll binnen een .NET-webapplicatie.
+Dit project werd ontwikkeld als onderdeel van een bachelorproef en dient als experimentele basis voor de vergelijking tussen xUnit en Reqnroll binnen een .NET-webapplicatie. Aangezien de UI geen hoofdonderdeel is van dit onderzoek werden niet alle user stories uitgewerkt. Deze zullen voor het Business Application Development verder uitgewerkt worden.
 
 
-Let erop dat je logo in je repository dan op deze plaats moet staan:
-
-```text
-src/Dokterspraktijk.WebUI/wwwroot/images/logo-volledig.png
