@@ -1,5 +1,5 @@
 ﻿<div align="center">
-  <img src="src/Dokterspraktijk.WebUI/wwwroot/images/logo-volledig.png" alt="Logo Dokterspraktijk Laghmouchi" width="420" /> />
+  <img src="src/Dokterspraktijk.WebUI/wwwroot/images/logo-volledig.png" alt="Logo Dokterspraktijk Laghmouchi" />
 
 # Dokterspraktijk Laghmouchi
 
