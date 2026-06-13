@@ -36,5 +36,18 @@ namespace Dokterspraktijk.Infrastructure.Fakes
             return _dataStore.Dokters.FirstOrDefault(dokter =>
                 dokter.Naam.Equals(naam, StringComparison.OrdinalIgnoreCase)); // nakijken
         }
+        public void WerkBij(Dokter dokter)
+        {
+            Dokter? bestaandeDokter = ZoekOpId(dokter.Id);
+
+            if (bestaandeDokter == null)
+            {
+                _dataStore.Dokters.Add(dokter);
+                return;
+            }
+
+            bestaandeDokter.Naam = dokter.Naam;
+            bestaandeDokter.Specialisatie = dokter.Specialisatie;
+        }
     }
 }

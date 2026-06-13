@@ -1,4 +1,4 @@
-﻿namespace Dokterspraktijk.WebUI.ViewModels
+﻿namespace Dokterspraktijk.WebUI.ViewModels.Dokter
 {
     public class DokterKeuzeViewModel
     {

@@ -1,5 +1,7 @@
 ﻿using Dokterspraktijk.Domain.Entities;
 using Dokterspraktijk.Domain.Enums;
+using Dokterspraktijk.Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Dokterspraktijk.Infrastructure.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<ApplicationUser>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -24,6 +26,8 @@ namespace Dokterspraktijk.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Dokter>().HasKey(dokter => dokter.Id);
             modelBuilder.Entity<Patient>().HasKey(patient => patient.Id);
             modelBuilder.Entity<Tijdslot>().HasKey(tijdslot => tijdslot.Id);

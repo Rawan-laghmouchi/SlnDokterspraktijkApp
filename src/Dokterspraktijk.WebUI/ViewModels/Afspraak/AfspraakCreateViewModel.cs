@@ -1,6 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Dokterspraktijk.WebUI.ViewModels.Dokter;
+using Dokterspraktijk.WebUI.ViewModels.Tijdslot;
+using System.ComponentModel.DataAnnotations;
 
-namespace Dokterspraktijk.WebUI.ViewModels
+namespace Dokterspraktijk.WebUI.ViewModels.Afspraak
 {
     public class AfspraakCreateViewModel
     {
@@ -47,5 +49,6 @@ namespace Dokterspraktijk.WebUI.ViewModels
         public List<DokterKeuzeViewModel> Dokters { get; set; } = new List<DokterKeuzeViewModel>();
         public List<TijdslotKeuzeViewModel> Tijdsloten { get; set; } = new List<TijdslotKeuzeViewModel>();
         public List<AfspraakCategorieViewModel> AfspraakCategorieen { get; set; } = new List<AfspraakCategorieViewModel>();
+        public bool PatientGegevensZijnVoorafIngevuld { get; set; }
     }
 }

@@ -1,0 +1,49 @@
+﻿@page
+@model LogoutModel
+
+@{
+    ViewData["Title"] = "Afmelden";
+}
+
+<section class="identity-page">
+    <div class="identity-card">
+        @if (User.Identity?.IsAuthenticated ?? false)
+        {
+            <div class="identity-card-header">
+                <p class="identity-eyebrow">Sessiebeheer</p>
+                <h1>Afmelden</h1>
+                <p>
+                    Wil je je sessie bij Dokterspraktijk Laghmouchi beëindigen?
+                </p>
+            </div>
+
+            <form asp-area="Identity"
+                  asp-page="/Account/Logout"
+                  asp-route-returnUrl="@Url.Page("/", new { area = "" })"
+                  method="post"
+                  class="identity-form">
+
+				<button type="submit" class="btn identity-primary-button w-100">
+                    Afmelden
+                </button>
+            </form>
+        }
+        else
+        {
+            <div class="identity-card-header">
+                <p class="identity-eyebrow">Succesvol afgemeld</p>
+                <h1>Je bent afgemeld</h1>
+                <p>
+                    Je sessie werd veilig afgesloten.
+                </p>
+            </div>
+
+            <a class="btn identity-primary-button w-100"
+               asp-area=""
+               asp-controller="Home"
+               asp-action="Index">
+                Terug naar home
+            </a>
+        }
+    </div>
+</section>

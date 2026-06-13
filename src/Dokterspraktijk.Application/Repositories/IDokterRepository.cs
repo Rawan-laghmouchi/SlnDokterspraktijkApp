@@ -13,5 +13,6 @@ namespace Dokterspraktijk.Application.Repositories
         Dokter? ZoekOpNaam(string naam);
         List<Dokter> GeefAlleDokters();
         void VoegToe(Dokter dokter);
+        void WerkBij(Dokter dokter);
     }
 }

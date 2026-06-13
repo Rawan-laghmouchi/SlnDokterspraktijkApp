@@ -1,5 +1,11 @@
 ﻿@{
 	ViewData["Title"] = "Home";
+
+	bool isAdmin = User.HasClaim("IsAdmin", "true");
+	bool isDokter = User.HasClaim("IsDokter", "true");
+	bool isIngelogd = User.Identity?.IsAuthenticated ?? false;
+
+	bool isPatient = isIngelogd && !isAdmin && !isDokter;
 }
 
 <main class="container app-container py-3">
@@ -22,17 +28,51 @@
 				</p>
 
 				<div class="d-flex flex-column flex-sm-row gap-2">
-					<a asp-controller="Afspraak"
-					   asp-action="Create"
-					   class="btn btn-appointment-filled">
-						Afspraak maken
-					</a>
+					@if (isPatient)
+					{
+						<a asp-controller="Afspraak"
+						   asp-action="Create"
+						   class="btn btn-appointment-filled">
+							Afspraak maken
+						</a>
 
-					<a asp-controller="Afspraak"
-					   asp-action="Index"
-					   class="btn btn-outline-light rounded-pill px-4 fw-semibold btn-home-outline">
-						Bekijk afspraken
-					</a>
+						<a asp-controller="Afspraak"
+						   asp-action="Index"
+						   class="btn btn-outline-light rounded-pill px-4 fw-semibold btn-home-outline">
+							Bekijk afspraken
+						</a>
+					}
+					else if (isDokter)
+					{
+						<a asp-controller="Dokter"
+						   asp-action="Index"
+						   class="btn btn-appointment-filled">
+							Naar dokterdashboard
+						</a>
+					}
+					else if (isAdmin)
+					{
+						<a asp-controller="Admin"
+						   asp-action="Index"
+						   class="btn btn-appointment-filled">
+							Naar adminomgeving
+						</a>
+					}
+					else
+					{
+						<a asp-area="Identity"
+						   asp-page="/Account/Register"
+						   asp-route-returnUrl="/Afspraak/Create"
+						   class="btn btn-appointment-filled">
+							Afspraak maken
+						</a>
+
+						<a asp-area="Identity"
+						   asp-page="/Account/Login"
+						   class="btn btn-outline-light rounded-pill px-4 fw-semibold btn-home-outline">
+							Aanmelden
+						</a>
+					}
 				</div>
 			</div>
 
@@ -296,11 +336,39 @@
 			</div>
 
 			<div class="col-12 col-lg-4 text-lg-end">
-				<a asp-controller="Afspraak"
-				   asp-action="Create"
-				   class="btn btn-appointment-outline">
-					Afspraak maken
-				</a>
+				@if (isPatient)
+				{
+					<a asp-controller="Afspraak"
+					   asp-action="Create"
+					   class="btn btn-appointment-outline">
+						Afspraak maken
+					</a>
+				}
+				else if (isDokter)
+				{
+					<a asp-controller="Dokter"
+					   asp-action="Index"
+					   class="btn btn-appointment-outline">
+						Naar dokterdashboard
+					</a>
+				}
+				else if (isAdmin)
+				{
+					<a asp-controller="Admin"
+					   asp-action="Index"
+					   class="btn btn-appointment-outline">
+						Naar adminomgeving
+					</a>
+				}
+				else
+				{
+					<a asp-area="Identity"
+					   asp-page="/Account/Register"
+					   asp-route-returnUrl="/Afspraak/Create"
+					   class="btn btn-appointment-outline">
+						Afspraak maken
+					</a>
+				}
 			</div>
 		</div>
 	</section>

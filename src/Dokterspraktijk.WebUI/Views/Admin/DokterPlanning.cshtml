@@ -1,0 +1,139 @@
+﻿@model AdminDokterPlanningViewModel
+
+@{
+    ViewData["Title"] = "Dokterplanning";
+}
+
+<main class="container app-container py-4">
+
+    <section class="home-soft-card p-4 mb-4">
+        <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+            <div>
+                <h1 class="h4 fw-bold text-dark mb-1">
+                    Planning van Dr. @Model.DokterNaam
+                </h1>
+
+                <p class="text-secondary mb-0">
+                    Bekijk de planning van deze dokter op een gekozen dag.
+                </p>
+            </div>
+
+            <a asp-controller="Admin"
+               asp-action="Index"
+               class="btn btn-appointment-outline">
+                Terug naar dashboard
+            </a>
+        </div>
+
+        <form asp-controller="Admin"
+              asp-action="DokterPlanning"
+              method="get"
+              class="d-flex flex-column flex-md-row gap-2 mb-4">
+
+            <input type="hidden"
+                   name="dokterId"
+                   value="@Model.DokterId" />
+
+            <input type="date"
+                   name="datum"
+                   value="@Model.GekozenDatum.ToString("yyyy-MM-dd")"
+                   class="form-control rounded-pill px-4 admin-date-input"
+                   onchange="this.form.submit()" />
+        </form>
+
+        <div class="row g-3 mb-4">
+            <div class="col-12 col-md-4">
+                <div class="home-soft-card py-3 px-4 text-center h-100">
+                    <div class="h3 fw-bold admin-stat-number mb-0">
+                        @Model.AantalGepland
+                    </div>
+                    <p class="text-secondary small mb-0">
+                        Gepland
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <div class="home-soft-card py-3 px-4 text-center h-100">
+                    <div class="h3 fw-bold admin-stat-number mb-0">
+                        @Model.AantalAfgerond
+                    </div>
+                    <p class="text-secondary small mb-0">
+                        Afgerond
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <div class="home-soft-card py-3 px-4 text-center h-100">
+                    <div class="h3 fw-bold admin-stat-number mb-0">
+                        @Model.AantalGeannuleerd
+                    </div>
+                    <p class="text-secondary small mb-0">
+                        Geannuleerd
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="h4 fw-bold text-dark mb-4">
+            Tijdlijn van de dag
+        </h2>
+
+        @if (Model.Afspraken.Count == 0)
+        {
+            <div class="alert alert-info rounded-4 mb-0">
+                Er zijn geen afspraken voor deze dokter op deze dag.
+            </div>
+        }
+        else
+        {
+            <div class="admin-day-timeline">
+                @foreach (AfspraakDto afspraak in Model.Afspraken)
+                {
+                    <div class="admin-day-timeline-item">
+                        <div class="admin-day-timeline-time">
+                            @afspraak.Tijd.ToString("HH:mm")
+                        </div>
+
+                        <div class="admin-day-timeline-card">
+                            <div class="d-flex flex-column flex-md-row justify-content-between gap-3">
+                                <div>
+                                    <h3 class="h5 fw-bold text-dark mb-1">
+                                        @afspraak.PatientVoornaam @afspraak.PatientAchternaam
+                                    </h3>
+
+                                    <p class="text-secondary mb-0">
+                                        @afspraak.Reden
+                                    </p>
+                                </div>
+
+                                <div>
+                                    @if (afspraak.Status == "Gepland")
+                                    {
+                                        <span class="status-pill status-active">
+                                            Gepland
+                                        </span>
+                                    }
+                                    else if (afspraak.Status == "Afgerond")
+                                    {
+                                        <span class="status-pill status-warning">
+                                            Afgerond
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="status-pill status-danger">
+                                            @afspraak.Status
+                                        </span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </section>
+
+</main>

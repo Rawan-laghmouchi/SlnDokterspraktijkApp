@@ -17,7 +17,7 @@ namespace Dokterspraktijk.Application.Services.Interfaces
 
         AfspraakDto? ZoekAfspraakOpId(int id);
         ResultaatDto AnnuleerAfspraak(string patientVoornaam, string patientAchternaam, string dokterNaam, DateOnly datum, TimeOnly tijd);
-        ResultaatDto RondConsultatieAf(string dokterNaam, string patientVoornaam, string atientAchternaam, DateOnly datum, TimeOnly tijd);
+        ResultaatDto RondConsultatieAf(string dokterNaam, string patientVoornaam, string patientAchternaam, DateOnly datum, TimeOnly tijd);
         ResultaatDto ValideerBestandVoorAfspraakaanvraag(int afspraakId, string bestandsnaam);
     }
 }

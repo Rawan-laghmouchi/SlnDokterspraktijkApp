@@ -37,5 +37,17 @@ namespace Dokterspraktijk.Infrastructure.Repositories
             _context.Patienten.Update(patient);
             _context.SaveChanges();
         }
+        public List<Patient> GeefAllePatienten()
+        {
+            return _context.Patienten
+                .OrderBy(patient => patient.Achternaam)
+                .ThenBy(patient => patient.Voornaam)
+                .ToList();
+        }
+        public Patient? ZoekOpEmail(string email)
+        {
+            return _context.Patienten
+                .FirstOrDefault(patient => patient.Email == email);
+        }
     }
 }

@@ -1,0 +1,323 @@
+﻿@using Dokterspraktijk.Application.Dto_s
+@using Dokterspraktijk.WebUI.ViewModels
+@model DokterDashboardViewModel
+
+@{
+	ViewData["Title"] = "Dokteromgeving";
+}
+
+<section class="container my-5">
+
+	<div class="app-header p-4 p-lg-5 mb-4">
+		<div class="row">
+			<div class="col-lg-9">
+				<span class="d-inline-block bg-white text-success rounded-pill px-4 py-2 mb-3 fw-semibold shadow-sm">
+					Dokterdashboard
+				</span>
+
+				<h1 class="h1 fw-bold mb-3">
+					Welkom, Dr. @Model.DokterNaam
+				</h1>
+
+				<p class="lead mb-0">
+					Beheer afspraken, raadpleeg de planning en zoek patiëntgegevens op.
+				</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="row g-4 mb-4">
+		<div class="col-12 col-lg-4">
+			<div class="card h-100 p-4">
+				<div class="d-flex align-items-start gap-3 h-100">
+					<span class="home-icon-circle flex-shrink-0">
+						<i class="bi bi-calendar-check"></i>
+					</span>
+
+					<div class="d-flex flex-column h-100">
+						<h2 class="h4 app-section-title fw-bold mb-2">
+							Afspraken beheren
+						</h2>
+
+						<p class="text-muted mb-4">
+							Bekijk afspraken van patiënten, rond consultaties af of annuleer indien nodig.
+						</p>
+
+						<a asp-controller="Dokter"
+						   asp-action="Afspraken"
+						   class="btn btn-appointment-outline mt-auto">
+							Afspraken bekijken
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-12 col-lg-4">
+			<div class="card h-100 p-4">
+				<div class="d-flex align-items-start gap-3 h-100">
+					<span class="home-icon-circle flex-shrink-0">
+						<i class="bi bi-calendar3"></i>
+					</span>
+
+					<div class="d-flex flex-column h-100">
+						<h2 class="h4 app-section-title fw-bold mb-2">
+							Planning
+						</h2>
+
+						<p class="text-muted mb-4">
+							Raadpleeg de kalender en bekijk per dag welke afspraken gepland staan.
+						</p>
+
+						<a href="#planning"
+						   class="btn btn-appointment-outline mt-auto">
+							Planning bekijken
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-12 col-lg-4">
+			<div class="card h-100 p-4">
+				<div class="d-flex align-items-start gap-3 h-100">
+					<span class="home-icon-circle flex-shrink-0">
+						<i class="bi bi-search"></i>
+					</span>
+
+					<div class="d-flex flex-column h-100">
+						<h2 class="h4 app-section-title fw-bold mb-2">
+							Patiënten opzoeken
+						</h2>
+
+						<p class="text-muted mb-4">
+							Zoek patiënten op naam, e-mailadres of rijksregisternummer.
+						</p>
+
+						<a asp-controller="Dokter"
+						   asp-action="Patienten"
+						   class="btn btn-appointment-outline mt-auto">
+							Patiënten zoeken
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row g-4 mb-4">
+		<div class="col-12 col-xl-7">
+			<div class="card h-100 p-4">
+				<div class="d-flex align-items-center gap-3 mb-3">
+					<span class="home-icon-circle">
+						<i class="bi bi-calendar-day"></i>
+					</span>
+
+					<div>
+						<h2 class="h4 fw-bold mb-1">Afspraken van vandaag</h2>
+						<p class="text-muted mb-0">@Model.Vandaag.ToString("dd/MM/yyyy")</p>
+					</div>
+				</div>
+
+				@if (!Model.AfsprakenVandaag.Any())
+				{
+					<p class="text-muted mb-0">
+						Er zijn vandaag geen geplande afspraken.
+					</p>
+				}
+				else
+				{
+					<div class="list-group list-group-flush">
+						@foreach (AfspraakDto afspraak in Model.AfsprakenVandaag)
+						{
+							<div class="list-group-item px-0">
+								<div class="d-flex flex-column flex-md-row justify-content-between gap-3">
+									<div>
+										<div class="fw-bold text-success">
+											@afspraak.Tijd.ToString("HH:mm")
+										</div>
+
+										<div class="fw-bold">
+											@afspraak.PatientVoornaam @afspraak.PatientAchternaam
+										</div>
+
+										<div class="text-muted">
+											@afspraak.Reden
+										</div>
+									</div>
+
+									<div class="d-flex align-items-start gap-2 flex-wrap">
+										<a asp-controller="Dokter"
+										   asp-action="Details"
+										   asp-route-id="@afspraak.Id"
+										   class="btn btn-sm btn-outline-primary rounded-pill px-3">
+											Details
+										</a>
+
+										<form asp-controller="Dokter"
+											  asp-action="Afronden"
+											  asp-route-id="@afspraak.Id"
+											  method="post">
+											<button type="submit" class="btn btn-sm btn-primary rounded-pill px-3">
+												Afronden
+											</button>
+										</form>
+
+										<form asp-controller="Dokter"
+											  asp-action="Annuleren"
+											  asp-route-id="@afspraak.Id"
+											  method="post">
+											<button type="submit" class="btn btn-sm btn-outline-danger rounded-pill px-3">
+												Annuleren
+											</button>
+										</form>
+									</div>
+								</div>
+							</div>
+						}
+					</div>
+				}
+			</div>
+		</div>
+
+		<div id="planning" class="col-12 col-xl-5">
+			<div class="card h-100 p-4">
+				<div class="d-flex align-items-center gap-3 mb-4">
+					<span class="home-icon-circle">
+						<i class="bi bi-calendar3"></i>
+					</span>
+
+					<div>
+						<h2 class="h4 fw-bold mb-1">
+							Planning @Model.KalenderTitel
+						</h2>
+
+						<p class="text-muted mb-0">
+							Dagen met een oranje bolletje hebben afspraken.
+						</p>
+					</div>
+				</div>
+
+				<div class="doctor-calendar-grid mb-2">
+					<div class="doctor-calendar-weekday">Ma</div>
+					<div class="doctor-calendar-weekday">Di</div>
+					<div class="doctor-calendar-weekday">Wo</div>
+					<div class="doctor-calendar-weekday">Do</div>
+					<div class="doctor-calendar-weekday">Vr</div>
+					<div class="doctor-calendar-weekday">Za</div>
+					<div class="doctor-calendar-weekday">Zo</div>
+				</div>
+
+				<div class="doctor-calendar-grid mb-4">
+					@foreach (DokterKalenderDagViewModel dag in Model.KalenderDagen)
+					{
+						string dagClass = "doctor-calendar-day";
+
+						if (!dag.IsBinnenMaand)
+						{
+							dagClass += " is-outside-month";
+						}
+
+						if (dag.IsVandaag)
+						{
+							dagClass += " is-today";
+						}
+
+						if (dag.IsGeselecteerd)
+						{
+							dagClass += " is-selected";
+						}
+
+						if (dag.HeeftAfspraken)
+						{
+							dagClass += " has-appointment";
+						}
+
+						<a asp-controller="Dokter"
+						   asp-action="Index"
+						   asp-route-datum="@dag.DatumRouteWaarde"
+						   class="@dagClass">
+							<span>@dag.Datum.Day</span>
+						</a>
+					}
+				</div>
+
+				<div class="bg-light border rounded-4 p-3">
+					<div class="d-flex justify-content-between gap-3">
+						<div>
+							<div class="fw-bold">
+								@Model.GeselecteerdeDatumTekst
+							</div>
+
+							<div class="text-muted small">
+								@Model.AfsprakenOpGeselecteerdeDatum.Count afspraak/afspraken
+							</div>
+						</div>
+
+						<i class="bi bi-calendar-check text-success fs-4"></i>
+					</div>
+
+					@if (!Model.AfsprakenOpGeselecteerdeDatum.Any())
+					{
+						<p class="text-muted mb-0 mt-3">
+							Geen afspraken op deze dag.
+						</p>
+					}
+					else
+					{
+						<ul class="mb-0 mt-3 ps-3">
+							@foreach (AfspraakDto afspraak in Model.AfsprakenOpGeselecteerdeDatum)
+							{
+								<li>
+									@afspraak.Tijd.ToString("HH:mm") ·
+									@afspraak.PatientVoornaam @afspraak.PatientAchternaam ·
+									@afspraak.Reden
+								</li>
+							}
+						</ul>
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="card p-4 mb-5">
+		<div class="row g-4 align-items-center">
+			<div class="col-lg-5">
+				<div class="d-flex align-items-center gap-3">
+					<span class="home-icon-circle">
+						<i class="bi bi-people"></i>
+					</span>
+
+					<div>
+						<h2 class="h4 fw-bold mb-1">Patiënten opzoeken</h2>
+						<p class="text-muted mb-0">
+							Zoek op naam, e-mailadres of rijksregisternummer.
+						</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-7">
+				<form asp-controller="Dokter"
+					  asp-action="Patienten"
+					  method="get"
+					  class="row g-2">
+					<div class="col">
+						<input type="text"
+							   name="zoekterm"
+							   class="form-control form-control-lg"
+							   placeholder="Zoek patiënt..." />
+					</div>
+
+					<div class="col-auto">
+						<button type="submit" class="btn btn-primary btn-lg rounded-pill px-4">
+							Zoeken
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+</section>

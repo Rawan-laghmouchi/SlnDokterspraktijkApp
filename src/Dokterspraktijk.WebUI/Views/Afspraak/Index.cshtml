@@ -1,24 +1,13 @@
 ﻿@using Dokterspraktijk.Application.Dto_s
-@model Dokterspraktijk.WebUI.ViewModels.AfspraakIndexViewModel
-
-@{
-	ViewData["Title"] = "Afsprakenoverzicht";
-
-	string filterTekst = "Filter op status";
-
-	if (!string.IsNullOrWhiteSpace(Model.GekozenStatus))
-	{
-		filterTekst = Model.GekozenStatus;
-	}
-}
+@model Dokterspraktijk.WebUI.ViewModels.Afspraak.AfspraakIndexViewModel
 
 <main class="container app-container py-3">
 
 	<section class="app-header p-4 mb-4">
 		<div>
-			<h2 class="h3 fw-bold mb-1">Afsprakenoverzicht</h2>
+			<h2 class="h3 fw-bold mb-1">Mijn afspraken</h2>
 			<p class="mb-0">
-				Hieronder vind je een overzicht van de geregistreerde afspraken.
+				Hier vind je jouw afspraken en vrijgegeven doktersattesten.
 			</p>
 		</div>
 	</section>
@@ -28,7 +17,7 @@
 
 			<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-3">
 				<h5 class="fw-semibold mb-0">
-					Alle afspraken
+					Afsprakenoverzicht
 				</h5>
 
 				<div class="d-flex flex-column flex-sm-row justify-content-end align-items-sm-center gap-2">
@@ -54,7 +43,7 @@
 				</div>
 			</div>
 
-			@if (Model.Afspraken.Count == 0)
+			@if (!Model.Afspraken.Any())
 			{
 				<div class="alert alert-info mb-0" role="alert">
 					Er zijn geen afspraken gevonden.
@@ -72,6 +61,7 @@
 								<th>Tijd</th>
 								<th>Reden</th>
 								<th>Status</th>
+								<th>Doktersattest</th>
 								<th>Actie</th>
 							</tr>
 						</thead>
@@ -81,17 +71,53 @@
 							{
 								string statusCssClass = afspraak.Status.ToLower();
 
+								DoktersattestDto? doktersattest = null;
+
+								if (Model.DoktersattestenPerAfspraakId.ContainsKey(afspraak.Id))
+								{
+									doktersattest = Model.DoktersattestenPerAfspraakId[afspraak.Id];
+								}
+
 								<tr class="appointment-row-@statusCssClass">
 									<td>@afspraak.PatientVoornaam @afspraak.PatientAchternaam</td>
 									<td>@afspraak.DokterNaam</td>
 									<td>@afspraak.Datum.ToString("dd/MM/yyyy")</td>
 									<td>@afspraak.Tijd.ToString("HH:mm")</td>
 									<td>@afspraak.Reden</td>
+
 									<td>
 										<span class="appointment-status-@statusCssClass">
 											@afspraak.Status
 										</span>
 									</td>
+
+									<td>
+										@if (doktersattest != null && doktersattest.IsVrijgegeven && !doktersattest.IsGedownload)
+										{
+											<span class="badge rounded-pill text-bg-success px-3 py-2">
+												Beschikbaar
+											</span>
+										}
+										else if (doktersattest != null && doktersattest.IsGedownload)
+										{
+											<span class="badge rounded-pill text-bg-secondary px-3 py-2">
+												Al gedownload
+											</span>
+										}
+										else if (afspraak.Status == "Afgerond")
+										{
+											<span class="badge rounded-pill text-bg-warning px-3 py-2">
+												Nog niet vrijgegeven
+											</span>
+										}
+										else
+										{
+											<span class="text-muted">
+												-
+											</span>
+										}
+									</td>
+
 									<td>
 										@if (afspraak.Status == "Gepland")
 										{
@@ -101,6 +127,17 @@
 											   class="btn btn-outline-danger rounded-pill px-3 py-1">
 												Annuleren
 											</a>
+										}
+										else if (doktersattest != null && doktersattest.IsVrijgegeven && !doktersattest.IsGedownload)
+										{
+											<form asp-controller="Afspraak"
+												  asp-action="DownloadDoktersattest"
+												  asp-route-id="@afspraak.Id"
+												  method="post">
+												<button type="submit" class="btn btn-primary rounded-pill px-3 py-1">
+													Downloaden
+												</button>
+											</form>
 										}
 										else
 										{

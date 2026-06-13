@@ -542,3 +542,355 @@ body {
         color: #0f766e;
         background-color: #ecfdf5;
     }
+
+/* mensen die ingelogd zijn, krijgen ook dezelfde navbar-layout */
+.app-navbar-form {
+    margin: 0;
+}
+
+.app-navbar-button {
+    background: transparent;
+    border: none;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: pointer;
+}s
+/*Identity: login, register, logout*/
+
+.identity-page {
+    padding: 3rem 1rem 2rem 1rem;
+}
+
+.identity-card {
+    width: 100%;
+    max-width: 520px;
+    background: white;
+    border-radius: 28px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(15, 118, 110, 0.10);
+    border: 1px solid rgba(15, 118, 110, 0.10);
+}
+
+.identity-card-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.identity-eyebrow {
+    color: #f59e0b;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.identity-card-header h1 {
+    color: #0f172a;
+    font-weight: 800;
+    margin-bottom: 0.75rem;
+}
+
+.identity-card-header p {
+    color: #64748b;
+    margin-bottom: 0;
+}
+
+.identity-form .form-control {
+    border-radius: 14px;
+    border: 1px solid #cbd5e1;
+}
+
+    .identity-form .form-control:focus {
+        border-color: #0f766e;
+        box-shadow: 0 0 0 0.2rem rgba(15, 118, 110, 0.15);
+    }
+
+.identity-primary-button {
+    background-color: #0f766e;
+    color: white;
+    border-radius: 999px;
+    font-weight: 700;
+    padding: 0.8rem 1rem;
+    border: none;
+}
+
+    .identity-primary-button:hover {
+        background-color: #0b5f59;
+        color: white;
+    }
+
+.identity-links {
+    margin-top: 1.25rem;
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    font-size: 0.95rem;
+}
+
+    .identity-links a {
+        color: #0f766e;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+        .identity-links a:hover {
+            color: #f59e0b;
+            text-decoration: underline;
+        }
+
+/* Dokterdashboard: kalender */
+/* Dokterdashboard: compacte maandkalender */
+.doctor-calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 0.5rem;
+}
+
+.doctor-calendar-weekday {
+    text-align: center;
+    color: #64748b;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.doctor-calendar-day {
+    min-height: 3.25rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.85rem;
+    background-color: #ffffff;
+    color: #1e293b;
+    text-decoration: none;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+    .doctor-calendar-day:hover {
+        border-color: #0f766e;
+        background-color: #ecfdf5;
+        color: #0f766e;
+    }
+
+    .doctor-calendar-day.is-outside-month {
+        background-color: #f8fafc;
+        color: #cbd5e1;
+    }
+
+    .doctor-calendar-day.is-today {
+        border-color: #0f766e;
+        color: #0f766e;
+    }
+
+    .doctor-calendar-day.is-selected {
+        background-color: #0f766e;
+        border-color: #0f766e;
+        color: #ffffff;
+    }
+
+    .doctor-calendar-day.has-appointment::after {
+        content: "";
+        width: 0.45rem;
+        height: 0.45rem;
+        border-radius: 999px;
+        background-color: #f59e0b;
+        position: absolute;
+        bottom: 0.35rem;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .doctor-calendar-day.is-selected.has-appointment::after {
+        background-color: #ffffff;
+    }
+.doctor-calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
+}
+
+.doctor-calendar-weekday {
+    text-align: center;
+    color: #64748b;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.doctor-calendar-day {
+    min-height: 3.25rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.85rem;
+    background-color: #ffffff;
+    color: #1e293b;
+    text-decoration: none;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+    .doctor-calendar-day:hover {
+        border-color: #0f766e;
+        background-color: #ecfdf5;
+        color: #0f766e;
+    }
+
+    .doctor-calendar-day.is-outside-month {
+        background-color: #f8fafc;
+        color: #cbd5e1;
+    }
+
+    .doctor-calendar-day.is-today {
+        border-color: #0f766e;
+        color: #0f766e;
+    }
+
+    .doctor-calendar-day.is-selected {
+        background-color: #0f766e;
+        border-color: #0f766e;
+        color: #ffffff;
+    }
+
+    .doctor-calendar-day.has-appointment::after {
+        content: "";
+        width: 0.45rem;
+        height: 0.45rem;
+        border-radius: 999px;
+        background-color: #f59e0b;
+        position: absolute;
+        bottom: 0.35rem;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+
+    .doctor-calendar-day.is-selected.has-appointment::after {
+        background-color: #ffffff;
+    }
+
+.btn-appointment-cancel {
+    color: #dc3545;
+    border-color: #dc3545;
+}
+
+    .btn-appointment-cancel:hover {
+        color: #ffffff;
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+
+.admin-stat-number {
+    color: #0f766e;
+}
+
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    padding: .25rem .65rem;
+    font-weight: 700;
+    font-size: .75rem;
+}
+
+.status-active {
+    background-color: #ecfdf5;
+    color: #0f766e;
+}
+
+.admin-appointment-filter {
+    min-width: 420px;
+}
+
+.admin-date-input {
+    max-width: 230px;
+}
+
+.status-warning {
+    background-color: #fff7ed;
+    color: #f59e0b;
+}
+
+.status-danger {
+    background-color: #fff1f2;
+    color: #dc3545;
+}
+
+.btn-appointment-search {
+    background-color: #0f766e;
+    color: #ffffff;
+    border: 2px solid #0f766e;
+    min-width: 140px;
+}
+
+    .btn-appointment-search:hover {
+        background-color: #f59e0b;
+        color: #ffffff;
+        border-color: #f59e0b;
+    }
+
+.admin-day-timeline {
+    position: relative;
+    padding-left: 1.75rem;
+}
+
+    .admin-day-timeline::before {
+        content: "";
+        position: absolute;
+        left: .55rem;
+        top: .5rem;
+        bottom: .5rem;
+        width: 2px;
+        background-color: #ccfbf1;
+    }
+
+.admin-day-timeline-item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+    .admin-day-timeline-item::before {
+        content: "";
+        position: absolute;
+        left: -1.55rem;
+        top: .35rem;
+        width: 14px;
+        height: 14px;
+        border-radius: 999px;
+        background-color: #0f766e;
+        border: 4px solid #ccfbf1;
+    }
+
+.admin-day-timeline-time {
+    font-weight: 800;
+    color: #0f766e;
+    font-size: 1.15rem;
+}
+
+.admin-day-timeline-card {
+    border: 1px solid #d9e2ec;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    background-color: #ffffff;
+}
+
+.admin-stat-number {
+    color: #0f766e;
+}
+
+.home-icon-circle {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 999px;
+    background-color: #ccfbf1;
+    color: #0f766e;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}

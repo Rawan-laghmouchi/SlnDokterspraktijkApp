@@ -2,21 +2,44 @@ using Dokterspraktijk.Application.Repositories;
 using Dokterspraktijk.Application.Services.Implementation;
 using Dokterspraktijk.Application.Services.Interfaces;
 using Dokterspraktijk.Infrastructure.Data;
-using Dokterspraktijk.Infrastructure.Fakes;
+using Dokterspraktijk.Infrastructure.Identity;
 using Dokterspraktijk.Infrastructure.Repositories;
+using Dokterspraktijk.WebUI.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
 
 string connString = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<AppDbContext>(x => x.UseSqlServer(connString));
 
+builder.Services.AddDefaultIdentity<ApplicationUser>()
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<AppDbContext>();
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", policy =>
+        policy.RequireClaim("IsAdmin", "true"));
+
+    options.AddPolicy("DokterOnly", policy =>
+        policy.RequireClaim("IsDokter", "true"));
+
+    options.AddPolicy("PatientOnly", policy =>
+        policy.RequireAssertion(context =>
+            context.User.Identity != null &&
+            context.User.Identity.IsAuthenticated &&
+            !context.User.HasClaim("IsAdmin", "true") &&
+            !context.User.HasClaim("IsDokter", "true")));
+});
+
 // Tijdelijke fake repositories voor de experimentele testfase van de bachelorproef.
 // testdata tijdens het draaien v/d applicatie blijft behouden.
-builder.Services.AddSingleton<FakeDokterspraktijkDatastore>();
+// builder.Services.AddSingleton<FakeDokterspraktijkDatastore>();
 
 // tijdelijke fake repo's
 // Later worden deze registraties vervangen door EF Core repositories.
@@ -37,11 +60,19 @@ builder.Services.AddScoped<IAfspraakCategorieRepository, AfspraakCategorieReposi
 builder.Services.AddScoped<ITijdslotService, TijdslotService>();
 builder.Services.AddScoped<IAfspraakService, AfspraakService>();
 builder.Services.AddScoped<IPatientService, PatientService>();
-builder.Services.AddScoped<IDoktersattestService, DoktersattestService>(); ;
+builder.Services.AddScoped<IDoktersattestService, DoktersattestService>();
 
-// builder.Services.AddScoped<IUnitOfWork, UnitOfWork>(); // één instantie per request
+// builder.Services.AddScoped<IUnitOfWork, UnitOfWork>(); // ï¿½ï¿½n instantie per request
 
 var app = builder.Build();
+
+using (IServiceScope scope = app.Services.CreateScope())
+{
+    UserManager<ApplicationUser> userManager =
+        scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+    SeedData.Initialize(userManager);
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -56,10 +87,13 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapRazorPages();
 
 app.Run();

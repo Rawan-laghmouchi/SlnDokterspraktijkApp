@@ -145,6 +145,9 @@ namespace Dokterspraktijk.Application.Services.Implementation
                         Id = afspraak.Id,
                         PatientVoornaam = patient.Voornaam,
                         PatientAchternaam = patient.Achternaam,
+                        PatientEmail = patient.Email,
+                        PatientTelefoonnummer = patient.Telefoonnummer,
+                        PatientRijksregisternummer = patient.Rijksregisternummer,
                         DokterNaam = dokter.Naam,
                         Datum = tijdslot.Datum,
                         Tijd = tijdslot.Tijd,
@@ -215,11 +218,11 @@ namespace Dokterspraktijk.Application.Services.Implementation
         }
 
         public ResultaatDto RondConsultatieAf(
-            string dokterNaam,
-            string patientVoornaam,
-            string patientAchternaam,
-            DateOnly datum,
-            TimeOnly tijd)
+     string dokterNaam,
+     string patientVoornaam,
+     string patientAchternaam,
+     DateOnly datum,
+     TimeOnly tijd)
         {
             Patient? patient = _patientRepository.ZoekOpNaam(patientVoornaam, patientAchternaam);
 
@@ -309,6 +312,9 @@ namespace Dokterspraktijk.Application.Services.Implementation
                         Id = afspraak.Id,
                         PatientVoornaam = patient.Voornaam,
                         PatientAchternaam = patient.Achternaam,
+                        PatientEmail = patient.Email,
+                        PatientTelefoonnummer = patient.Telefoonnummer,
+                        PatientRijksregisternummer = patient.Rijksregisternummer,
                         DokterNaam = dokter.Naam,
                         Datum = tijdslot.Datum,
                         Tijd = tijdslot.Tijd,
@@ -327,11 +333,11 @@ namespace Dokterspraktijk.Application.Services.Implementation
                 .ToList();
         }
         public AfspraakDto? ZoekAfspraak(
-    string patientVoornaam,
-    string patientAchternaam,
-    string dokterNaam,
-    DateOnly datum,
-    TimeOnly tijd)
+            string patientVoornaam,
+            string patientAchternaam,
+            string dokterNaam,
+            DateOnly datum,
+            TimeOnly tijd)
         {
             Patient? patient = _patientRepository.ZoekOpNaam(patientVoornaam, patientAchternaam);
 
@@ -370,6 +376,9 @@ namespace Dokterspraktijk.Application.Services.Implementation
                 Id = afspraak.Id,
                 PatientVoornaam = patient.Voornaam,
                 PatientAchternaam = patient.Achternaam,
+                PatientEmail = patient.Email,
+                PatientTelefoonnummer = patient.Telefoonnummer,
+                PatientRijksregisternummer = patient.Rijksregisternummer,
                 DokterNaam = dokter.Naam,
                 Datum = tijdslot.Datum,
                 Tijd = tijdslot.Tijd,
@@ -404,6 +413,9 @@ namespace Dokterspraktijk.Application.Services.Implementation
                 Id = afspraak.Id,
                 PatientVoornaam = patient.Voornaam,
                 PatientAchternaam = patient.Achternaam,
+                PatientEmail = patient.Email,
+                PatientTelefoonnummer = patient.Telefoonnummer,
+                PatientRijksregisternummer = patient.Rijksregisternummer,
                 DokterNaam = dokter.Naam,
                 Datum = tijdslot.Datum,
                 Tijd = tijdslot.Tijd,

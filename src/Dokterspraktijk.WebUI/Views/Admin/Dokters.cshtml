@@ -1,0 +1,84 @@
+﻿@model AdminDoktersViewModel
+
+@{
+	ViewData["Title"] = "Dokters beheren";
+}
+
+<section class="container my-5">
+
+	<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+		<div>
+			<h1 class="fw-bold mb-2">
+				Dokters beheren
+			</h1>
+
+			<p class="text-muted mb-0">
+				Voeg dokters toe of wijzig bestaande doktersgegevens.
+			</p>
+		</div>
+
+		<a asp-controller="Admin"
+		   asp-action="CreateDokter"
+		   class="btn btn-primary rounded-pill px-4">
+			<i class="bi bi-plus-lg me-1"></i>
+			Nieuwe dokter toevoegen
+		</a>
+	</div>
+
+	<div class="card p-4 mb-5">
+		@if (!Model.Dokters.Any())
+		{
+			<p class="text-muted mb-0">
+				Er zijn nog geen dokters geregistreerd.
+			</p>
+		}
+		else
+		{
+			<div class="table-responsive">
+				<table class="table align-middle mb-0">
+					<thead>
+						<tr>
+							<th>Naam</th>
+							<th>Specialisatie</th>
+							<th>Actie</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						@foreach (DokterOverzichtViewModel dokter in Model.Dokters)
+						{
+							<tr>
+								<td class="fw-semibold">
+									Dr. @dokter.Naam
+								</td>
+
+								<td>
+									@dokter.Specialisatie
+								</td>
+
+								<td>
+									<div class="d-flex gap-2 flex-wrap">
+										<a asp-controller="Admin"
+										   asp-action="EditDokter"
+										   asp-route-id="@dokter.Id"
+										   class="btn btn-sm btn-outline-primary rounded-pill px-3">
+											Bewerken
+										</a>
+
+										<a asp-controller="Admin"
+										   asp-action="Afspraken"
+										   asp-route-dokterId="@dokter.Id"
+										   class="btn btn-sm btn-outline-primary rounded-pill px-3">
+											Planning
+										</a>
+									</div>
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		}
+	</div>
+
+</section>

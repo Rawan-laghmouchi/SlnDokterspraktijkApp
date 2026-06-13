@@ -41,5 +41,10 @@ namespace Dokterspraktijk.Infrastructure.Repositories
             _context.Dokters.Add(dokter);
             _context.SaveChanges();
         }
+        public void WerkBij(Dokter dokter)
+        {
+            _context.Dokters.Update(dokter);
+            _context.SaveChanges();
+        }
     }
 }

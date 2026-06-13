@@ -1,1 +1,321 @@
-﻿
+﻿@{
+    ViewData["Title"] = "Over ons";
+}
+
+<main class="container app-container py-4">
+
+    <section class="home-hero p-4 p-lg-5 mb-4">
+        <div class="row align-items-center gy-4">
+            <div class="col-12 col-lg-8">
+                <span class="badge rounded-pill bg-light text-dark px-3 py-2 mb-3">
+                    Over ons
+                </span>
+
+                <h1 class="display-5 fw-bold mb-3">
+                    Zorg dichtbij, duidelijk en persoonlijk.
+                </h1>
+
+                <p class="lead mb-4">
+                    Bij Dokterspraktijk Laghmouchi combineren we toegankelijke huisartsgeneeskunde
+                    met een overzichtelijke digitale werking. Patiënten kunnen eenvoudig afspraken plannen,
+                    terwijl dokters en admin alles veilig opvolgen.
+                </p>
+
+                <div class="d-flex flex-wrap gap-2">
+                    <a asp-controller="Afspraak"
+                       asp-action="Create"
+                       class="btn btn-light rounded-pill px-4 fw-bold">
+                        Afspraak maken
+                    </a>
+
+                    <a href="#team"
+                       class="btn btn-outline-light rounded-pill px-4 fw-bold">
+                        Ontmoet ons team
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-4">
+                <div class="home-soft-card p-4 text-dark">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <span class="home-icon-circle">
+                            <i class="bi bi-heart-pulse"></i>
+                        </span>
+
+                        <div>
+                            <div class="fw-bold">Mensgerichte zorg</div>
+                            <div class="text-secondary small">Rustig, helder en betrouwbaar.</div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <span class="home-icon-circle">
+                            <i class="bi bi-shield-check"></i>
+                        </span>
+
+                        <div>
+                            <div class="fw-bold">Veilige toegang</div>
+                            <div class="text-secondary small">Afspraken enkel met account.</div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-3">
+                        <span class="home-icon-circle">
+                            <i class="bi bi-calendar2-check"></i>
+                        </span>
+
+                        <div>
+                            <div class="fw-bold">Digitale planning</div>
+                            <div class="text-secondary small">Duidelijke tijdsloten per dokter.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="row g-3 mb-4">
+        <div class="col-12 col-md-4">
+            <div class="home-soft-card h-100 p-4">
+                <span class="home-icon-circle mb-3">
+                    <i class="bi bi-person-heart"></i>
+                </span>
+
+                <h2 class="h5 fw-bold text-dark">
+                    Persoonlijke aanpak
+                </h2>
+
+                <p class="text-secondary mb-0">
+                    We luisteren naar de patiënt en zorgen voor duidelijke begeleiding voor, tijdens
+                    en na de consultatie.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <div class="home-soft-card h-100 p-4">
+                <span class="home-icon-circle mb-3">
+                    <i class="bi bi-laptop"></i>
+                </span>
+
+                <h2 class="h5 fw-bold text-dark">
+                    Moderne werking
+                </h2>
+
+                <p class="text-secondary mb-0">
+                    Afspraken, patiëntgegevens en doktersplanning worden overzichtelijk beheerd
+                    in één veilige omgeving.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <div class="home-soft-card h-100 p-4">
+                <span class="home-icon-circle mb-3">
+                    <i class="bi bi-people"></i>
+                </span>
+
+                <h2 class="h5 fw-bold text-dark">
+                    Samenwerking
+                </h2>
+
+                <p class="text-secondary mb-0">
+                    Admin, dokters en patiënten werken elk vanuit hun eigen rol, met passende
+                    toegang tot de juiste informatie.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="home-soft-card p-4 p-lg-5 mb-4">
+        <div class="row align-items-center gy-4">
+            <div class="col-12 col-lg-6">
+                <h2 class="h4 fw-bold text-dark mb-3">
+                    Onze visie
+                </h2>
+
+                <p class="text-secondary">
+                    We willen een dokterspraktijk zijn waar patiënten snel hun weg vinden en waar
+                    zorgverleners efficiënt kunnen werken. Daarom combineren we warme zorg met
+                    een eenvoudige digitale flow.
+                </p>
+
+                <ul class="list-unstyled mb-0">
+                    <li class="mb-2">
+                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                        Heldere communicatie met de patiënt
+                    </li>
+
+                    <li class="mb-2">
+                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                        Veilige toegang via persoonlijke accounts
+                    </li>
+
+                    <li class="mb-2">
+                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                        Overzichtelijke planning voor dokters
+                    </li>
+
+                    <li>
+                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                        Administratieve opvolging zonder onnodige complexiteit
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-12 col-lg-6">
+                <div class="row g-3">
+                    <div class="col-6">
+                        <div class="bg-light rounded-4 p-4 text-center h-100">
+                            <div class="h3 fw-bold admin-stat-number mb-1">
+                                4
+                            </div>
+
+                            <div class="text-secondary small">
+                                Dokters
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="bg-light rounded-4 p-4 text-center h-100">
+                            <div class="h3 fw-bold admin-stat-number mb-1">
+                                24/7
+                            </div>
+
+                            <div class="text-secondary small">
+                                Online overzicht
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="bg-light rounded-4 p-4 text-center h-100">
+                            <div class="h3 fw-bold admin-stat-number mb-1">
+                                1
+                            </div>
+
+                            <div class="text-secondary small">
+                                Centrale planning
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="bg-light rounded-4 p-4 text-center h-100">
+                            <div class="h3 fw-bold admin-stat-number mb-1">
+                                <i class="bi bi-lock"></i>
+                            </div>
+
+                            <div class="text-secondary small">
+                                Beveiligde toegang
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="team" class="home-soft-card p-4 p-lg-5 mb-4">
+        <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+            <div>
+                <h2 class="h4 fw-bold text-dark mb-1">
+                    Ons team
+                </h2>
+
+                <p class="text-secondary mb-0">
+                    Een betrokken team van artsen met elk hun eigen expertise.
+                </p>
+            </div>
+        </div>
+
+        <div class="row g-3">
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="border rounded-4 p-4 h-100">
+                    <span class="home-icon-circle mb-3">
+                        <i class="bi bi-person"></i>
+                    </span>
+
+                    <h3 class="h6 fw-bold text-dark mb-1">
+                        Dr. Timmermans
+                    </h3>
+
+                    <p class="text-secondary small mb-0">
+                        Huisarts
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="border rounded-4 p-4 h-100">
+                    <span class="home-icon-circle mb-3">
+                        <i class="bi bi-person"></i>
+                    </span>
+
+                    <h3 class="h6 fw-bold text-dark mb-1">
+                        Dr. Brancaert
+                    </h3>
+
+                    <p class="text-secondary small mb-0">
+                        Huisarts
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="border rounded-4 p-4 h-100">
+                    <span class="home-icon-circle mb-3">
+                        <i class="bi bi-person"></i>
+                    </span>
+
+                    <h3 class="h6 fw-bold text-dark mb-1">
+                        Dr. Olali
+                    </h3>
+
+                    <p class="text-secondary small mb-0">
+                        Algemene geneeskunde
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="border rounded-4 p-4 h-100">
+                    <span class="home-icon-circle mb-3">
+                        <i class="bi bi-person"></i>
+                    </span>
+
+                    <h3 class="h6 fw-bold text-dark mb-1">
+                        Dr. Okodo
+                    </h3>
+
+                    <p class="text-secondary small mb-0">
+                        Algemene geneeskunde
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="home-soft-card p-4 p-lg-5 mb-5">
+        <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
+            <div>
+                <h2 class="h4 fw-bold text-dark mb-2">
+                    Klaar om een afspraak te plannen?
+                </h2>
+
+                <p class="text-secondary mb-0">
+                    Maak een account aan of meld je aan om veilig een afspraak te boeken bij een beschikbare dokter.
+                </p>
+            </div>
+
+            <a asp-controller="Afspraak"
+			asp-action="Create"
+			class="btn btn-appointment-outline">
+				Afspraak maken
+			</a>
+
+        </div>
+    </section>
+
+</main>

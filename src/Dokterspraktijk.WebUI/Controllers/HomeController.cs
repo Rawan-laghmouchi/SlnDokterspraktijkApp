@@ -15,6 +15,16 @@ namespace Dokterspraktijk.WebUI.Controllers
 
         public IActionResult Index()
         {
+            if (User.HasClaim("IsDokter", "true"))
+            {
+                return RedirectToAction("Index", "Dokter");
+            }
+
+            if (User.HasClaim("IsAdmin", "true"))
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+
             return View();
         }
 

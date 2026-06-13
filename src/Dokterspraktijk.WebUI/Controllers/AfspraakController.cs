@@ -1,39 +1,58 @@
 ﻿using Dokterspraktijk.Application.Dto_s;
 using Dokterspraktijk.Application.Repositories;
 using Dokterspraktijk.Application.Services.Interfaces;
+using Dokterspraktijk.Domain.Entities;
 using Dokterspraktijk.Domain.Enums;
-using Dokterspraktijk.WebUI.ViewModels;
+using Dokterspraktijk.Infrastructure.Identity;
+using Dokterspraktijk.WebUI.ViewModels.Afspraak;
+using Dokterspraktijk.WebUI.ViewModels.Dokter;
+using Dokterspraktijk.WebUI.ViewModels.Tijdslot;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Text;
 
 namespace Dokterspraktijk.WebUI.Controllers
 {
+    [Authorize(Policy = "PatientOnly")]
     public class AfspraakController : Controller
     {
         private IAfspraakService _afspraakService;
         private ITijdslotService _tijdslotService;
         private IDokterRepository _dokterRepository;
         private IAfspraakCategorieRepository _afspraakCategorieRepository;
+        private IDoktersattestService _doktersattestService;
+        private IPatientRepository _patientRepository;
+        private UserManager<ApplicationUser> _userManager;
 
         public AfspraakController(
-        IAfspraakService afspraakService,
-        ITijdslotService tijdslotService,
-        IDokterRepository dokterRepository,
-        IAfspraakCategorieRepository afspraakCategorieRepository)
+            IAfspraakService afspraakService,
+            ITijdslotService tijdslotService,
+            IDokterRepository dokterRepository,
+            IPatientRepository patientRepository,
+            IAfspraakCategorieRepository afspraakCategorieRepository,
+            IDoktersattestService doktersattestService,
+            UserManager<ApplicationUser> userManager)
         {
             _afspraakService = afspraakService;
             _tijdslotService = tijdslotService;
             _dokterRepository = dokterRepository;
+            _patientRepository = patientRepository;
             _afspraakCategorieRepository = afspraakCategorieRepository;
+            _doktersattestService = doktersattestService;
+            _userManager = userManager;
         }
 
         [HttpGet]
-        public IActionResult Create(string? dokterNaam, DateOnly? datum)
+        public async Task<IActionResult> Create(string? dokterNaam, DateOnly? datum)
         {
             AfspraakCreateViewModel model = new AfspraakCreateViewModel();
 
             model.DokterNaam = dokterNaam ?? string.Empty;
             model.Datum = datum ?? DateOnly.FromDateTime(DateTime.Today);
+
+            await VulPatientGegevensIn(model);
 
             VulKeuzelijsten(model);
 
@@ -42,8 +61,17 @@ namespace Dokterspraktijk.WebUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(AfspraakCreateViewModel model)
+        public async Task<IActionResult> Create(AfspraakCreateViewModel model)
         {
+            await VulPatientGegevensIn(model);
+
+            ModelState.Remove(nameof(model.PatientVoornaam));
+            ModelState.Remove(nameof(model.PatientAchternaam));
+            ModelState.Remove(nameof(model.Email));
+            ModelState.Remove(nameof(model.Telefoonnummer));
+            ModelState.Remove(nameof(model.Rijksregisternummer));
+            ModelState.Remove(nameof(model.PatientGegevensZijnVoorafIngevuld));
+
             VulKeuzelijsten(model);
 
             if (!ModelState.IsValid)
@@ -77,6 +105,7 @@ namespace Dokterspraktijk.WebUI.Controllers
                 model.Datum,
                 model.Tijd,
                 model.Reden);
+
             if (!resultaat.IsGelukt)
             {
                 ModelState.AddModelError(string.Empty, resultaat.Melding);
@@ -97,15 +126,21 @@ namespace Dokterspraktijk.WebUI.Controllers
 
             return RedirectToAction(nameof(Bevestiging), new { id = afspraak.Id });
         }
-
         [HttpGet]
-        public IActionResult Bevestiging(int id)
+        public async Task<IActionResult> Bevestiging(int id)
         {
             AfspraakDto? afspraak = _afspraakService.ZoekAfspraakOpId(id);
 
             if (afspraak == null)
             {
                 return RedirectToAction(nameof(Index));
+            }
+
+            string email = await GeefEmailVanIngelogdeGebruikerAsync();
+
+            if (!string.Equals(afspraak.PatientEmail, email, StringComparison.OrdinalIgnoreCase))
+            {
+                return Forbid();
             }
 
             return View(afspraak);
@@ -178,9 +213,14 @@ namespace Dokterspraktijk.WebUI.Controllers
             .ToList();
         }
 
-        public IActionResult Index(string? gekozenStatus)
+        [HttpGet]
+        public async Task<IActionResult> Index(string? gekozenStatus)
         {
-            List<AfspraakDto> afspraken = _afspraakService.GeefAlleAfspraken();
+            string email = await GeefEmailVanIngelogdeGebruikerAsync();
+
+            List<AfspraakDto> afspraken = _afspraakService.GeefAlleAfspraken()
+                .Where(afspraak => string.Equals(afspraak.PatientEmail, email, StringComparison.OrdinalIgnoreCase))
+                .ToList();
 
             if (!string.IsNullOrWhiteSpace(gekozenStatus))
             {
@@ -197,18 +237,33 @@ namespace Dokterspraktijk.WebUI.Controllers
                 })
                 .ToList();
 
+            Dictionary<int, DoktersattestDto?> doktersattestenPerAfspraakId = afspraken.ToDictionary(
+                afspraak => afspraak.Id,
+                afspraak => _doktersattestService.ZoekDoktersattestOpAfspraakId(afspraak.Id));
+
             AfspraakIndexViewModel viewModel = new AfspraakIndexViewModel
             {
                 Afspraken = afspraken,
                 GekozenStatus = gekozenStatus,
-                StatusOpties = statusOpties
+                StatusOpties = statusOpties,
+                DoktersattestenPerAfspraakId = doktersattestenPerAfspraakId
             };
 
             return View(viewModel);
         }
+        private async Task<string> GeefEmailVanIngelogdeGebruikerAsync()
+        {
+            ApplicationUser user = await _userManager.GetUserAsync(User)
+                ?? throw new InvalidOperationException("Geen account gevonden.");
 
-        [HttpGet]
-        public IActionResult Annuleer(int id)
+            string email = user.Email
+                ?? throw new InvalidOperationException("Het account heeft geen e-mailadres.");
+
+            return email;
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DownloadDoktersattest(int id)
         {
             AfspraakDto? afspraak = _afspraakService.ZoekAfspraakOpId(id);
 
@@ -217,14 +272,65 @@ namespace Dokterspraktijk.WebUI.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
+            string email = await GeefEmailVanIngelogdeGebruikerAsync();
+
+            if (!string.Equals(afspraak.PatientEmail, email, StringComparison.OrdinalIgnoreCase))
+            {
+                return Forbid();
+            }
+
+            ResultaatDto resultaat = _doktersattestService.DownloadDoktersattestVoorAfspraak(id);
+
+            if (!resultaat.IsGelukt)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            string inhoud = MaakDoktersattestTekst(afspraak);
+            byte[] bestand = Encoding.UTF8.GetBytes(inhoud);
+
+            string bestandsnaam = $"doktersattest-{afspraak.Id}-{afspraak.Datum:yyyyMMdd}.txt";
+
+            return File(bestand, "text/plain", bestandsnaam);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Annuleer(int id)
+        {
+            AfspraakDto? afspraak = _afspraakService.ZoekAfspraakOpId(id);
+
+            if (afspraak == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            string email = await GeefEmailVanIngelogdeGebruikerAsync();
+
+            if (!string.Equals(afspraak.PatientEmail, email, StringComparison.OrdinalIgnoreCase))
+            {
+                return Forbid();
+            }
+
             return View(afspraak);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AnnuleerBevestigd(int id)
+        public async Task<IActionResult> AnnuleerBevestigd(int id)
         {
             AfspraakDto? afspraak = _afspraakService.ZoekAfspraakOpId(id);
+
+            if (afspraak == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            string email = await GeefEmailVanIngelogdeGebruikerAsync();
+
+            if (!string.Equals(afspraak.PatientEmail, email, StringComparison.OrdinalIgnoreCase))
+            {
+                return Forbid();
+            }
 
             ResultaatDto resultaat = _afspraakService.AnnuleerAfspraak(
                 afspraak.PatientVoornaam,
@@ -233,12 +339,59 @@ namespace Dokterspraktijk.WebUI.Controllers
                 afspraak.Datum,
                 afspraak.Tijd);
 
-            if (afspraak == null)
+            if (!resultaat.IsGelukt)
             {
                 return RedirectToAction(nameof(Index));
             }
 
             return RedirectToAction(nameof(Index));
+        }
+
+        private string MaakDoktersattestTekst(AfspraakDto afspraak)
+        {
+            StringBuilder builder = new StringBuilder();
+
+            builder.AppendLine("DOKTERSATTEST");
+            builder.AppendLine();
+            builder.AppendLine($"Patiënt: {afspraak.PatientVoornaam} {afspraak.PatientAchternaam}");
+            builder.AppendLine($"Dokter: Dr. {afspraak.DokterNaam}");
+            builder.AppendLine($"Datum consultatie: {afspraak.Datum:dd/MM/yyyy}");
+            builder.AppendLine($"Tijdstip: {afspraak.Tijd:HH:mm}");
+            builder.AppendLine($"Reden: {afspraak.Reden}");
+            builder.AppendLine();
+            builder.AppendLine("Dit attest werd digitaal vrijgegeven door de dokter.");
+            builder.AppendLine("Dokterspraktijk Laghmouchi");
+
+            return builder.ToString();
+        }
+
+        private async Task VulPatientGegevensIn(AfspraakCreateViewModel model)
+        {
+            ApplicationUser user = await _userManager.GetUserAsync(User)
+                ?? throw new InvalidOperationException("Een afspraak maken kan enkel met een account.");
+
+            string email = user.Email
+                ?? throw new InvalidOperationException("Het account heeft geen e-mailadres.");
+
+            Patient? patient = _patientRepository.ZoekOpEmail(email);
+
+            if (patient != null)
+            {
+                model.PatientVoornaam = patient.Voornaam;
+                model.PatientAchternaam = patient.Achternaam;
+                model.Email = patient.Email;
+                model.Telefoonnummer = patient.Telefoonnummer;
+                model.Rijksregisternummer = patient.Rijksregisternummer;
+                model.PatientGegevensZijnVoorafIngevuld = true;
+
+                return;
+            }
+
+            model.PatientVoornaam = user.Voornaam;
+            model.PatientAchternaam = user.Achternaam;
+            model.Email = email;
+            model.Telefoonnummer = user.PhoneNumber ?? string.Empty;
+            model.PatientGegevensZijnVoorafIngevuld = false;
         }
     }
 }

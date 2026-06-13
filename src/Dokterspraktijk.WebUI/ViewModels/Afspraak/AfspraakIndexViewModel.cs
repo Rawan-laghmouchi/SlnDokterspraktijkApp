@@ -1,7 +1,7 @@
 ﻿using Dokterspraktijk.Application.Dto_s;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Dokterspraktijk.WebUI.ViewModels
+namespace Dokterspraktijk.WebUI.ViewModels.Afspraak
 {
     public class AfspraakIndexViewModel
     {
@@ -9,5 +9,6 @@ namespace Dokterspraktijk.WebUI.ViewModels
         public List<string> Statussen { get; set; }
         public string GekozenStatus { get; set; }
         public List<SelectListItem> StatusOpties { get; set; } = new List<SelectListItem>();
+        public Dictionary<int, DoktersattestDto?> DoktersattestenPerAfspraakId { get; set; } = new Dictionary<int, DoktersattestDto?>();
     }
 }

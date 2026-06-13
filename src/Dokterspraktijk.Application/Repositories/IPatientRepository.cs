@@ -11,6 +11,8 @@ namespace Dokterspraktijk.Application.Repositories
     {
         Patient? ZoekOpId(int id);
         Patient? ZoekOpNaam(string voornaam, string achternaam);
+        Patient? ZoekOpEmail(string email);
+        List<Patient> GeefAllePatienten();
         void VoegToe(Patient patient);
         void WerkBij(Patient patient);
     }

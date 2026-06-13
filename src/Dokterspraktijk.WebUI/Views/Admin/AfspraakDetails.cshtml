@@ -1,0 +1,99 @@
+﻿@model AfspraakDto
+
+@{
+    ViewData["Title"] = "Afspraakdetails";
+}
+
+<main class="container app-container py-4">
+
+    <section class="home-soft-card p-4 mb-4">
+        <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+            <div>
+                <h1 class="h4 fw-bold text-dark mb-1">
+                    Afspraakdetails
+                </h1>
+
+                <p class="text-secondary mb-0">
+                    Detailinformatie van de gekozen afspraak.
+                </p>
+            </div>
+
+            <a asp-controller="Admin"
+               asp-action="Index"
+               class="btn btn-appointment-outline">
+                Terug naar adminomgeving
+            </a>
+        </div>
+
+        <div class="row gy-4">
+
+            <div class="col-12 col-lg-6">
+                <div class="border rounded-4 p-4 h-100">
+                    <h2 class="h5 fw-bold text-dark mb-3">
+                        Patiënt
+                    </h2>
+
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4">Naam</dt>
+                        <dd class="col-sm-8">@Model.PatientVoornaam @Model.PatientAchternaam</dd>
+
+                        <dt class="col-sm-4">E-mail</dt>
+                        <dd class="col-sm-8">@Model.PatientEmail</dd>
+
+                        <dt class="col-sm-4">Telefoon</dt>
+                        <dd class="col-sm-8">@Model.PatientTelefoonnummer</dd>
+
+                        <dt class="col-sm-4">Rijksregister</dt>
+                        <dd class="col-sm-8">@Model.PatientRijksregisternummer</dd>
+                    </dl>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-6">
+                <div class="border rounded-4 p-4 h-100">
+                    <h2 class="h5 fw-bold text-dark mb-3">
+                        Afspraak
+                    </h2>
+
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4">Dokter</dt>
+                        <dd class="col-sm-8">@Model.DokterNaam</dd>
+
+                        <dt class="col-sm-4">Datum</dt>
+                        <dd class="col-sm-8">@Model.Datum.ToString("dd/MM/yyyy")</dd>
+
+                        <dt class="col-sm-4">Tijd</dt>
+                        <dd class="col-sm-8">@Model.Tijd.ToString("HH:mm")</dd>
+
+                        <dt class="col-sm-4">Reden</dt>
+                        <dd class="col-sm-8">@Model.Reden</dd>
+
+                        <dt class="col-sm-4">Status</dt>
+                        <dd class="col-sm-8">
+                            @if (Model.Status == "Gepland")
+                            {
+                                <span class="status-pill status-active">
+                                    Gepland
+                                </span>
+                            }
+                            else if (Model.Status == "Afgerond")
+                            {
+                                <span class="status-pill status-warning">
+                                    Afgerond
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="status-pill status-danger">
+                                    @Model.Status
+                                </span>
+                            }
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</main>
