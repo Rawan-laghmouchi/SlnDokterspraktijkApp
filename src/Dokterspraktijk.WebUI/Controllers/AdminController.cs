@@ -1,5 +1,4 @@
 ﻿using Dokterspraktijk.Application.Dto_s;
-using Dokterspraktijk.Application.Repositories;
 using Dokterspraktijk.Application.Services.Interfaces;
 using Dokterspraktijk.Domain.Entities;
 using Dokterspraktijk.Infrastructure.Identity;
@@ -14,20 +13,16 @@ namespace Dokterspraktijk.WebUI.Controllers
     [Authorize(Policy = "AdminOnly")]
     public class AdminController : Controller
     {
-        private readonly IDokterRepository _dokterRepository;
-        private readonly IPatientRepository _patientRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IAfspraakService _afspraakService;
         private readonly UserManager<ApplicationUser> _userManager;
 
-
         public AdminController(
-            IDokterRepository dokterRepository,
-            IPatientRepository patientRepository,
+            IUnitOfWork unitOfWork,
             IAfspraakService afspraakService,
             UserManager<ApplicationUser> userManager)
         {
-            _dokterRepository = dokterRepository;
-            _patientRepository = patientRepository;
+            _unitOfWork = unitOfWork;
             _afspraakService = afspraakService;
             _userManager = userManager;
         }
@@ -48,8 +43,8 @@ namespace Dokterspraktijk.WebUI.Controllers
                 adminNaam = admin.Voornaam + " " + admin.Achternaam;
             }
 
-            List<Dokter> dokters = _dokterRepository.GeefAlleDokters();
-            List<Patient> patienten = _patientRepository.GeefAllePatienten();
+            List<Dokter> dokters = _unitOfWork.Dokters.GeefAlleDokters();
+            List<Patient> patienten = _unitOfWork.Patienten.GeefAllePatienten();
 
             if (!string.IsNullOrWhiteSpace(zoektermPatient))
             {
@@ -73,7 +68,7 @@ namespace Dokterspraktijk.WebUI.Controllers
 
             if (dokterId.HasValue)
             {
-                Dokter? gekozenDokter = _dokterRepository.ZoekOpId(dokterId.Value);
+                Dokter? gekozenDokter = _unitOfWork.Dokters.ZoekOpId(dokterId.Value);
 
                 if (gekozenDokter != null)
                 {
@@ -137,29 +132,26 @@ namespace Dokterspraktijk.WebUI.Controllers
                 ZoektermPatient = zoektermPatient,
 
                 AantalDokters = dokters.Count,
-                AantalPatienten = _patientRepository.GeefAllePatienten().Count,
+                AantalPatienten = _unitOfWork.Patienten.GeefAllePatienten().Count,
                 AantalAfsprakenVandaag = alleAfspraken.Count(afspraak => afspraak.Datum == vandaag),
                 AantalAfsprakenDezeWeek = alleAfspraken.Count(afspraak =>
                     afspraak.Datum >= vandaag &&
                     afspraak.Datum <= eindeWeek),
 
                 Dokters = dokterViewModels,
-
                 AfsprakenVandaag = gefilterdeAfspraken,
-
                 Patienten = patientAccountViewModels
             };
 
             return View(viewModel);
         }
 
-
         [HttpGet]
         public IActionResult Afspraken(int? dokterId, DateOnly? datum)
         {
             DateOnly gekozenDatum = datum ?? DateOnly.FromDateTime(DateTime.Today);
 
-            List<Dokter> dokters = _dokterRepository.GeefAlleDokters();
+            List<Dokter> dokters = _unitOfWork.Dokters.GeefAlleDokters();
 
             List<AfspraakDto> afspraken = _afspraakService.GeefAlleAfspraken()
                 .Where(afspraak => afspraak.Datum == gekozenDatum)
@@ -168,7 +160,7 @@ namespace Dokterspraktijk.WebUI.Controllers
 
             if (dokterId.HasValue)
             {
-                Dokter? gekozenDokter = _dokterRepository.ZoekOpId(dokterId.Value);
+                Dokter? gekozenDokter = _unitOfWork.Dokters.ZoekOpId(dokterId.Value);
 
                 if (gekozenDokter != null)
                 {
@@ -199,7 +191,7 @@ namespace Dokterspraktijk.WebUI.Controllers
         [HttpGet]
         public async Task<IActionResult> Patienten(string? zoekterm)
         {
-            List<Patient> patienten = _patientRepository.GeefAllePatienten();
+            List<Patient> patienten = _unitOfWork.Patienten.GeefAllePatienten();
 
             if (!string.IsNullOrWhiteSpace(zoekterm))
             {
@@ -252,11 +244,11 @@ namespace Dokterspraktijk.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeactiveerPatientAccount(int id)
         {
-            Patient? patient = _patientRepository.ZoekOpId(id);
+            Patient? patient = _unitOfWork.Patienten.ZoekOpId(id);
 
             if (patient == null)
             {
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Patienten));
             }
 
             ApplicationUser user = await _userManager.FindByEmailAsync(patient.Email)
@@ -265,18 +257,18 @@ namespace Dokterspraktijk.WebUI.Controllers
             await _userManager.SetLockoutEnabledAsync(user, true);
             await _userManager.SetLockoutEndDateAsync(user, DateTimeOffset.UtcNow.AddYears(100));
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Patienten));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ActiveerPatientAccount(int id)
         {
-            Patient? patient = _patientRepository.ZoekOpId(id);
+            Patient? patient = _unitOfWork.Patienten.ZoekOpId(id);
 
             if (patient == null)
             {
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Patienten));
             }
 
             ApplicationUser user = await _userManager.FindByEmailAsync(patient.Email)
@@ -284,26 +276,39 @@ namespace Dokterspraktijk.WebUI.Controllers
 
             await _userManager.SetLockoutEndDateAsync(user, null);
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Patienten));
         }
 
         [HttpGet]
-        public IActionResult Dokters()
+        public async Task<IActionResult> Dokters()
         {
+            List<Dokter> dokters = _unitOfWork.Dokters.GeefAlleDokters();
+
+            List<DokterOverzichtViewModel> dokterViewModels = new List<DokterOverzichtViewModel>();
+
+            foreach (Dokter dokter in dokters)
+            {
+                bool isActief = await IsDokterAccountActief(dokter.Naam);
+
+                DokterOverzichtViewModel dokterViewModel = new DokterOverzichtViewModel
+                {
+                    Id = dokter.Id,
+                    Naam = dokter.Naam,
+                    Specialisatie = dokter.Specialisatie,
+                    IsActief = isActief
+                };
+
+                dokterViewModels.Add(dokterViewModel);
+            }
+
             AdminDoktersViewModel viewModel = new AdminDoktersViewModel
             {
-                Dokters = _dokterRepository.GeefAlleDokters()
-                    .Select(dokter => new DokterOverzichtViewModel
-                    {
-                        Id = dokter.Id,
-                        Naam = dokter.Naam,
-                        Specialisatie = dokter.Specialisatie
-                    })
-                    .ToList()
+                Dokters = dokterViewModels
             };
 
             return View(viewModel);
         }
+
         [HttpGet]
         public IActionResult CreateDokter()
         {
@@ -321,7 +326,7 @@ namespace Dokterspraktijk.WebUI.Controllers
                 return View(viewModel);
             }
 
-            Dokter? bestaandeDokter = _dokterRepository.ZoekOpNaam(viewModel.Naam);
+            Dokter? bestaandeDokter = _unitOfWork.Dokters.ZoekOpNaam(viewModel.Naam);
 
             if (bestaandeDokter != null)
             {
@@ -335,14 +340,15 @@ namespace Dokterspraktijk.WebUI.Controllers
                 Specialisatie = viewModel.Specialisatie
             };
 
-            _dokterRepository.VoegToe(dokter);
+            _unitOfWork.Dokters.VoegToe(dokter);
 
             return RedirectToAction(nameof(Dokters));
         }
+
         [HttpGet]
         public IActionResult EditDokter(int id)
         {
-            Dokter? dokter = _dokterRepository.ZoekOpId(id);
+            Dokter? dokter = _unitOfWork.Dokters.ZoekOpId(id);
 
             if (dokter == null)
             {
@@ -368,7 +374,7 @@ namespace Dokterspraktijk.WebUI.Controllers
                 return View(viewModel);
             }
 
-            Dokter? dokter = _dokterRepository.ZoekOpId(viewModel.Id);
+            Dokter? dokter = _unitOfWork.Dokters.ZoekOpId(viewModel.Id);
 
             if (dokter == null)
             {
@@ -378,10 +384,11 @@ namespace Dokterspraktijk.WebUI.Controllers
             dokter.Naam = viewModel.Naam;
             dokter.Specialisatie = viewModel.Specialisatie;
 
-            _dokterRepository.WerkBij(dokter);
+            _unitOfWork.Dokters.WerkBij(dokter);
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Dokters));
         }
+
         [HttpGet]
         public IActionResult AfspraakDetails(int id)
         {
@@ -394,14 +401,15 @@ namespace Dokterspraktijk.WebUI.Controllers
 
             return View(afspraak);
         }
+
         [HttpGet]
         public IActionResult DokterPlanning(int dokterId, DateOnly? datum)
         {
-            Dokter? dokter = _dokterRepository.ZoekOpId(dokterId);
+            Dokter? dokter = _unitOfWork.Dokters.ZoekOpId(dokterId);
 
             if (dokter == null)
             {
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Dokters));
             }
 
             DateOnly gekozenDatum = datum ?? DateOnly.FromDateTime(DateTime.Today);
@@ -426,23 +434,16 @@ namespace Dokterspraktijk.WebUI.Controllers
 
             return View(viewModel);
         }
-        private async Task<ApplicationUser?> ZoekDokterAccountOpNaam(string dokterNaam)
-        {
-            IList<ApplicationUser> gebruikers = await _userManager.GetUsersForClaimAsync(
-                new Claim("DokterNaam", dokterNaam));
-
-            return gebruikers.FirstOrDefault();
-        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeactiveerDokter(int id)
         {
-            Dokter? dokter = _dokterRepository.ZoekOpId(id);
+            Dokter? dokter = _unitOfWork.Dokters.ZoekOpId(id);
 
             if (dokter == null)
             {
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Dokters));
             }
 
             ApplicationUser? dokterUser = await ZoekDokterAccountOpNaam(dokter.Naam);
@@ -455,18 +456,18 @@ namespace Dokterspraktijk.WebUI.Controllers
             await _userManager.SetLockoutEnabledAsync(dokterUser, true);
             await _userManager.SetLockoutEndDateAsync(dokterUser, DateTimeOffset.UtcNow.AddYears(100));
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Dokters));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ActiveerDokter(int id)
         {
-            Dokter? dokter = _dokterRepository.ZoekOpId(id);
+            Dokter? dokter = _unitOfWork.Dokters.ZoekOpId(id);
 
             if (dokter == null)
             {
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Dokters));
             }
 
             ApplicationUser? dokterUser = await ZoekDokterAccountOpNaam(dokter.Naam);
@@ -478,7 +479,15 @@ namespace Dokterspraktijk.WebUI.Controllers
 
             await _userManager.SetLockoutEndDateAsync(dokterUser, null);
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Dokters));
+        }
+
+        private async Task<ApplicationUser?> ZoekDokterAccountOpNaam(string dokterNaam)
+        {
+            IList<ApplicationUser> gebruikers = await _userManager.GetUsersForClaimAsync(
+                new Claim("DokterNaam", dokterNaam));
+
+            return gebruikers.FirstOrDefault();
         }
 
         private async Task<bool> IsDokterAccountActief(string dokterNaam)

@@ -1,13 +1,10 @@
 ﻿using Dokterspraktijk.Application.Repositories;
 using Dokterspraktijk.Application.Services.Interfaces;
-using Dokterspraktijk.Infrastructure.Data;
 
-namespace Dokterspraktijk.Infrastructure.Repositories
+namespace Dokterspraktijk.Infrastructure.Fakes
 {
-    public class UnitOfWork : IUnitOfWork
+    public class FakeUnitOfWork : IUnitOfWork
     {
-        private AppDbContext _context;
-
         private IDokterRepository _dokterRepository;
         private IPatientRepository _patientRepository;
         private ITijdslotRepository _tijdslotRepository;
@@ -15,16 +12,20 @@ namespace Dokterspraktijk.Infrastructure.Repositories
         private IDoktersattestRepository _doktersattestRepository;
         private IAfspraakCategorieRepository _afspraakCategorieRepository;
 
-        public UnitOfWork(AppDbContext context)
+        public FakeUnitOfWork(
+            IDokterRepository dokterRepository,
+            IPatientRepository patientRepository,
+            ITijdslotRepository tijdslotRepository,
+            IAfspraakRepository afspraakRepository,
+            IDoktersattestRepository doktersattestRepository,
+            IAfspraakCategorieRepository afspraakCategorieRepository)
         {
-            _context = context;
-
-            _dokterRepository = new DokterRepository(context);
-            _patientRepository = new PatientRepository(context);
-            _tijdslotRepository = new TijdslotRepository(context);
-            _afspraakRepository = new AfspraakRepository(context);
-            _doktersattestRepository = new DoktersattestRepository(context);
-            _afspraakCategorieRepository = new AfspraakCategorieRepository(context);
+            _dokterRepository = dokterRepository;
+            _patientRepository = patientRepository;
+            _tijdslotRepository = tijdslotRepository;
+            _afspraakRepository = afspraakRepository;
+            _doktersattestRepository = doktersattestRepository;
+            _afspraakCategorieRepository = afspraakCategorieRepository;
         }
 
         public IDokterRepository Dokters => _dokterRepository;
@@ -41,7 +42,6 @@ namespace Dokterspraktijk.Infrastructure.Repositories
 
         public void SaveChanges()
         {
-            _context.SaveChanges();
         }
     }
 }

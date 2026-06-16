@@ -66,6 +66,13 @@ namespace Dokterspraktijk.WebUI.Data
                     new Claim("IsDokter", "true"),
                     new Claim("DokterNaam", "Okondo")
                 });
+            MaakGebruikerAanAlsNietBestaat(
+                userManager,
+                "hans.vandenbogaerde@gmail.be",
+                "Patient123!",
+                "Hans",
+                "Vandenbogaerde",
+                new List<Claim>());
         }
 
         private static void MaakGebruikerAanAlsNietBestaat(

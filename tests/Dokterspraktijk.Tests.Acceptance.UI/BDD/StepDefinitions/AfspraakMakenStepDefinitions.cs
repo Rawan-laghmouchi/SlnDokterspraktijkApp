@@ -1,7 +1,7 @@
 using Dokterspraktijk.Tests.Acceptance.UI.BDD.Support;
+using Dokterspraktijk.Tests.Acceptance.UI.BDD.Support.TestData;
 using Dokterspraktijk.Tests.Acceptance.UI.Shared.Pages;
 using Reqnroll;
-using Xunit;
 
 namespace Dokterspraktijk.Tests.Acceptance.UI.BDD.StepDefinitions
 {
@@ -16,6 +16,18 @@ namespace Dokterspraktijk.Tests.Acceptance.UI.BDD.StepDefinitions
             _context = context;
 
             _afspraakMakenPagina = new AfspraakMakenPagina(_context.Page!);
+        }
+
+        [Given("de patiënt is ingelogd met een bestaand account")]
+        public async Task GivenDePatientIsIngelogdMetEenBestaandAccount()
+        {
+            LoginPagina loginPagina = new LoginPagina(_context.Page!);
+
+            await loginPagina.OpenAsync(_context.BasisUrl);
+
+            await loginPagina.LoginAsync(
+                TestGebruikers.PatientEmail,
+                TestGebruikers.PatientWachtwoord);
         }
 
         [Given("de patiënt bevindt zich op de pagina om een afspraak te maken")]

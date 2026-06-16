@@ -1,5 +1,4 @@
 ﻿using Dokterspraktijk.Application.Dto_s;
-using Dokterspraktijk.Application.Repositories;
 using Dokterspraktijk.Application.Services.Interfaces;
 using Dokterspraktijk.Domain.Entities;
 
@@ -7,25 +6,22 @@ namespace Dokterspraktijk.Application.Services.Implementation
 {
     public class PatientService : IPatientService
     {
-        private IPatientRepository _patientRepository;
-        private IDokterRepository _dokterRepository;
-
-        public PatientService(IPatientRepository patientRepository, IDokterRepository dokterRepository)
+        private IUnitOfWork _unitOfWork;
+        public PatientService(IUnitOfWork unitOfWork)
         {
-            _patientRepository = patientRepository;
-            _dokterRepository = dokterRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public ResultaatDto StelVoorkeursdokterIn(string patientVoornaam, string patientAchternaam, string dokterNaam)
         {
-            Patient? patient = _patientRepository.ZoekOpNaam(patientVoornaam, patientAchternaam);
+            Patient? patient = _unitOfWork.Patienten.ZoekOpNaam(patientVoornaam, patientAchternaam);
 
             if (patient == null)
             {
                 return ResultaatDto.Mislukt("De patiënt werd niet gevonden.");
             }
 
-            Dokter? dokter = _dokterRepository.ZoekOpNaam(dokterNaam);
+            Dokter? dokter = _unitOfWork.Dokters.ZoekOpNaam(dokterNaam);
 
             if (dokter == null)
             {
@@ -33,14 +29,14 @@ namespace Dokterspraktijk.Application.Services.Implementation
             }
 
             patient.VoorkeursdokterId = dokter.Id;
-            _patientRepository.WerkBij(patient);
+            _unitOfWork.Patienten.WerkBij(patient);
 
             return ResultaatDto.Succes("De voorkeursdokter werd ingesteld.");
         }
 
         public string? GeefVoorkeursdokter(string patientVoornaam, string patientAchternaam)
         {
-            Patient? patient = _patientRepository.ZoekOpNaam(patientVoornaam, patientAchternaam);
+            Patient? patient = _unitOfWork.Patienten.ZoekOpNaam(patientVoornaam, patientAchternaam);
 
             if (patient == null)
             {
@@ -52,7 +48,7 @@ namespace Dokterspraktijk.Application.Services.Implementation
                 return null;
             }
 
-            Dokter? dokter = _dokterRepository.ZoekOpId(patient.VoorkeursdokterId.Value);
+            Dokter? dokter = _unitOfWork.Dokters.ZoekOpId(patient.VoorkeursdokterId.Value);
 
             if (dokter == null)
             {

@@ -133,8 +133,8 @@ namespace Dokterspraktijk.Tests.BDD.StepDefinitions
         [Given(@"dokter (.*) heeft een afspraak met status ""Afgerond""")]
         public void GivenDokterHeeftEenAfspraakMetStatusAfgerond(string dokterNaam)
         {
-            string patientVoornaam = "Rawan";
-            string patientAchternaam = "Laghmouchi";
+            string patientVoornaam = "Sara";
+            string patientAchternaam = "Peeters";
             DateOnly datum = new DateOnly(2026, 5, 10);
             TimeOnly tijd = new TimeOnly(10, 30);
 

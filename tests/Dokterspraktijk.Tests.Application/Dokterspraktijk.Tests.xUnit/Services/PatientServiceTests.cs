@@ -12,8 +12,8 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             // Arrange
             DokterspraktijkServiceTestContext context = new DokterspraktijkServiceTestContext();
 
-            string patientVoornaam = "Rawan";
-            string patientAchternaam = "Laghmouchi";
+            string patientVoornaam = "Sara";
+            string patientAchternaam = "Peeters";
             string dokterNaam = "Timmermans";
 
             // Act
@@ -63,8 +63,8 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             // Arrange
             DokterspraktijkServiceTestContext context = new DokterspraktijkServiceTestContext();
 
-            string patientVoornaam = "Rawan";
-            string patientAchternaam = "Laghmouchi";
+            string patientVoornaam = "Sara";
+            string patientAchternaam = "Peeters";
             string dokterNaam = "Timmermans";
 
             ResultaatDto resultaat = context.PatientService.StelVoorkeursdokterIn(
@@ -89,8 +89,8 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             // Arrange
             DokterspraktijkServiceTestContext context = new DokterspraktijkServiceTestContext();
 
-            string patientVoornaam = "Rawan";
-            string patientAchternaam = "Laghmouchi";
+            string patientVoornaam = "Sara";
+            string patientAchternaam = "Peeters";
 
             // Act
             string? voorkeursdokter = context.PatientService.GeefVoorkeursdokter(

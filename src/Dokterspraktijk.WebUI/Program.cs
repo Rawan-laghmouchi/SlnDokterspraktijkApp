@@ -56,6 +56,8 @@ builder.Services.AddScoped<IAfspraakRepository, AfspraakRepository>();
 builder.Services.AddScoped<IDoktersattestRepository, DoktersattestRepository>();
 builder.Services.AddScoped<IAfspraakCategorieRepository, AfspraakCategorieRepository>();
 
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
 // application services
 builder.Services.AddScoped<ITijdslotService, TijdslotService>();
 builder.Services.AddScoped<IAfspraakService, AfspraakService>();

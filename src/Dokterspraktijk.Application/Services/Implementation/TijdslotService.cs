@@ -1,35 +1,27 @@
 ﻿using Dokterspraktijk.Application.Dto_s;
-using Dokterspraktijk.Application.Repositories;
 using Dokterspraktijk.Application.Services.Interfaces;
 using Dokterspraktijk.Domain.Entities;
 using Dokterspraktijk.Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Dokterspraktijk.Application.Services.Implementation
 {
     public class TijdslotService : ITijdslotService
     {
-        private IDokterRepository _dokterRepository;
-        private ITijdslotRepository _tijdslotRepository;
-
-        public TijdslotService(IDokterRepository dokterRepository, ITijdslotRepository tijdslotRepository) 
+        private IUnitOfWork _unitOfWork;
+        public TijdslotService(IUnitOfWork unitOfWork)
         {
-            _dokterRepository = dokterRepository;
-            _tijdslotRepository = tijdslotRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public List<TijdslotDto> RaadpleegTijdsloten(string dokterNaam, DateOnly datum)
         {
-            Dokter? dokter = _dokterRepository.ZoekOpNaam(dokterNaam);
+            Dokter? dokter = _unitOfWork.Dokters.ZoekOpNaam(dokterNaam);
             if (dokter == null)
             {
                 return new List<TijdslotDto>();
             }
-            List<Tijdslot> tijdsloten = _tijdslotRepository.GeefTijdslotenVoorDokterOpDatum(dokter.Id, datum);
+            List<Tijdslot> tijdsloten = _unitOfWork.Tijdsloten.GeefTijdslotenVoorDokterOpDatum(dokter.Id, datum);
             List<TijdslotDto> resultaat = new List<TijdslotDto>();
 
             foreach (Tijdslot tijdslot in tijdsloten)
@@ -40,7 +32,7 @@ namespace Dokterspraktijk.Application.Services.Implementation
                     DokterNaam = dokter.Naam,
                     Datum = tijdslot.Datum,
                     Tijd = tijdslot.Tijd,
-                    Status = VertaalTijdslotStatus(tijdslot.Status) // nog bekijken
+                    Status = VertaalTijdslotStatus(tijdslot.Status)
                 });
             }
             return resultaat;

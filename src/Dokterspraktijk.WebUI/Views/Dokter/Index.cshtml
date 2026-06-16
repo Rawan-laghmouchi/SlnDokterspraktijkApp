@@ -1,6 +1,4 @@
-﻿@using Dokterspraktijk.Application.Dto_s
-@using Dokterspraktijk.WebUI.ViewModels
-@model DokterDashboardViewModel
+﻿@model DokterDashboardViewModel
 
 @{
 	ViewData["Title"] = "Dokteromgeving";
@@ -153,25 +151,8 @@
 										   class="btn btn-sm btn-outline-primary rounded-pill px-3">
 											Details
 										</a>
-
-										<form asp-controller="Dokter"
-											  asp-action="Afronden"
-											  asp-route-id="@afspraak.Id"
-											  method="post">
-											<button type="submit" class="btn btn-sm btn-primary rounded-pill px-3">
-												Afronden
-											</button>
-										</form>
-
-										<form asp-controller="Dokter"
-											  asp-action="Annuleren"
-											  asp-route-id="@afspraak.Id"
-											  method="post">
-											<button type="submit" class="btn btn-sm btn-outline-danger rounded-pill px-3">
-												Annuleren
-											</button>
-										</form>
 									</div>
+									
 								</div>
 							</div>
 						}

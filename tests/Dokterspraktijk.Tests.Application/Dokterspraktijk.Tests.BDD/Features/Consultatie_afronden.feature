@@ -1,4 +1,4 @@
-﻿Feature: Een Consultatie afronden
+﻿Feature: Een consultatie afronden
 
 Als dokter
 wil ik een consultatie kunnen afronden
@@ -6,7 +6,7 @@ zodat de afspraak de juiste status krijgt en vervolgacties mogelijk worden
 
 @tag1
 Scenario: Een dokter rondt een geplande consultatie af
-	Given dokter Timmermans heeft een geplande afspraak met patiënt Rawan Laghmouchi op 15-05-2026 om 10:30
+	Given dokter Timmermans heeft een geplande afspraak met patiënt Sara Peeters op 15-07-2026 om 10:30
 	When dokter Timmermans de consultatie afrondt 
 	Then krijgt de afspraak de status "Afgerond"
 

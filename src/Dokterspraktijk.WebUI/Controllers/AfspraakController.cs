@@ -20,28 +20,22 @@ namespace Dokterspraktijk.WebUI.Controllers
     {
         private IAfspraakService _afspraakService;
         private ITijdslotService _tijdslotService;
-        private IDokterRepository _dokterRepository;
-        private IAfspraakCategorieRepository _afspraakCategorieRepository;
         private IDoktersattestService _doktersattestService;
-        private IPatientRepository _patientRepository;
         private UserManager<ApplicationUser> _userManager;
+        private IUnitOfWork _unitOfWork;
 
         public AfspraakController(
             IAfspraakService afspraakService,
             ITijdslotService tijdslotService,
-            IDokterRepository dokterRepository,
-            IPatientRepository patientRepository,
-            IAfspraakCategorieRepository afspraakCategorieRepository,
             IDoktersattestService doktersattestService,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            IUnitOfWork unitOfWork)
         {
             _afspraakService = afspraakService;
             _tijdslotService = tijdslotService;
-            _dokterRepository = dokterRepository;
-            _patientRepository = patientRepository;
-            _afspraakCategorieRepository = afspraakCategorieRepository;
             _doktersattestService = doktersattestService;
             _userManager = userManager;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
@@ -63,13 +57,15 @@ namespace Dokterspraktijk.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(AfspraakCreateViewModel model)
         {
-            await VulPatientGegevensIn(model);
+            ApplicationUser user = await _userManager.GetUserAsync(User)
+                ?? throw new InvalidOperationException("Een afspraak maken kan enkel met een account.");
 
-            ModelState.Remove(nameof(model.PatientVoornaam));
-            ModelState.Remove(nameof(model.PatientAchternaam));
+            string email = user.Email
+                ?? throw new InvalidOperationException("Het account heeft geen e-mailadres.");
+
+            model.Email = email;
+
             ModelState.Remove(nameof(model.Email));
-            ModelState.Remove(nameof(model.Telefoonnummer));
-            ModelState.Remove(nameof(model.Rijksregisternummer));
             ModelState.Remove(nameof(model.PatientGegevensZijnVoorafIngevuld));
 
             VulKeuzelijsten(model);
@@ -81,19 +77,24 @@ namespace Dokterspraktijk.WebUI.Controllers
 
             if (model.Datum < DateOnly.FromDateTime(DateTime.Today))
             {
+                ModelState.AddModelError(nameof(model.Datum), "Je kan geen afspraak maken in het verleden.");
                 return View(model);
             }
 
             if (model.Datum.DayOfWeek == DayOfWeek.Saturday ||
                 model.Datum.DayOfWeek == DayOfWeek.Sunday)
             {
+                ModelState.AddModelError(nameof(model.Datum), "Je kan enkel een afspraak maken op een werkdag.");
                 return View(model);
             }
 
             if (model.Tijd == default)
             {
+                ModelState.AddModelError(nameof(model.Tijd), "Kies een beschikbaar tijdslot.");
                 return View(model);
             }
+
+            await WerkAccountGegevensBij(user, model);
 
             ResultaatDto resultaat = _afspraakService.MaakAfspraak(
                 model.PatientVoornaam,
@@ -112,12 +113,14 @@ namespace Dokterspraktijk.WebUI.Controllers
                 return View(model);
             }
 
-            AfspraakDto? afspraak = _afspraakService.ZoekAfspraak(
-                model.PatientVoornaam,
-                model.PatientAchternaam,
-                model.DokterNaam,
-                model.Datum,
-                model.Tijd);
+            AfspraakDto? afspraak = _afspraakService.GeefAlleAfspraken()
+             .Where(afspraak =>
+                 string.Equals(afspraak.PatientEmail, model.Email, StringComparison.OrdinalIgnoreCase) &&
+                 afspraak.DokterNaam == model.DokterNaam &&
+                 afspraak.Datum == model.Datum &&
+                 afspraak.Tijd == model.Tijd)
+             .OrderByDescending(afspraak => afspraak.Id)
+             .FirstOrDefault();
 
             if (afspraak == null)
             {
@@ -147,11 +150,23 @@ namespace Dokterspraktijk.WebUI.Controllers
         }
         private void VulKeuzelijsten(AfspraakCreateViewModel model)
         {
-            model.Dokters = _dokterRepository.GeefAlleDokters()
+            model.MinimumDatum = DateOnly
+                .FromDateTime(DateTime.Today)
+                .ToString("yyyy-MM-dd");
+
+            model.Dokters = _unitOfWork.Dokters.GeefAlleDokters()
                 .Select(dokter => new DokterKeuzeViewModel
                 {
                     Naam = dokter.Naam,
                     Specialisatie = dokter.Specialisatie
+                })
+                .ToList();
+
+            model.AfspraakCategorieen = _unitOfWork.AfspraakCategorieen.GeefAlleCategorieen()
+                .Select(categorie => new AfspraakCategorieViewModel
+                {
+                    Id = categorie.Id,
+                    Naam = categorie.Naam
                 })
                 .ToList();
 
@@ -188,7 +203,7 @@ namespace Dokterspraktijk.WebUI.Controllers
                 bool tijdslotMagGetoondWorden = true;
 
                 if (bestaandTijdslot != null &&
-                    bestaandTijdslot.Status != "beschikbaar")
+                !string.Equals(bestaandTijdslot.Status, "beschikbaar", StringComparison.OrdinalIgnoreCase))
                 {
                     tijdslotMagGetoondWorden = false;
                 }
@@ -204,13 +219,7 @@ namespace Dokterspraktijk.WebUI.Controllers
 
                 tijd = tijd.AddMinutes(30);
             }
-            model.AfspraakCategorieen = _afspraakCategorieRepository.GeefAlleCategorieen()
-                .Select(categorie => new AfspraakCategorieViewModel
-            {
-                Id = categorie.Id,
-                Naam = categorie.Naam
-            })
-            .ToList();
+            
         }
 
         [HttpGet]
@@ -373,7 +382,7 @@ namespace Dokterspraktijk.WebUI.Controllers
             string email = user.Email
                 ?? throw new InvalidOperationException("Het account heeft geen e-mailadres.");
 
-            Patient? patient = _patientRepository.ZoekOpEmail(email);
+            Patient? patient = _unitOfWork.Patienten.ZoekOpEmail(email);
 
             if (patient != null)
             {
@@ -392,6 +401,35 @@ namespace Dokterspraktijk.WebUI.Controllers
             model.Email = email;
             model.Telefoonnummer = user.PhoneNumber ?? string.Empty;
             model.PatientGegevensZijnVoorafIngevuld = false;
+        }
+        private async Task WerkAccountGegevensBij(
+            ApplicationUser user,
+            AfspraakCreateViewModel model)
+        {
+            bool accountMoetBijgewerktWorden = false;
+
+            if (user.Voornaam != model.PatientVoornaam)
+            {
+                user.Voornaam = model.PatientVoornaam;
+                accountMoetBijgewerktWorden = true;
+            }
+
+            if (user.Achternaam != model.PatientAchternaam)
+            {
+                user.Achternaam = model.PatientAchternaam;
+                accountMoetBijgewerktWorden = true;
+            }
+
+            if (user.PhoneNumber != model.Telefoonnummer)
+            {
+                user.PhoneNumber = model.Telefoonnummer;
+                accountMoetBijgewerktWorden = true;
+            }
+
+            if (accountMoetBijgewerktWorden)
+            {
+                await _userManager.UpdateAsync(user);
+            }
         }
     }
 }

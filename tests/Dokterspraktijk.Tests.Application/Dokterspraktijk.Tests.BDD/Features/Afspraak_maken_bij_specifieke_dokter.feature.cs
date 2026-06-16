@@ -158,11 +158,11 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             {
                 await this.ScenarioStartAsync();
 #line 9
- await testRunner.GivenAsync("dokter Timmermans heeft op 15-05-2026 een beschikbaar tijdslot om 10:30", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+ await testRunner.GivenAsync("dokter Timmermans heeft op 15-07-2026 een beschikbaar tijdslot om 10:30", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 10
- await testRunner.WhenAsync("patiënt Rawan Laghmouchi een afspraak bij dokter Timmermans op 15-05-2026 om 10:3" +
-                        "0 voor een consultatie", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+ await testRunner.WhenAsync("patiënt Sara Peeters een afspraak maakt bij dokter Timmermans op 15-07-2026 om 10" +
+                        ":30 voor een consultatie", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 11
  await testRunner.ThenAsync("wordt de afspraak geregistreerd", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -196,11 +196,11 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             {
                 await this.ScenarioStartAsync();
 #line 15
- await testRunner.GivenAsync("dokter Timmermans heeft op 15-05-2026 een niet-beschikbaar tijdslot om 09:30", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+ await testRunner.GivenAsync("dokter Timmermans heeft op 15-07-2026 een niet-beschikbaar tijdslot om 09:30", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 16
- await testRunner.WhenAsync("patiënt Rawan Laghmouchi een afspraak probeert te maken bij dokter Timmermans op " +
-                        "15-05-2026 om 09:30 voor een consultatie", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+ await testRunner.WhenAsync("patiënt Sara Peeters een afspraak probeert te maken bij dokter Timmermans op 15-0" +
+                        "7-2026 om 09:30 voor een consultatie", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 17
  await testRunner.ThenAsync("wordt de afspraak geweigerd", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");

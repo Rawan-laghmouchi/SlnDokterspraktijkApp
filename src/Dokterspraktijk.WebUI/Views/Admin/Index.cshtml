@@ -1,484 +1,480 @@
 ﻿@model AdminDashboardViewModel
 
 @{
-    ViewData["Title"] = "Adminomgeving";
+	ViewData["Title"] = "Adminomgeving";
 }
 
 <main class="container app-container py-4">
 
-    <section id="adminHome" class="home-hero p-4 p-lg-5 mb-4">
-        <div class="row align-items-center gy-4">
-            <div class="col-12 col-lg-9">
-                <span class="badge rounded-pill bg-light text-dark px-3 py-2 mb-3">
-                    Adminomgeving
-                </span>
+	<section id="adminHome" class="home-hero p-4 p-lg-5 mb-4">
+		<div class="row align-items-center gy-4">
+			<div class="col-12 col-lg-9">
+				<span class="badge rounded-pill bg-light text-dark px-3 py-2 mb-3">
+					Adminomgeving
+				</span>
 
-                <h1 class="display-6 fw-bold mb-3">
-                    Welkom, @Model.AdminNaam
-                </h1>
+				<h1 class="display-6 fw-bold mb-3">
+					Welkom, @Model.AdminNaam
+				</h1>
 
-                <p class="lead mb-0">
-                    Beheer dokters, raadpleeg afspraken per dokter en volg patiëntenaccounts op vanuit één centrale omgeving.
-                </p>
-            </div>
-        </div>
-    </section>
+				<p class="lead mb-0">
+					Beheer dokters, raadpleeg afspraken per dokter en volg patiëntenaccounts op vanuit één centrale omgeving.
+				</p>
+			</div>
+		</div>
+	</section>
 
-   <section class="row g-3 mb-4">
+	<section class="row g-3 mb-4">
 
-    <div class="col-12 col-md-3">
-        <div class="home-soft-card py-3 px-4 text-center h-100">
-            <div class="h3 fw-bold admin-stat-number mb-0">
-                @Model.AantalDokters
-            </div>
+		<div class="col-12 col-md-3">
+			<div class="home-soft-card py-3 px-4 text-center h-100">
+				<div class="h3 fw-bold admin-stat-number mb-0">
+					@Model.AantalDokters
+				</div>
 
-            <p class="text-secondary small mb-0">
-                Dokters actief
-            </p>
-        </div>
-    </div>
+				<p class="text-secondary small mb-0">
+					Dokters actief
+				</p>
+			</div>
+		</div>
 
-    <div class="col-12 col-md-3">
-        <div class="home-soft-card py-3 px-4 text-center h-100">
-            <div class="h3 fw-bold admin-stat-number mb-0">
-                @Model.AantalAfsprakenDezeWeek
-            </div>
+		<div class="col-12 col-md-3">
+			<div class="home-soft-card py-3 px-4 text-center h-100">
+				<div class="h3 fw-bold admin-stat-number mb-0">
+					@Model.AantalAfsprakenDezeWeek
+				</div>
 
-            <p class="text-secondary small mb-0">
-                Afspraken deze week
-            </p>
-        </div>
-    </div>
+				<p class="text-secondary small mb-0">
+					Afspraken deze week
+				</p>
+			</div>
+		</div>
 
-    <div class="col-12 col-md-3">
-        <div class="home-soft-card py-3 px-4 text-center h-100">
-            <div class="h3 fw-bold admin-stat-number mb-0">
-                @Model.AantalPatienten
-            </div>
+		<div class="col-12 col-md-3">
+			<div class="home-soft-card py-3 px-4 text-center h-100">
+				<div class="h3 fw-bold admin-stat-number mb-0">
+					@Model.AantalPatienten
+				</div>
 
-            <p class="text-secondary small mb-0">
-                Patiëntenaccounts
-            </p>
-        </div>
-    </div>
+				<p class="text-secondary small mb-0">
+					Patiëntenaccounts
+				</p>
+			</div>
+		</div>
 
-    <div class="col-12 col-md-3">
-        <div class="home-soft-card py-3 px-4 text-center h-100">
-            <div class="h3 fw-bold admin-stat-number mb-0">
-                @Model.AantalAfsprakenVandaag
-            </div>
+		<div class="col-12 col-md-3">
+			<div class="home-soft-card py-3 px-4 text-center h-100">
+				<div class="h3 fw-bold admin-stat-number mb-0">
+					@Model.AantalAfsprakenVandaag
+				</div>
 
-            <p class="text-secondary small mb-0">
-                Afspraken vandaag
-            </p>
-        </div>
-    </div>
+				<p class="text-secondary small mb-0">
+					Afspraken vandaag
+				</p>
+			</div>
+		</div>
 
-</section>
+	</section>
 
-<section id="doktersBeheren" class="home-soft-card p-3 mb-4">
-    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-start gap-3 mb-3">
-        <div>
-            <h2 class="h4 fw-bold text-dark mb-1">
-                Dokters beheren
-            </h2>
+	<section id="doktersBeheren" class="home-soft-card p-3 mb-4">
+		<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-start gap-3 mb-3">
+			<div>
+				<h2 class="h4 fw-bold text-dark mb-1">
+					Dokters beheren
+				</h2>
 
-            <p class="text-secondary small mb-0">
-                Admin kan dokters toevoegen, wijzigen en hun planning openen.
-            </p>
-        </div>
+				<p class="text-secondary small mb-0">
+					Admin kan dokters toevoegen, wijzigen en hun planning openen.
+				</p>
+			</div>
 
-        <a asp-controller="Admin"
-           asp-action="CreateDokter"
-           class="btn btn-appointment-filled btn-sm rounded-pill px-4">
-            <i class="bi bi-plus-lg me-1"></i>
-            Nieuwe dokter toevoegen
-        </a>
-    </div>
+			<a asp-controller="Admin"
+			   asp-action="CreateDokter"
+			   class="btn btn-appointment-filled btn-sm rounded-pill px-4">
+				<i class="bi bi-plus-lg me-1"></i>
+				Nieuwe dokter toevoegen
+			</a>
+		</div>
 
-    @if (Model.Dokters.Count == 0)
-    {
-        <div class="alert alert-info rounded-4 mb-0">
-            Er zijn nog geen dokters geregistreerd.
-        </div>
-    }
-    else
-    {
-        <div class="table-responsive">
-            <table class="table table-sm align-middle mb-0">
-                <thead>
-                    <tr>
-                        <th>Naam</th>
-                        <th>Specialisatie</th>
-                        <th>Status</th>
-                        <th>Actie</th>
-                    </tr>
-                </thead>
+		@if (Model.Dokters.Count == 0)
+		{
+			<div class="alert alert-info rounded-4 mb-0">
+				Er zijn nog geen dokters geregistreerd.
+			</div>
+		}
+		else
+		{
+			<div class="table-responsive">
+				<table class="table table-sm align-middle mb-0">
+					<thead>
+						<tr>
+							<th>Naam</th>
+							<th>Specialisatie</th>
+							<th>Status</th>
+							<th>Actie</th>
+						</tr>
+					</thead>
 
-                <tbody>
-                    @foreach (DokterOverzichtViewModel dokter in Model.Dokters)
-                    {
-                        <tr>
-                            <td class="fw-semibold">
-                                Dr. @dokter.Naam
-                            </td>
+					<tbody>
+						@foreach (DokterOverzichtViewModel dokter in Model.Dokters)
+						{
+							<tr>
+								<td class="fw-semibold">
+									Dr. @dokter.Naam
+								</td>
 
-                            <td>
-                                @dokter.Specialisatie
-                            </td>
+								<td>
+									@dokter.Specialisatie
+								</td>
 
-                            <td>
-                                @if (dokter.IsActief)
-                                {
-                                    <span class="status-pill status-active">
-                                        Actief
-                                    </span>
-                                }
-                                else
-                                {
-                                    <span class="status-pill status-danger">
-                                        Gedeactiveerd
-                                    </span>
-                                }
-                            </td>
+								<td>
+									@if (dokter.IsActief)
+									{
+										<span class="status-pill status-active">
+											Actief
+										</span>
+									}
+									else
+									{
+										<span class="status-pill status-danger">
+											Gedeactiveerd
+										</span>
+									}
+								</td>
 
-                            <td>
-                                <div class="d-flex gap-2 flex-wrap">
-                                    <a asp-controller="Admin"
-                                       asp-action="EditDokter"
-                                       asp-route-id="@dokter.Id"
-                                       class="btn btn-sm btn-outline-primary rounded-pill px-3">
-                                        Bewerken
-                                    </a>
-
-                                    <a asp-controller="Admin"
-                                       asp-action="DokterPlanning"
-                                       asp-route-dokterId="@dokter.Id"
-                                       class="btn btn-sm btn-outline-primary rounded-pill px-3">
-                                        Planning
-                                    </a>
-
-                                    @if (dokter.IsActief)
-                                    {
-                                        <form asp-controller="Admin"
-                                              asp-action="DeactiveerDokter"
-                                              asp-route-id="@dokter.Id"
-                                              method="post"
-                                              class="d-inline">
-                                            @Html.AntiForgeryToken()
-
-                                            <button type="submit"
-                                                    class="btn btn-sm btn-outline-danger rounded-pill px-3">
-                                                Deactiveren
-                                            </button>
-                                        </form>
-                                    }
-                                    else
-                                    {
-                                        <form asp-controller="Admin"
-                                              asp-action="ActiveerDokter"
-                                              asp-route-id="@dokter.Id"
-                                              method="post"
-                                              class="d-inline">
-                                            @Html.AntiForgeryToken()
-
-                                            <button type="submit"
-                                                    class="btn btn-sm btn-outline-primary rounded-pill px-3">
-                                                Activeren
-                                            </button>
-                                        </form>
-                                    }
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    }
-</section>
-
-<section id="afsprakenOverzicht" class="home-soft-card p-4 mb-4">
-    <div class="d-flex flex-column flex-xl-row justify-content-between align-items-start gap-3 mb-4">
-        <div>
-            <h2 class="h4 fw-bold text-dark mb-1">
-                Afsprakenoverzicht
-            </h2>
-
-            <p class="text-secondary mb-0">
-                Bekijk welke afspraken een dokter op een gekozen dag heeft.
-            </p>
-        </div>
-
-        <form asp-controller="Admin"
-              asp-action="Index"
-              method="get"
-              class="d-flex flex-column gap-2 admin-appointment-filter">
-
-            <select name="dokterId"
-                    class="form-select appointment-filter-select"
-                    onchange="this.form.submit()">
-
-                <option value="">Alle dokters</option>
-
-                @foreach (DokterOverzichtViewModel dokter in Model.Dokters)
-                {
-                    if (Model.GekozenDokterId == dokter.Id)
-                    {
-                        <option value="@dokter.Id" selected>
-                            Dokter: @dokter.Naam
-                        </option>
-                    }
-                    else
-                    {
-                        <option value="@dokter.Id">
-                            Dokter: @dokter.Naam
-                        </option>
-                    }
-                }
-            </select>
-
-            <input type="date"
-                   name="datum"
-                   value="@Model.GekozenDatum.ToString("yyyy-MM-dd")"
-                   class="form-control rounded-pill px-4 admin-date-input"
-                   onchange="this.form.submit()" />
-        </form>
-    </div>
-
-    @if (Model.AfsprakenVandaag.Count == 0)
-    {
-        <div class="alert alert-info rounded-4 mb-0">
-            Er zijn geen afspraken gevonden voor de gekozen dokter en datum.
-        </div>
-    }
-    else
-    {
-        <div class="row g-4 align-items-start">
-            <div class="col-12 col-lg-4">
-                <div class="bg-light border rounded-4 p-4">
-                    <div class="d-flex align-items-center gap-3 mb-4">
-                        <span class="home-icon-circle">
-                            <i class="bi bi-calendar-day"></i>
-                        </span>
-
-                        <div>
-                            <div class="fw-bold">
-                                @Model.GekozenDatum.ToString("dd/MM/yyyy")
-                            </div>
-
-                            <div class="text-secondary">
-                                Gekozen dagplanning
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mb-4">
-                        <div class="fw-bold admin-stat-number">
-                            @Model.AfsprakenVandaag.Count afspraken
-                        </div>
-
-                        <div class="text-secondary">
-                            Raadpleeg de afspraken voor de gekozen dokter en datum.
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-12 col-lg-8">
-                <div class="table-responsive">
-                    <table class="table align-middle mb-0">
-                        <thead>
-                            <tr>
-                                <th>Tijd</th>
-                                <th>Patiënt</th>
-                                <th>Reden</th>
-                                <th>Status</th>
-                                <th>Actie</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            @foreach (AfspraakDto afspraak in Model.AfsprakenVandaag)
-                            {
-                                <tr>
-                                    <td class="fw-bold admin-stat-number">
-                                        @afspraak.Tijd.ToString("HH:mm")
-                                    </td>
-
-                                    <td>
-                                        @afspraak.PatientVoornaam @afspraak.PatientAchternaam
-                                    </td>
-
-                                    <td>
-                                        @afspraak.Reden
-                                    </td>
-
-                                    <td>
-                                        @if (afspraak.Status == "Gepland")
-                                        {
-                                            <span class="status-pill status-active">
-                                                Gepland
-                                            </span>
-                                        }
-                                        else if (afspraak.Status == "Afgerond")
-                                        {
-                                            <span class="status-pill status-warning">
-                                                Afgerond
-                                            </span>
-                                        }
-                                        else
-                                        {
-                                            <span class="status-pill status-danger">
-                                                @afspraak.Status
-                                            </span>
-                                        }
-                                    </td>
-
-                                    <td>
-                                        <a asp-controller="Admin"
-											asp-action="AfspraakDetails"
-											asp-route-id="@afspraak.Id"
-											class="btn btn-sm btn-outline-primary rounded-pill px-3">
-												Details
+								<td>
+									<div class="d-flex gap-2 flex-wrap">
+										<a asp-controller="Admin"
+										   asp-action="EditDokter"
+										   asp-route-id="@dokter.Id"
+										   class="btn btn-sm btn-outline-primary rounded-pill px-3">
+											Bewerken
 										</a>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    }
-</section>
 
-    <section id="patientenAccounts" class="home-soft-card p-4 mb-5">
-    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
-        <div>
-            <h2 class="h4 fw-bold text-dark mb-1">
-                Patiëntenaccounts
-            </h2>
+										<a asp-controller="Admin"
+										   asp-action="DokterPlanning"
+										   asp-route-dokterId="@dokter.Id"
+										   class="btn btn-sm btn-outline-primary rounded-pill px-3">
+											Planning
+										</a>
 
-            <p class="text-secondary mb-0">
-                Overzicht van patiënten en gekoppelde accounts.
-            </p>
-        </div>
+										@if (dokter.IsActief)
+										{
+											<form asp-controller="Admin"
+												  asp-action="DeactiveerDokter"
+												  asp-route-id="@dokter.Id"
+												  method="post"
+												  class="d-inline">
 
-        <form asp-controller="Admin"
-      asp-action="Index"
-      method="get"
-      class="d-flex gap-2">
+												<button type="submit"
+														class="btn btn-sm btn-outline-danger rounded-pill px-3">
+													Deactiveren
+												</button>
+											</form>
+										}
+										else
+										{
+											<form asp-controller="Admin"
+												  asp-action="ActiveerDokter"
+												  asp-route-id="@dokter.Id"
+												  method="post"
+												  class="d-inline">
 
-    <input type="hidden"
-           name="dokterId"
-           value="@Model.GekozenDokterId" />
+												<button type="submit"
+														class="btn btn-sm btn-outline-primary rounded-pill px-3">
+													Activeren
+												</button>
+											</form>
+										}
+									</div>
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		}
+	</section>
 
-    <input type="hidden"
-           name="datum"
-           value="@Model.GekozenDatum.ToString("yyyy-MM-dd")" />
+	<section id="afsprakenOverzicht" class="home-soft-card p-4 mb-4">
+		<div class="d-flex flex-column flex-xl-row justify-content-between align-items-start gap-3 mb-4">
+			<div>
+				<h2 class="h4 fw-bold text-dark mb-1">
+					Afsprakenoverzicht
+				</h2>
 
-    <input name="zoektermPatient"
-           value="@Model.ZoektermPatient"
-           class="form-control form-control-lg"
-           placeholder="Zoek patiënt..." />
+				<p class="text-secondary mb-0">
+					Bekijk welke afspraken een dokter op een gekozen dag heeft.
+				</p>
+			</div>
 
-    <button type="submit"
-        class="btn btn-appointment-search rounded-pill px-4 py-2 fw-semibold">
-    Zoeken
-</button>
-</form>
-    </div>
+			<form asp-controller="Admin"
+				  asp-action="Index"
+				  method="get"
+				  class="d-flex flex-column gap-2 admin-appointment-filter">
 
-@if (Model.Patienten.Count == 0)
-	{
-    <div class="alert alert-info rounded-4 mb-0">
-        Er werden geen patiënten gevonden.
-    </div>
-}
-    else
-    {
-        <div class="table-responsive">
-            <table class="table align-middle mb-0">
-                <thead>
-                    <tr>
-                        <th>Patiënt</th>
-						<th>E-mail</th>
-						<th>Telefoon</th>
-						<th>Accountstatus</th>
-						<th>Actie</th>
-                    </tr>
-                </thead>
+				<select name="dokterId"
+						class="form-select appointment-filter-select"
+						onchange="this.form.submit()">
 
-                <tbody>
-    @foreach (PatientAccountViewModel patient in Model.Patienten)
-    {
-        <tr>
-            <td class="fw-semibold">
-                @patient.Voornaam @patient.Achternaam
-            </td>
+					<option value="">Alle dokters</option>
 
-            <td>
-                @patient.Email
-            </td>
+					@foreach (DokterOverzichtViewModel dokter in Model.Dokters)
+					{
+						if (Model.GekozenDokterId == dokter.Id)
+						{
+							<option value="@dokter.Id" selected>
+								Dokter: @dokter.Naam
+							</option>
+						}
+						else
+						{
+							<option value="@dokter.Id">
+								Dokter: @dokter.Naam
+							</option>
+						}
+					}
+				</select>
 
-            <td>
-                @patient.Telefoonnummer
-            </td>
+				<input type="date"
+					   name="datum"
+					   value="@Model.GekozenDatum.ToString("yyyy-MM-dd")"
+					   class="form-control rounded-pill px-4 admin-date-input"
+					   onchange="this.form.submit()" />
+			</form>
+		</div>
 
-            <td>
-                @if (patient.IsAccountActief)
-                {
-                    <span class="status-pill status-active">
-                        Actief
-                    </span>
-                }
-                else
-                {
-                    <span class="status-pill status-danger">
-                        Gedeactiveerd
-                    </span>
-                }
-            </td>
+		@if (Model.AfsprakenVandaag.Count == 0)
+		{
+			<div class="alert alert-info rounded-4 mb-0">
+				Er zijn geen afspraken gevonden voor de gekozen dokter en datum.
+			</div>
+		}
+		else
+		{
+			<div class="row g-4 align-items-start">
+				<div class="col-12 col-lg-4">
+					<div class="bg-light border rounded-4 p-4">
+						<div class="d-flex align-items-center gap-3 mb-4">
+							<span class="home-icon-circle">
+								<i class="bi bi-calendar-day"></i>
+							</span>
 
-            <td>
-                @if (patient.IsAccountActief)
-                {
-                    <form asp-controller="Admin"
-                          asp-action="DeactiveerPatientAccount"
-                          asp-route-id="@patient.Id"
-                          method="post"
-                          class="d-inline">
-                        @Html.AntiForgeryToken()
+							<div>
+								<div class="fw-bold">
+									@Model.GekozenDatum.ToString("dd/MM/yyyy")
+								</div>
 
-                        <button type="submit"
-                                class="btn btn-sm btn-outline-danger rounded-pill px-3">
-                            Deactiveren
-                        </button>
-                    </form>
-                }
-                else
-                {
-                    <form asp-controller="Admin"
-                          asp-action="ActiveerPatientAccount"
-                          asp-route-id="@patient.Id"
-                          method="post"
-                          class="d-inline">
-                        @Html.AntiForgeryToken()
+								<div class="text-secondary">
+									Gekozen dagplanning
+								</div>
+							</div>
+						</div>
 
-                        <button type="submit"
-                                class="btn btn-sm btn-outline-primary rounded-pill px-3">
-                            Activeren
-                        </button>
-                    </form>
-                }
-            </td>
-        </tr>
-    }
-</tbody>
-            </table>
-        </div>
-    }
-</section>
+						<div class="mb-4">
+							<div class="fw-bold admin-stat-number">
+								@Model.AfsprakenVandaag.Count afspraken
+							</div>
+
+							<div class="text-secondary">
+								Raadpleeg de afspraken voor de gekozen dokter en datum.
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-12 col-lg-8">
+					<div class="table-responsive">
+						<table class="table align-middle mb-0">
+							<thead>
+								<tr>
+									<th>Tijd</th>
+									<th>Patiënt</th>
+									<th>Reden</th>
+									<th>Status</th>
+									<th>Actie</th>
+								</tr>
+							</thead>
+
+							<tbody>
+								@foreach (AfspraakDto afspraak in Model.AfsprakenVandaag)
+								{
+									<tr>
+										<td class="fw-bold admin-stat-number">
+											@afspraak.Tijd.ToString("HH:mm")
+										</td>
+
+										<td>
+											@afspraak.PatientVoornaam @afspraak.PatientAchternaam
+										</td>
+
+										<td>
+											@afspraak.Reden
+										</td>
+
+										<td>
+											@if (afspraak.Status == "Gepland")
+											{
+												<span class="status-pill status-active">
+													Gepland
+												</span>
+											}
+											else if (afspraak.Status == "Afgerond")
+											{
+												<span class="status-pill status-warning">
+													Afgerond
+												</span>
+											}
+											else
+											{
+												<span class="status-pill status-danger">
+													@afspraak.Status
+												</span>
+											}
+										</td>
+
+										<td>
+											<a asp-controller="Admin"
+											   asp-action="AfspraakDetails"
+											   asp-route-id="@afspraak.Id"
+											   class="btn btn-sm btn-outline-primary rounded-pill px-3">
+												Details
+											</a>
+										</td>
+									</tr>
+								}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		}
+	</section>
+
+	<section id="patientenAccounts" class="home-soft-card p-4 mb-5">
+		<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+			<div>
+				<h2 class="h4 fw-bold text-dark mb-1">
+					Patiëntenaccounts
+				</h2>
+
+				<p class="text-secondary mb-0">
+					Overzicht van patiënten en gekoppelde accounts.
+				</p>
+			</div>
+
+			<form asp-controller="Admin"
+				  asp-action="Index"
+				  method="get"
+				  class="d-flex gap-2">
+
+				<input type="hidden"
+					   name="dokterId"
+					   value="@Model.GekozenDokterId" />
+
+				<input type="hidden"
+					   name="datum"
+					   value="@Model.GekozenDatum.ToString("yyyy-MM-dd")" />
+
+				<input name="zoektermPatient"
+					   value="@Model.ZoektermPatient"
+					   class="form-control form-control-lg"
+					   placeholder="Zoek patiënt..." />
+
+				<button type="submit"
+						class="btn btn-appointment-search rounded-pill px-4 py-2 fw-semibold">
+					Zoeken
+				</button>
+			</form>
+		</div>
+
+		@if (Model.Patienten.Count == 0)
+		{
+			<div class="alert alert-info rounded-4 mb-0">
+				Er werden geen patiënten gevonden.
+			</div>
+		}
+		else
+		{
+			<div class="table-responsive">
+				<table class="table align-middle mb-0">
+					<thead>
+						<tr>
+							<th>Patiënt</th>
+							<th>E-mail</th>
+							<th>Telefoon</th>
+							<th>Accountstatus</th>
+							<th>Actie</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						@foreach (PatientAccountViewModel patient in Model.Patienten)
+						{
+							<tr>
+								<td class="fw-semibold">
+									@patient.Voornaam @patient.Achternaam
+								</td>
+
+								<td>
+									@patient.Email
+								</td>
+
+								<td>
+									@patient.Telefoonnummer
+								</td>
+
+								<td>
+									@if (patient.IsAccountActief)
+									{
+										<span class="status-pill status-active">
+											Actief
+										</span>
+									}
+									else
+									{
+										<span class="status-pill status-danger">
+											Gedeactiveerd
+										</span>
+									}
+								</td>
+
+								<td>
+									@if (patient.IsAccountActief)
+									{
+										<form asp-controller="Admin"
+											  asp-action="DeactiveerPatientAccount"
+											  asp-route-id="@patient.Id"
+											  method="post"
+											  class="d-inline">
+
+											<button type="submit"
+													class="btn btn-sm btn-outline-danger rounded-pill px-3">
+												Deactiveren
+											</button>
+										</form>
+									}
+									else
+									{
+										<form asp-controller="Admin"
+											  asp-action="ActiveerPatientAccount"
+											  asp-route-id="@patient.Id"
+											  method="post"
+											  class="d-inline">
+
+											<button type="submit"
+													class="btn btn-sm btn-outline-primary rounded-pill px-3">
+												Activeren
+											</button>
+										</form>
+									}
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		}
+	</section>
 
 </main>

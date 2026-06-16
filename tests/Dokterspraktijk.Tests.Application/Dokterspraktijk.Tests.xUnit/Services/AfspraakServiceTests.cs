@@ -18,8 +18,11 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             // Arrange
             DokterspraktijkServiceTestContext context = new DokterspraktijkServiceTestContext();
 
-            string patientVoornaam = "Rawan";
-            string patientAchternaam = "Laghmouchi";
+            string patientVoornaam = "Sara";
+            string patientAchternaam = "Peeters";
+            string patientEmail = "sara.peeters@gmail.be";
+            string telefoonnummer = "0470112233";
+            string rijksregisternummer = "22.22.22-222.22";
             string dokterNaam = "Timmermans";
             DateOnly datum = new DateOnly(2026, 5, 15);
             TimeOnly tijd = new TimeOnly(10, 30);
@@ -34,9 +37,9 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             ResultaatDto resultaat = context.AfspraakService.MaakAfspraak(
                 patientVoornaam,
                 patientAchternaam,
-                "rawan.laghmouchi@gmail.be",
-                "0470123456",
-                "00.00.00-000.00",
+                patientEmail,
+                telefoonnummer,
+                rijksregisternummer,
                 dokterNaam,
                 datum,
                 tijd,
@@ -62,8 +65,11 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             // Arrange
             DokterspraktijkServiceTestContext context = new DokterspraktijkServiceTestContext();
 
-            string patientVoornaam = "Rawan";
-            string patientAchternaam = "Laghmouchi";
+            string patientVoornaam = "Sara";
+            string patientAchternaam = "Peeters";
+            string patientEmail = "sara.peeters@gmail.be";
+            string telefoonnummer = "0470112233";
+            string rijksregisternummer = "22.22.22-222.22";
             string dokterNaam = "Timmermans";
             DateOnly datum = new DateOnly(2026, 5, 15);
             TimeOnly tijd = new TimeOnly(10, 30);
@@ -78,9 +84,9 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             context.AfspraakService.MaakAfspraak(
                 patientVoornaam,
                 patientAchternaam,
-                "rawan.laghmouchi@gmail.be",
-                "0470123456",
-                "00.00.00-000.00",
+                patientEmail,
+                telefoonnummer,
+                rijksregisternummer,
                 dokterNaam,
                 datum,
                 tijd,
@@ -145,8 +151,11 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             // Arrange
             DokterspraktijkServiceTestContext context = new DokterspraktijkServiceTestContext();
 
-            string patientVoornaam = "Rawan";
-            string patientAchternaam = "Laghmouchi";
+            string patientVoornaam = "Sara";
+            string patientAchternaam = "Peeters";
+            string patientEmail = "sara.peeters@gmail.be";
+            string telefoonnummer = "0470112233";
+            string rijksregisternummer = "22.22.22-222.22";
             string dokterNaam = "Timmermans";
             DateOnly datum = new DateOnly(2026, 5, 15);
             TimeOnly tijd = new TimeOnly(10, 30);
@@ -160,9 +169,9 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             context.AfspraakService.MaakAfspraak(
                 patientVoornaam,
                 patientAchternaam,
-                "rawan.laghmouchi@gmail.be",
-                "0470123456",
-                "00.00.00-000.00",
+                patientEmail,
+                telefoonnummer,
+                rijksregisternummer,
                 dokterNaam,
                 datum,
                 tijd,
@@ -195,8 +204,11 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             // Arrange
             DokterspraktijkServiceTestContext context = new DokterspraktijkServiceTestContext();
 
-            string patientVoornaam = "Rawan";
-            string patientAchternaam = "Laghmouchi";
+            string patientVoornaam = "Sara";
+            string patientAchternaam = "Peeters";
+            string patientEmail = "sara.peeters@gmail.be";
+            string telefoonnummer = "0470112233";
+            string rijksregisternummer = "22.22.22-222.22";
             string dokterNaam = "Timmermans";
             DateOnly datum = new DateOnly(2026, 5, 15);
             TimeOnly tijd = new TimeOnly(10, 30);
@@ -210,9 +222,9 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             context.AfspraakService.MaakAfspraak(
                 patientVoornaam,
                 patientAchternaam,
-                "rawan.laghmouchi@gmail.be",
-                "0470123456",
-                "00.00.00-000.00",
+                patientEmail,
+                telefoonnummer,
+                rijksregisternummer,
                 dokterNaam,
                 datum,
                 tijd,
@@ -242,8 +254,11 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             // Arrange
             DokterspraktijkServiceTestContext context = new DokterspraktijkServiceTestContext();
 
-            string patientVoornaam = "Rawan";
-            string patientAchternaam = "Laghmouchi";
+            string patientVoornaam = "Sara";
+            string patientAchternaam = "Peeters";
+            string patientEmail = "sara.peeters@gmail.be";
+            string telefoonnummer = "0470112233";
+            string rijksregisternummer = "22.22.22-222.22";
             string dokterNaam = "Timmermans";
             DateOnly datum = new DateOnly(2026, 5, 15);
             TimeOnly tijd = new TimeOnly(10, 30);
@@ -257,9 +272,9 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             context.AfspraakService.MaakAfspraak(
                 patientVoornaam,
                 patientAchternaam,
-                "rawan.laghmouchi@gmail.be",
-                "0470123456",
-                "00.00.00-000.00",
+                patientEmail,
+                telefoonnummer,
+                rijksregisternummer,
                 dokterNaam,
                 datum,
                 tijd,
@@ -282,7 +297,7 @@ namespace Dokterspraktijk.Tests.xUnit.Services
 
             // Assert
             Assert.False(resultaat.IsGelukt);
-            Assert.Equal("Een afgeronde afspraak kan niet geannuleerd worden.", resultaat.Melding);
+            Assert.Equal("Alleen een geplande afspraak kan geannuleerd worden.", resultaat.Melding);
         }
 
         [Fact]
@@ -291,8 +306,11 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             // Arrange
             DokterspraktijkServiceTestContext context = new DokterspraktijkServiceTestContext();
 
-            string patientVoornaam = "Rawan";
-            string patientAchternaam = "Laghmouchi";
+            string patientVoornaam = "Sara";
+            string patientAchternaam = "Peeters";
+            string patientEmail = "sara.peeters@gmail.be";
+            string telefoonnummer = "0470112233";
+            string rijksregisternummer = "22.22.22-222.22";
             string dokterNaam = "Timmermans";
             DateOnly datum = new DateOnly(2026, 5, 15);
             TimeOnly tijd = new TimeOnly(10, 30);
@@ -306,9 +324,9 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             context.AfspraakService.MaakAfspraak(
                 patientVoornaam,
                 patientAchternaam,
-                "rawan.laghmouchi@gmail.be",
-                "0470123456",
-                "00.00.00-000.00",
+                patientEmail,
+                telefoonnummer,
+                rijksregisternummer,
                 dokterNaam,
                 datum,
                 tijd,
@@ -341,8 +359,11 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             // Arrange
             DokterspraktijkServiceTestContext context = new DokterspraktijkServiceTestContext();
 
-            string patientVoornaam = "Rawan";
-            string patientAchternaam = "Laghmouchi";
+            string patientVoornaam = "Sara";
+            string patientAchternaam = "Peeters";
+            string patientEmail = "sara.peeters@gmail.be";
+            string telefoonnummer = "0470112233";
+            string rijksregisternummer = "22.22.22-222.22";
             string dokterNaam = "Timmermans";
             DateOnly datum = new DateOnly(2026, 5, 15);
             TimeOnly tijd = new TimeOnly(10, 30);
@@ -356,9 +377,9 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             context.AfspraakService.MaakAfspraak(
                 patientVoornaam,
                 patientAchternaam,
-                "rawan.laghmouchi@gmail.be",
-                "0470123456",
-                "00.00.00-000.00",
+                patientEmail,
+                telefoonnummer,
+                rijksregisternummer,
                 dokterNaam,
                 datum,
                 tijd,
@@ -381,7 +402,7 @@ namespace Dokterspraktijk.Tests.xUnit.Services
 
             // Assert
             Assert.False(resultaat.IsGelukt);
-            Assert.Equal("Deze afspraak kan niet afgerond worden.", resultaat.Melding);
+            Assert.Equal("Alleen een geplande afspraak kan afgerond worden.", resultaat.Melding);
         }
 
         [Fact]
@@ -390,8 +411,11 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             // Arrange
             DokterspraktijkServiceTestContext context = new DokterspraktijkServiceTestContext();
 
-            string patientVoornaam = "Rawan";
-            string patientAchternaam = "Laghmouchi";
+            string patientVoornaam = "Sara";
+            string patientAchternaam = "Peeters";
+            string patientEmail = "sara.peeters@gmail.be";
+            string telefoonnummer = "0470112233";
+            string rijksregisternummer = "22.22.22-222.22";
             string dokterNaam = "Timmermans";
             DateOnly datum = new DateOnly(2026, 5, 15);
             TimeOnly tijd = new TimeOnly(10, 30);
@@ -406,9 +430,9 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             context.AfspraakService.MaakAfspraak(
                 patientVoornaam,
                 patientAchternaam,
-                "rawan.laghmouchi@gmail.be",
-                "0470123456",
-                "00.00.00-000.00",
+                patientEmail,
+                telefoonnummer,
+                rijksregisternummer,
                 dokterNaam,
                 datum,
                 tijd,
@@ -455,8 +479,11 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             // Arrange
             DokterspraktijkServiceTestContext context = new DokterspraktijkServiceTestContext();
 
-            string patientVoornaam = "Rawan";
-            string patientAchternaam = "Laghmouchi";
+            string patientVoornaam = "Sara";
+            string patientAchternaam = "Peeters";
+            string patientEmail = "sara.peeters@gmail.be";
+            string telefoonnummer = "0470112233";
+            string rijksregisternummer = "22.22.22-222.22";
 
             context.VoegTijdslotToe(
                 "Timmermans",
@@ -473,9 +500,9 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             context.AfspraakService.MaakAfspraak(
                 patientVoornaam,
                 patientAchternaam,
-                "rawan.laghmouchi@gmail.be",
-                "0470123456",
-                "00.00.00-000.00",
+                patientEmail,
+                telefoonnummer,
+                rijksregisternummer,
                 "Timmermans",
                 new DateOnly(2026, 5, 20),
                 new TimeOnly(9, 0),
@@ -484,9 +511,9 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             context.AfspraakService.MaakAfspraak(
                 patientVoornaam,
                 patientAchternaam,
-                "rawan.laghmouchi@gmail.be",
-                "0470123456",
-                "00.00.00-000.00",
+                patientEmail,
+                telefoonnummer,
+                rijksregisternummer,
                 "Brancaert",
                 new DateOnly(2026, 5, 15),
                 new TimeOnly(10, 30),
@@ -524,13 +551,17 @@ namespace Dokterspraktijk.Tests.xUnit.Services
         [InlineData("huidprobleem.jpg")]
         [InlineData("huidprobleem.jpeg")]
         [InlineData("huidprobleem.png")]
+        [InlineData("document.pdf")]
         public void ValideerBestaandeAfspraakAanvraag_GeldigeExtensie_GeeftSucces(string bestandsnaam)
         {
             // Arrange
             DokterspraktijkServiceTestContext context = new DokterspraktijkServiceTestContext();
 
-            string patientVoornaam = "Rawan";
-            string patientAchternaam = "Laghmouchi";
+            string patientVoornaam = "Sara";
+            string patientAchternaam = "Peeters";
+            string patientEmail = "sara.peeters@gmail.be";
+            string telefoonnummer = "0470112233";
+            string rijksregisternummer = "22.22.22-222.22";
             string dokterNaam = "Timmermans";
             DateOnly datum = new DateOnly(2026, 5, 15);
             TimeOnly tijd = new TimeOnly(10, 30);
@@ -544,9 +575,9 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             context.AfspraakService.MaakAfspraak(
                 patientVoornaam,
                 patientAchternaam,
-                "rawan.laghmouchi@gmail.be",
-                "0470123456",
-                "00.00.00-000.00",
+                patientEmail,
+                telefoonnummer,
+                rijksregisternummer,
                 dokterNaam,
                 datum,
                 tijd,
@@ -571,16 +602,19 @@ namespace Dokterspraktijk.Tests.xUnit.Services
         }
 
         [Theory]
-        [InlineData("document.pdf")]
         [InlineData("bestand.docx")]
         [InlineData("foto.gif")]
+        [InlineData("bestand.txt")]
         public void ValideerBestandVoorAfspraakaanvraag_OngeldigeExtensie_GeeftMisluktResultaat(string bestandsnaam)
         {
             // Arrange
             DokterspraktijkServiceTestContext context = new DokterspraktijkServiceTestContext();
 
-            string patientVoornaam = "Rawan";
-            string patientAchternaam = "Laghmouchi";
+            string patientVoornaam = "Sara";
+            string patientAchternaam = "Peeters";
+            string patientEmail = "sara.peeters@gmail.be";
+            string telefoonnummer = "0470112233";
+            string rijksregisternummer = "22.22.22-222.22";
             string dokterNaam = "Timmermans";
             DateOnly datum = new DateOnly(2026, 5, 15);
             TimeOnly tijd = new TimeOnly(10, 30);
@@ -594,9 +628,9 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             context.AfspraakService.MaakAfspraak(
                 patientVoornaam,
                 patientAchternaam,
-                "rawan.laghmouchi@gmail.be",
-                "0470123456",
-                "00.00.00-000.00",
+                patientEmail,
+                telefoonnummer,
+                rijksregisternummer,
                 dokterNaam,
                 datum,
                 tijd,
@@ -627,16 +661,22 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             // Arrange
             DokterspraktijkServiceTestContext context = new DokterspraktijkServiceTestContext();
 
-            DateOnly datumRawan = new DateOnly(2026, 5, 15);
-            TimeOnly tijdRawan = new TimeOnly(10, 30);
+            string patientVoornaam = "Sara";
+            string patientAchternaam = "Peeters";
+            string patientEmail = "sara.peeters@gmail.be";
+            string telefoonnummer = "0470112233";
+            string rijksregisternummer = "22.22.22-222.22";
+
+            DateOnly datumSara = new DateOnly(2026, 5, 15);
+            TimeOnly tijdSara = new TimeOnly(10, 30);
 
             DateOnly datumHans = new DateOnly(2026, 5, 20);
             TimeOnly tijdHans = new TimeOnly(9, 0);
 
             context.VoegTijdslotToe(
                 "Timmermans",
-                datumRawan,
-                tijdRawan,
+                datumSara,
+                tijdSara,
                 TijdslotStatus.Beschikbaar);
 
             context.VoegTijdslotToe(
@@ -646,14 +686,14 @@ namespace Dokterspraktijk.Tests.xUnit.Services
                 TijdslotStatus.Beschikbaar);
 
             context.AfspraakService.MaakAfspraak(
-                "Rawan",
-                "Laghmouchi",
-                "rawan.laghmouchi@gmail.be",
-                "0470123456",
-                "00.00.00-000.00",
+                patientVoornaam,
+                patientAchternaam,
+                patientEmail,
+                telefoonnummer,
+                rijksregisternummer,
                 "Timmermans",
-                datumRawan,
-                tijdRawan,
+                datumSara,
+                tijdSara,
                 "algemene consultatie");
 
             context.AfspraakService.MaakAfspraak(
@@ -669,14 +709,14 @@ namespace Dokterspraktijk.Tests.xUnit.Services
 
             // Act
             List<AfspraakDto> afspraken = context.AfspraakService.GeefKomendeAfspraken(
-                "Rawan",
-                "Laghmouchi",
+                patientVoornaam,
+                patientAchternaam,
                 new DateOnly(2026, 1, 1));
 
             // Assert
             Assert.Single(afspraken);
-            Assert.Equal("Rawan", afspraken[0].PatientVoornaam);
-            Assert.Equal("Laghmouchi", afspraken[0].PatientAchternaam);
+            Assert.Equal("Sara", afspraken[0].PatientVoornaam);
+            Assert.Equal("Peeters", afspraken[0].PatientAchternaam);
             Assert.Equal("Timmermans", afspraken[0].DokterNaam);
             Assert.Equal("algemene consultatie", afspraken[0].Reden);
         }
@@ -687,8 +727,11 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             // Arrange
             DokterspraktijkServiceTestContext context = new DokterspraktijkServiceTestContext();
 
-            string patientVoornaam = "Rawan";
-            string patientAchternaam = "Laghmouchi";
+            string patientVoornaam = "Sara";
+            string patientAchternaam = "Peeters";
+            string patientEmail = "sara.peeters@gmail.be";
+            string telefoonnummer = "0470112233";
+            string rijksregisternummer = "22.22.22-222.22";
             string dokterNaam = "Timmermans";
             DateOnly datum = new DateOnly(2026, 5, 15);
             TimeOnly tijd = new TimeOnly(10, 30);
@@ -703,9 +746,9 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             ResultaatDto resultaat = context.AfspraakService.MaakAfspraak(
                 patientVoornaam,
                 patientAchternaam,
-                "rawan.laghmouchi@gmail.be",
-                "0470123456",
-                "00.00.00-000.00",
+                patientEmail,
+                telefoonnummer,
+                rijksregisternummer,
                 dokterNaam,
                 datum,
                 tijd,

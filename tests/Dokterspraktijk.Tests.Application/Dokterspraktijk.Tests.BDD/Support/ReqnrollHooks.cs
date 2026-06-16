@@ -2,7 +2,6 @@
 using Dokterspraktijk.Application.Services.Implementation;
 using Dokterspraktijk.Application.Services.Interfaces;
 using Dokterspraktijk.Infrastructure.Fakes;
-using Reqnroll;
 using Reqnroll.BoDi;
 
 namespace Dokterspraktijk.Tests.BDD.Support
@@ -29,26 +28,20 @@ namespace Dokterspraktijk.Tests.BDD.Support
             ITijdslotRepository tijdslotRepository = new FakeTijdslotRepository(dataStore);
             IAfspraakRepository afspraakRepository = new FakeAfspraakRepository(dataStore, tijdslotRepository);
             IDoktersattestRepository doktersattestRepository = new FakeDoktersattestRepository(dataStore);
+            IAfspraakCategorieRepository afspraakCategorieRepository = new FakeAfspraakCategorieRepository(dataStore);
 
-            ITijdslotService tijdslotService = new TijdslotService(
+            IUnitOfWork unitOfWork = new FakeUnitOfWork(
                 dokterRepository,
-                tijdslotRepository);
-
-            IAfspraakService afspraakService = new AfspraakService(
                 patientRepository,
-                dokterRepository,
                 tijdslotRepository,
-                afspraakRepository);
-
-            IPatientService patientService = new PatientService(
-                patientRepository,
-                dokterRepository);
-
-            IDoktersattestService doktersattestService = new DoktersattestService(
-                patientRepository,
-                dokterRepository,
                 afspraakRepository,
-                doktersattestRepository);
+                doktersattestRepository,
+                afspraakCategorieRepository);
+
+            IAfspraakService afspraakService = new AfspraakService(unitOfWork);
+            ITijdslotService tijdslotService = new TijdslotService(unitOfWork);
+            IPatientService patientService = new PatientService(unitOfWork);
+            IDoktersattestService doktersattestService = new DoktersattestService(unitOfWork);
 
             _container.RegisterInstanceAs(scenarioContext);
 
@@ -57,6 +50,8 @@ namespace Dokterspraktijk.Tests.BDD.Support
             _container.RegisterInstanceAs(tijdslotRepository);
             _container.RegisterInstanceAs(afspraakRepository);
             _container.RegisterInstanceAs(doktersattestRepository);
+            _container.RegisterInstanceAs(afspraakCategorieRepository);
+            _container.RegisterInstanceAs(unitOfWork);
 
             _container.RegisterInstanceAs(tijdslotService);
             _container.RegisterInstanceAs(afspraakService);

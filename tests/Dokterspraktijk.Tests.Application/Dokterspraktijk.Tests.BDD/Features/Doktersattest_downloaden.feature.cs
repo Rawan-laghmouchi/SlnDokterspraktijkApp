@@ -26,8 +26,8 @@ namespace Dokterspraktijk.Tests.Application.BDD.Features
         
         private static string[] featureTags = ((string[])(null));
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Een doktersattest downloaden", "Als patiënt \r\nwil ik mijn dokterattest kunnen downloaden nadat de dokter dit heef" +
-                "t vrijgegeven\r\nzodat ik het kan indienen bij school of werk", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Een doktersattest downloaden", "Als patiënt \r\nwil ik mijn doktersattest kunnen downloaden nadat de dokter dit hee" +
+                "ft vrijgegeven\r\nzodat ik het kan indienen bij school of werk", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
 #line 1 "Doktersattest_downloaden.feature"
 #line hidden
@@ -134,17 +134,17 @@ namespace Dokterspraktijk.Tests.Application.BDD.Features
             await this.TestTearDownAsync();
         }
         
-        [global::Xunit.FactAttribute(DisplayName="Een patiënt donwloadt een vrijgegeven dokterattest")]
+        [global::Xunit.FactAttribute(DisplayName="Een patiënt downloadt een vrijgegeven doktersattest")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Een doktersattest downloaden")]
-        [global::Xunit.TraitAttribute("Description", "Een patiënt donwloadt een vrijgegeven dokterattest")]
+        [global::Xunit.TraitAttribute("Description", "Een patiënt downloadt een vrijgegeven doktersattest")]
         [global::Xunit.TraitAttribute("Category", "tag1")]
-        public async global::System.Threading.Tasks.Task EenPatientDonwloadtEenVrijgegevenDokterattest()
+        public async global::System.Threading.Tasks.Task EenPatientDownloadtEenVrijgegevenDoktersattest()
         {
             string[] tagsOfScenario = new string[] {
                     "tag1"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "0";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Een patiënt donwloadt een vrijgegeven dokterattest", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Een patiënt downloadt een vrijgegeven doktersattest", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 8
@@ -158,13 +158,13 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             {
                 await this.ScenarioStartAsync();
 #line 9
- await testRunner.GivenAsync("patiënt Rawan Laghmouchi heeft een afgeronde consultatie", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+ await testRunner.GivenAsync("patiënt Sara Peeters heeft een afgeronde consultatie", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 10
  await testRunner.AndAsync("dokter Timmermans heeft een doktersattest vrijgegeven", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 11
- await testRunner.WhenAsync("patiënt Rawan Laghmouchi haar doktersattest downloadt", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+ await testRunner.WhenAsync("patiënt Sara Peeters haar doktersattest downloadt", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 12
  await testRunner.ThenAsync("ontvangt zij het doktersattest van deze consultatie", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -173,15 +173,15 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.FactAttribute(DisplayName="Een patiênt kan geen niet-vrijgegeven attest downloaden")]
+        [global::Xunit.FactAttribute(DisplayName="Een patiënt kan geen niet-vrijgegeven attest downloaden")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Een doktersattest downloaden")]
-        [global::Xunit.TraitAttribute("Description", "Een patiênt kan geen niet-vrijgegeven attest downloaden")]
+        [global::Xunit.TraitAttribute("Description", "Een patiënt kan geen niet-vrijgegeven attest downloaden")]
         public async global::System.Threading.Tasks.Task EenPatientKanGeenNiet_VrijgegevenAttestDownloaden()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "1";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Een patiênt kan geen niet-vrijgegeven attest downloaden", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Een patiënt kan geen niet-vrijgegeven attest downloaden", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 14
@@ -195,13 +195,13 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             {
                 await this.ScenarioStartAsync();
 #line 15
- await testRunner.GivenAsync("patiënt Rawan Laghmouchi heeft een afgeronde consultatie", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+ await testRunner.GivenAsync("patiënt Sara Peeters heeft een afgeronde consultatie", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 16
  await testRunner.ButAsync("dokter Timmermans heeft het doktersattest nog niet vrijgegeven", ((string)(null)), ((global::Reqnroll.Table)(null)), "But ");
 #line hidden
 #line 17
- await testRunner.WhenAsync("patiënt Rawan Laghmouchi haar doktersattest probeert te downloaden", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+ await testRunner.WhenAsync("patiënt Sara Peeters haar doktersattest probeert te downloaden", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 18
  await testRunner.ThenAsync("wordt de download geweigerd", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");

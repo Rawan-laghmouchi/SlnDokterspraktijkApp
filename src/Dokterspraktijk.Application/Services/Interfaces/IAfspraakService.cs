@@ -1,9 +1,4 @@
 ﻿using Dokterspraktijk.Application.Dto_s;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Dokterspraktijk.Application.Services.Interfaces
 {
@@ -17,6 +12,7 @@ namespace Dokterspraktijk.Application.Services.Interfaces
 
         AfspraakDto? ZoekAfspraakOpId(int id);
         ResultaatDto AnnuleerAfspraak(string patientVoornaam, string patientAchternaam, string dokterNaam, DateOnly datum, TimeOnly tijd);
+        ResultaatDto AnnuleerAfspraakOpId(int afspraakId);
         ResultaatDto RondConsultatieAf(string dokterNaam, string patientVoornaam, string patientAchternaam, DateOnly datum, TimeOnly tijd);
         ResultaatDto ValideerBestandVoorAfspraakaanvraag(int afspraakId, string bestandsnaam);
     }

@@ -164,17 +164,17 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
                             "Dokter",
                             "Reden"});
                 table1.AddRow(new string[] {
-                            "15-05-2026",
+                            "15-07-2026",
                             "10:30",
                             "Timmermans",
                             "algemene consultatie"});
                 table1.AddRow(new string[] {
-                            "20-05-2026",
+                            "20-07-2026",
                             "09:00",
                             "Brancaert",
                             "huidcontrole"});
 #line 9
- await testRunner.GivenAsync("patiënt Rawan Laghmouchi heeft de volgende afspraken:", ((string)(null)), table1, "Given ");
+ await testRunner.GivenAsync("patiënt Sara Peeters heeft de volgende afspraken:", ((string)(null)), table1, "Given ");
 #line hidden
 #line 13
  await testRunner.WhenAsync("zij haar komende afspraken raadpleegt", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
@@ -185,12 +185,12 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
                             "Dokter",
                             "Reden"});
                 table2.AddRow(new string[] {
-                            "15-05-2026",
+                            "15-07-2026",
                             "10:30",
                             "Timmermans",
                             "algemene consultatie"});
                 table2.AddRow(new string[] {
-                            "20-05-2026",
+                            "20-07-2026",
                             "09:00",
                             "Brancaert",
                             "huidcontrole"});
@@ -201,15 +201,15 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.FactAttribute(DisplayName="een patiënt ziet enkel haar eigen afspraken")]
+        [global::Xunit.FactAttribute(DisplayName="Een patiënt ziet enkel haar eigen afspraken")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Komende afspraken bekijken")]
-        [global::Xunit.TraitAttribute("Description", "een patiënt ziet enkel haar eigen afspraken")]
+        [global::Xunit.TraitAttribute("Description", "Een patiënt ziet enkel haar eigen afspraken")]
         public async global::System.Threading.Tasks.Task EenPatientZietEnkelHaarEigenAfspraken()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "1";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("een patiënt ziet enkel haar eigen afspraken", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Een patiënt ziet enkel haar eigen afspraken", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 19
@@ -228,12 +228,12 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
                             "Dokter",
                             "Reden"});
                 table3.AddRow(new string[] {
-                            "15-05-2026",
+                            "15-07-2026",
                             "10:30",
                             "Timmermans",
                             "algemene consultatie"});
 #line 20
- await testRunner.GivenAsync("patiënt Rawan Laghmouchi heeft de volgende afspraken:", ((string)(null)), table3, "Given ");
+ await testRunner.GivenAsync("patiënt Sara Peeters heeft de volgende afspraken:", ((string)(null)), table3, "Given ");
 #line hidden
                 global::Reqnroll.Table table4 = new global::Reqnroll.Table(new string[] {
                             "Datum",
@@ -241,7 +241,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
                             "Dokter",
                             "Reden"});
                 table4.AddRow(new string[] {
-                            "20-05-2026",
+                            "20-07-2026",
                             "09:00",
                             "Brancaert",
                             "huidcontrole"});
@@ -249,7 +249,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
  await testRunner.AndAsync("patiënt Hans Vandenbogaerde heeft volgende afspraken:", ((string)(null)), table4, "And ");
 #line hidden
 #line 26
- await testRunner.WhenAsync("patiënt Rawan Laghmouchi haar komende afspraken raadpleegt", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+ await testRunner.WhenAsync("patiënt Sara Peeters haar komende afspraken raadpleegt", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 27
  await testRunner.ThenAsync("ziet zij enkel haar eigen afspraken", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");

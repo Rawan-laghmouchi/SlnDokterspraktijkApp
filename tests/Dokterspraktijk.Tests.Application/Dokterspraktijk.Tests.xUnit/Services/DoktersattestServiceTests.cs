@@ -15,8 +15,8 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             // Arrange
             DokterspraktijkServiceTestContext context = new DokterspraktijkServiceTestContext();
 
-            string patientVoornaam = "Rawan";
-            string patientAchternaam = "Laghmouchi";
+            string patientVoornaam = "Sara";
+            string patientAchternaam = "Peeters";
             string dokterNaam = "Timmermans";
             DateOnly datum = new DateOnly(2026, 5, 15);
             TimeOnly tijd = new TimeOnly(10, 30);
@@ -51,8 +51,8 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             // Arrange
             DokterspraktijkServiceTestContext context = new DokterspraktijkServiceTestContext();
 
-            string patientVoornaam = "Rawan";
-            string patientAchternaam = "Laghmouchi";
+            string patientVoornaam = "Sara";
+            string patientAchternaam = "Peeters";
             string dokterNaam = "Timmermans";
             DateOnly datum = new DateOnly(2026, 5, 15);
             TimeOnly tijd = new TimeOnly(10, 30);
@@ -85,8 +85,8 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             // Arrange
             DokterspraktijkServiceTestContext context = new DokterspraktijkServiceTestContext();
 
-            string patientVoornaam = "Rawan";
-            string patientAchternaam = "Laghmouchi";
+            string patientVoornaam = "Sara";
+            string patientAchternaam = "Peeters";
             string dokterNaam = "Timmermans";
             DateOnly datum = new DateOnly(2026, 5, 15);
             TimeOnly tijd = new TimeOnly(10, 30);
@@ -130,8 +130,8 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             // Arrange
             DokterspraktijkServiceTestContext context = new DokterspraktijkServiceTestContext();
 
-            string patientVoornaam = "Rawan";
-            string patientAchternaam = "Laghmouchi";
+            string patientVoornaam = "Sara";
+            string patientAchternaam = "Peeters";
             string dokterNaam = "Timmermans";
             DateOnly datum = new DateOnly(2026, 5, 15);
             TimeOnly tijd = new TimeOnly(10, 30);
@@ -180,8 +180,8 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             // Arrange
             DokterspraktijkServiceTestContext context = new DokterspraktijkServiceTestContext();
 
-            string patientVoornaam = "Rawan";
-            string patientAchternaam = "Laghmouchi";
+            string patientVoornaam = "Sara";
+            string patientAchternaam = "Peeters";
             string dokterNaam = "Timmermans";
             DateOnly datum = new DateOnly(2026, 5, 15);
             TimeOnly tijd = new TimeOnly(10, 30);
@@ -213,8 +213,8 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             // Arrange
             DokterspraktijkServiceTestContext context = new DokterspraktijkServiceTestContext();
 
-            string patientVoornaam = "Rawan";
-            string patientAchternaam = "Laghmouchi";
+            string patientVoornaam = "Sara";
+            string patientAchternaam = "Peeters";
             string dokterNaam = "Timmermans";
             DateOnly datum = new DateOnly(2026, 5, 15);
             TimeOnly tijd = new TimeOnly(10, 30);
@@ -256,8 +256,8 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             // Arrange
             DokterspraktijkServiceTestContext context = new DokterspraktijkServiceTestContext();
 
-            string patientVoornaam = "Rawan";
-            string patientAchternaam = "Laghmouchi";
+            string patientVoornaam = "Sara";
+            string patientAchternaam = "Peeters";
             string dokterNaam = "Timmermans";
             DateOnly datum = new DateOnly(2026, 5, 15);
             TimeOnly tijd = new TimeOnly(10, 30);
@@ -297,12 +297,16 @@ namespace Dokterspraktijk.Tests.xUnit.Services
                 tijd,
                 TijdslotStatus.Beschikbaar);
 
+            string email = GeefEmailVoorPatient(patientVoornaam, patientAchternaam);
+            string telefoonnummer = GeefTelefoonnummerVoorPatient(patientVoornaam, patientAchternaam);
+            string rijksregisternummer = GeefRijksregisternummerVoorPatient(patientVoornaam, patientAchternaam);
+
             ResultaatDto resultaat = context.AfspraakService.MaakAfspraak(
                 patientVoornaam,
                 patientAchternaam,
-                "test.patient@dokterspraktijk.be",
-                "0470123456",
-                "00.00.00-000.00",
+                email,
+                telefoonnummer,
+                rijksregisternummer,
                 dokterNaam,
                 datum,
                 tijd,
@@ -348,6 +352,51 @@ namespace Dokterspraktijk.Tests.xUnit.Services
             Assert.True(resultaat.IsGelukt, resultaat.Melding);
 
             return afspraak;
+        }
+
+        private static string GeefEmailVoorPatient(string patientVoornaam, string patientAchternaam)
+        {
+            if (patientVoornaam == "Sara" && patientAchternaam == "Peeters")
+            {
+                return "sara.peeters@gmail.be";
+            }
+
+            if (patientVoornaam == "Hans" && patientAchternaam == "Vandenbogaerde")
+            {
+                return "hans.vandenbogaerde@gmail.be";
+            }
+
+            return "test.patient@dokterspraktijk.be";
+        }
+
+        private static string GeefTelefoonnummerVoorPatient(string patientVoornaam, string patientAchternaam)
+        {
+            if (patientVoornaam == "Sara" && patientAchternaam == "Peeters")
+            {
+                return "0470112233";
+            }
+
+            if (patientVoornaam == "Hans" && patientAchternaam == "Vandenbogaerde")
+            {
+                return "0470654321";
+            }
+
+            return "0470123456";
+        }
+
+        private static string GeefRijksregisternummerVoorPatient(string patientVoornaam, string patientAchternaam)
+        {
+            if (patientVoornaam == "Sara" && patientAchternaam == "Peeters")
+            {
+                return "22.22.22-222.22";
+            }
+
+            if (patientVoornaam == "Hans" && patientAchternaam == "Vandenbogaerde")
+            {
+                return "11.11.11-111.11";
+            }
+
+            return "00.00.00-000.00";
         }
     }
 }

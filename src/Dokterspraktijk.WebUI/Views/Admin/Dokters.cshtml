@@ -40,6 +40,7 @@
 						<tr>
 							<th>Naam</th>
 							<th>Specialisatie</th>
+							<th>Status</th>
 							<th>Actie</th>
 						</tr>
 					</thead>
@@ -57,6 +58,21 @@
 								</td>
 
 								<td>
+									@if (dokter.IsActief)
+									{
+										<span class="status-pill status-active">
+											Actief
+										</span>
+									}
+									else
+									{
+										<span class="status-pill status-danger">
+											Gedeactiveerd
+										</span>
+									}
+								</td>
+
+								<td>
 									<div class="d-flex gap-2 flex-wrap">
 										<a asp-controller="Admin"
 										   asp-action="EditDokter"
@@ -66,11 +82,40 @@
 										</a>
 
 										<a asp-controller="Admin"
-										   asp-action="Afspraken"
+										   asp-action="DokterPlanning"
 										   asp-route-dokterId="@dokter.Id"
 										   class="btn btn-sm btn-outline-primary rounded-pill px-3">
 											Planning
 										</a>
+
+										@if (dokter.IsActief)
+										{
+											<form asp-controller="Admin"
+												  asp-action="DeactiveerDokter"
+												  asp-route-id="@dokter.Id"
+												  method="post"
+												  class="d-inline">
+
+												<button type="submit"
+														class="btn btn-sm btn-outline-danger rounded-pill px-3">
+													Deactiveren
+												</button>
+											</form>
+										}
+										else
+										{
+											<form asp-controller="Admin"
+												  asp-action="ActiveerDokter"
+												  asp-route-id="@dokter.Id"
+												  method="post"
+												  class="d-inline">
+
+												<button type="submit"
+														class="btn btn-sm btn-outline-primary rounded-pill px-3">
+													Activeren
+												</button>
+											</form>
+										}
 									</div>
 								</td>
 							</tr>

@@ -50,18 +50,21 @@ namespace Dokterspraktijk.Infrastructure.Fakes
                 patient.Voornaam.Equals(voornaam, StringComparison.OrdinalIgnoreCase) &&
                 patient.Achternaam.Equals(achternaam, StringComparison.OrdinalIgnoreCase));
         }
+
+        public Patient? ZoekOpEmail(string email)
+        {
+            return _dataStore.Patienten
+                .FirstOrDefault(patient =>
+                    !string.IsNullOrWhiteSpace(patient.Email) &&
+                    patient.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
+        }
+
         public List<Patient> GeefAllePatienten()
         {
             return _dataStore.Patienten
                 .OrderBy(patient => patient.Achternaam)
                 .ThenBy(patient => patient.Voornaam)
                 .ToList();
-        }
-
-        public Patient? ZoekOpEmail(string email)
-        {
-            return _dataStore.Patienten
-                .FirstOrDefault(patient => patient.Email == email);
         }
     }
 }

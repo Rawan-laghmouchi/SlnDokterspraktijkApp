@@ -4,11 +4,6 @@ using Dokterspraktijk.Application.Services.Interfaces;
 using Dokterspraktijk.Domain.Entities;
 using Dokterspraktijk.Domain.Enums;
 using Dokterspraktijk.Infrastructure.Fakes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Dokterspraktijk.Tests.xUnit.Support
 {
@@ -23,6 +18,8 @@ namespace Dokterspraktijk.Tests.xUnit.Support
         public ITijdslotRepository TijdslotRepository { get; }
         public IAfspraakRepository AfspraakRepository { get; }
         public IDoktersattestRepository DoktersattestRepository { get; }
+        public IAfspraakCategorieRepository AfspraakCategorieRepository { get; }
+        public IUnitOfWork UnitOfWork { get; }
 
         public ITijdslotService TijdslotService { get; }
         public IAfspraakService AfspraakService { get; }
@@ -31,7 +28,7 @@ namespace Dokterspraktijk.Tests.xUnit.Support
 
         public DokterspraktijkServiceTestContext()
         {
-            _volgendTijdslotId = 1000; // kijk na
+            _volgendTijdslotId = 1000;
 
             DataStore = new FakeDokterspraktijkDatastore();
 
@@ -40,26 +37,23 @@ namespace Dokterspraktijk.Tests.xUnit.Support
             TijdslotRepository = new FakeTijdslotRepository(DataStore);
             AfspraakRepository = new FakeAfspraakRepository(DataStore, TijdslotRepository);
             DoktersattestRepository = new FakeDoktersattestRepository(DataStore);
+            AfspraakCategorieRepository = new FakeAfspraakCategorieRepository(DataStore);
 
-            TijdslotService = new TijdslotService(
+            UnitOfWork = new FakeUnitOfWork(
                 DokterRepository,
-                TijdslotRepository);
-
-            AfspraakService = new AfspraakService(
                 PatientRepository,
-                DokterRepository,
                 TijdslotRepository,
-                AfspraakRepository);
-
-            PatientService = new PatientService(
-                PatientRepository,
-                DokterRepository);
-
-            DoktersattestService = new DoktersattestService(
-                PatientRepository,
-                DokterRepository,
                 AfspraakRepository,
-                DoktersattestRepository);
+                DoktersattestRepository,
+                AfspraakCategorieRepository);
+
+            TijdslotService = new TijdslotService(UnitOfWork);
+
+            AfspraakService = new AfspraakService(UnitOfWork);
+
+            PatientService = new PatientService(UnitOfWork);
+
+            DoktersattestService = new DoktersattestService(UnitOfWork);
         }
 
         public Tijdslot VoegTijdslotToe(
@@ -130,4 +124,3 @@ namespace Dokterspraktijk.Tests.xUnit.Support
         }
     }
 }
-

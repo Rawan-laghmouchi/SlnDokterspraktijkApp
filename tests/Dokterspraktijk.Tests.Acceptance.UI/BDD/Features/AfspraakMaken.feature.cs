@@ -155,7 +155,10 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             {
                 await this.ScenarioStartAsync();
 #line 4
-    await testRunner.GivenAsync("de patiënt bevindt zich op de pagina om een afspraak te maken", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("de patiënt is ingelogd met een bestaand account", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 5
+    await testRunner.AndAsync("de patiënt bevindt zich op de pagina om een afspraak te maken", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
                 global::Reqnroll.Table table1 = new global::Reqnroll.Table(new string[] {
                             "dokter",
@@ -164,10 +167,10 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
                             "categorie"});
                 table1.AddRow(new string[] {
                             "Timmermans",
-                            "2026-06-15",
-                            "09:00",
+                            "2026-06-24",
+                            "17:30",
                             "Consultatie"});
-#line 5
+#line 6
     await testRunner.WhenAsync("de patiënt de volgende afspraakgegevens kiest", ((string)(null)), table1, "When ");
 #line hidden
                 global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
@@ -179,16 +182,16 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
                 table2.AddRow(new string[] {
                             "Hans",
                             "Vandenbogaerde",
-                            "Hans.Vandenbogaerde@gmail.be",
-                            "+32 470 12 34 56",
+                            "hans.vandenbogaerde@gmail.be",
+                            "+32 411 11 11 11",
                             "00.01.01-001.01"});
-#line 8
+#line 9
     await testRunner.AndAsync("de patiënt de volgende patiëntgegevens invult", ((string)(null)), table2, "And ");
 #line hidden
-#line 11
+#line 12
     await testRunner.AndAsync("de patiënt de afspraak bevestigt", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 12
+#line 13
     await testRunner.ThenAsync("ziet de patiënt een bevestigingsmelding", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -206,7 +209,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Een patiënt probeert een afspraak te maken zonder tijdslot", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 14
+#line 15
 this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -216,8 +219,11 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 15
-    await testRunner.GivenAsync("de patiënt bevindt zich op de pagina om een afspraak te maken", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line 16
+    await testRunner.GivenAsync("de patiënt is ingelogd met een bestaand account", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 17
+    await testRunner.AndAsync("de patiënt bevindt zich op de pagina om een afspraak te maken", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
                 global::Reqnroll.Table table3 = new global::Reqnroll.Table(new string[] {
                             "dokter",
@@ -225,9 +231,9 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
                             "categorie"});
                 table3.AddRow(new string[] {
                             "Timmermans",
-                            "2026-06-15",
+                            "2026-06-24",
                             "Consultatie"});
-#line 16
+#line 18
     await testRunner.WhenAsync("de patiënt de volgende afspraakgegevens kiest zonder tijdslot", ((string)(null)), table3, "When ");
 #line hidden
                 global::Reqnroll.Table table4 = new global::Reqnroll.Table(new string[] {
@@ -239,19 +245,19 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
                 table4.AddRow(new string[] {
                             "Hans",
                             "Vandenbogaerde",
-                            "Hans.Vandenbogaerde@gmail.be",
-                            "+32 470 12 34 56",
+                            "hans.vandenbogaerde@gmail.be",
+                            "+32 411 11 11 11",
                             "00.01.01-001.01"});
-#line 19
+#line 21
     await testRunner.AndAsync("de patiënt de volgende patiëntgegevens invult", ((string)(null)), table4, "And ");
 #line hidden
-#line 22
+#line 24
     await testRunner.AndAsync("de patiënt de afspraak bevestigt", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 23
+#line 25
     await testRunner.ThenAsync("blijft de patiënt op de afspraakpagina", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 24
+#line 26
     await testRunner.AndAsync("ziet de patiënt een foutmelding voor het ontbrekende tijdslot", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }

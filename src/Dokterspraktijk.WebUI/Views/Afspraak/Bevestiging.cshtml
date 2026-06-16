@@ -1,5 +1,4 @@
-﻿@using Dokterspraktijk.Application.Dto_s
-@model AfspraakDto
+﻿@model AfspraakDto
 
 @{
 	ViewData["Title"] = "Afspraak bevestigd";
@@ -7,13 +6,13 @@
 
 <main class="container app-container py-3">
 
-	<section class="appointment-confirmation-content mb-5">
+	<section class="appointment-confirmation-content mb-5" data-testid="bevestigingsmelding">
 		<div class="text-center mb-4">
 			<div class="appointment-confirmation-icon d-inline-flex align-items-center justify-content-center mb-4">
 				✓
 			</div>
 
-			<h2 class="appointment-confirmation-title fw-bold mb-3" data-testid="bevestigingsmelding">
+			<h2 class="appointment-confirmation-title fw-bold mb-3">
 				Afspraak succesvol geregistreerd
 			</h2>
 

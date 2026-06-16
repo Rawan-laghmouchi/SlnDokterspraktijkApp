@@ -158,7 +158,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             {
                 await this.ScenarioStartAsync();
 #line 9
- await testRunner.GivenAsync("patiënt Rawan Laghmouchi heeft nog geen voorkeursdokter", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+ await testRunner.GivenAsync("patiënt Sara Peeters heeft nog geen voorkeursdokter", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 10
  await testRunner.WhenAsync("zij dokter Timmermans als voorkeursdokter instelt", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
@@ -192,13 +192,13 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             {
                 await this.ScenarioStartAsync();
 #line 14
- await testRunner.GivenAsync("patiënt Rawan Laghmouchi heeft dokter Timmermans als voorkeursdokter ingesteld", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+ await testRunner.GivenAsync("patiënt Sara Peeters heeft dokter Timmermans als voorkeursdokter ingesteld", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 15
- await testRunner.AndAsync("dokter Timmermans heeft op 20-05-2026 een beschikbaar tijdslot om 11:00", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+ await testRunner.AndAsync("dokter Timmermans heeft op 20-07-2026 een beschikbaar tijdslot om 11:00", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 16
- await testRunner.WhenAsync("patiënt Rawan Laghmouchi een nieuwe afspraak wil plannen op 20-05-2026", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+ await testRunner.WhenAsync("patiënt Sara Peeters een nieuwe afspraak wil plannen op 20-07-2026", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 17
  await testRunner.ThenAsync("wordt dokter Timmermans voorgesteld als voorkeursdokter", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");

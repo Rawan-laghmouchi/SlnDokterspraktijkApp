@@ -12,6 +12,7 @@ namespace Dokterspraktijk.Tests.Acceptance.UI.Shared.Pages
         public async Task OpenAsync(string basisUrl)
         {
             await Page.GotoAsync($"{basisUrl}/Afspraak/Create");
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
 
         public async Task KiesDokterAsync(string dokterNaam)
@@ -25,17 +26,28 @@ namespace Dokterspraktijk.Tests.Acceptance.UI.Shared.Pages
             }
 
             ILocator dokterLabel = Page.Locator($"label[for='{dokterId}']");
+
             await dokterLabel.ClickAsync();
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
 
         public async Task KiesDatumAsync(string datum)
         {
-            await Page.GetByTestId("datum-veld").FillAsync(datum);
+            ILocator datumVeld = Page.GetByTestId("datum-veld");
+
+            await datumVeld.FillAsync(datum);
+
+            // In de view wordt de GET-form verzonden via onchange="this.form.submit()".
+            // FillAsync alleen is niet altijd genoeg om onchange te triggeren.
+            await datumVeld.DispatchEventAsync("change");
+
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
 
         public async Task BekijkBeschikbaarhedenAsync()
         {
-            await Page.GetByTestId("beschikbaarheden-knop").ClickAsync();
+            // De oude knop 'Bekijk beschikbaarheden' bestaat niet meer.
+            // De beschikbaarheden worden nu automatisch opgehaald na het kiezen van dokter en datum.
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
 
@@ -81,12 +93,10 @@ namespace Dokterspraktijk.Tests.Acceptance.UI.Shared.Pages
             await Page.GetByTestId("afspraak-bevestigen-knop").ClickAsync();
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
-
         public async Task<bool> IsBevestigingsmeldingZichtbaarAsync()
         {
             return await Page.GetByTestId("bevestigingsmelding").IsVisibleAsync();
         }
-
         public async Task<bool> IsTijdslotFoutmeldingZichtbaarAsync()
         {
             string foutmelding = await Page.GetByTestId("tijdslot-foutmelding").InnerTextAsync();

@@ -54,7 +54,7 @@ namespace Dokterspraktijk.Tests.BDD.StepDefinitions
                 TijdslotStatus.NietBeschikbaar);
         }
 
-        [When(@"patiënt (.*) (.*) een afspraak bij dokter (.*) op (.*) om (.*) voor een consultatie")]
+        [When(@"patiënt (.*) (.*) een afspraak maakt bij dokter (.*) op (.*) om (.*) voor een consultatie")]
         public void WhenPatientEenAfspraakBijDokterOpOmVoorEenConsultatie(
             string patientVoornaam,
             string patientAchternaam,
@@ -117,6 +117,7 @@ namespace Dokterspraktijk.Tests.BDD.StepDefinitions
                 datumTekst,
                 tijdTekst);
         }
+        
 
         [Then(@"wordt de afspraak geregistreerd")]
         public void ThenWordtDeAfspraakGeregistreerd()

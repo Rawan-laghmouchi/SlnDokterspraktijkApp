@@ -1,5 +1,4 @@
 ﻿using Dokterspraktijk.Application.Dto_s;
-using Dokterspraktijk.Application.Repositories;
 using Dokterspraktijk.Application.Services.Interfaces;
 using Dokterspraktijk.Domain.Entities;
 using Dokterspraktijk.Domain.Enums;
@@ -8,21 +7,11 @@ namespace Dokterspraktijk.Application.Services.Implementation
 {
     public class DoktersattestService : IDoktersattestService
     {
-        private readonly IPatientRepository _patientRepository;
-        private readonly IDokterRepository _dokterRepository;
-        private readonly IAfspraakRepository _afspraakRepository;
-        private readonly IDoktersattestRepository _doktersattestRepository;
+        private IUnitOfWork _unitOfWork;
 
-        public DoktersattestService(
-            IPatientRepository patientRepository,
-            IDokterRepository dokterRepository,
-            IAfspraakRepository afspraakRepository,
-            IDoktersattestRepository doktersattestRepository)
+        public DoktersattestService(IUnitOfWork unitOfWork)
         {
-            _patientRepository = patientRepository;
-            _dokterRepository = dokterRepository;
-            _afspraakRepository = afspraakRepository;
-            _doktersattestRepository = doktersattestRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public ResultaatDto GeefDoktersattestVrij(
@@ -32,7 +21,12 @@ namespace Dokterspraktijk.Application.Services.Implementation
             DateOnly datum,
             TimeOnly tijd)
         {
-            Afspraak? afspraak = ZoekAfspraak(patientVoornaam, patientAchternaam, dokterNaam, datum, tijd);
+            Afspraak? afspraak = ZoekAfspraak(
+                patientVoornaam,
+                patientAchternaam,
+                dokterNaam,
+                datum,
+                tijd);
 
             if (afspraak == null)
             {
@@ -44,7 +38,7 @@ namespace Dokterspraktijk.Application.Services.Implementation
 
         public ResultaatDto GeefDoktersattestVrijVoorAfspraak(int afspraakId)
         {
-            Afspraak? afspraak = _afspraakRepository.ZoekOpId(afspraakId);
+            Afspraak? afspraak = _unitOfWork.Afspraken.ZoekOpId(afspraakId);
 
             if (afspraak == null)
             {
@@ -56,7 +50,7 @@ namespace Dokterspraktijk.Application.Services.Implementation
                 return ResultaatDto.Mislukt("Een doktersattest kan pas na een afgeronde consultatie worden vrijgegeven.");
             }
 
-            Doktersattest? doktersattest = _doktersattestRepository.ZoekOpAfspraakId(afspraak.Id);
+            Doktersattest? doktersattest = _unitOfWork.Doktersattesten.ZoekOpAfspraakId(afspraak.Id);
 
             if (doktersattest == null)
             {
@@ -67,12 +61,12 @@ namespace Dokterspraktijk.Application.Services.Implementation
                     IsGedownload = false
                 };
 
-                _doktersattestRepository.VoegToe(doktersattest);
+                _unitOfWork.Doktersattesten.VoegToe(doktersattest);
             }
             else
             {
                 doktersattest.IsVrijgegeven = true;
-                _doktersattestRepository.WerkBij(doktersattest);
+                _unitOfWork.Doktersattesten.WerkBij(doktersattest);
             }
 
             return ResultaatDto.Succes("Het doktersattest werd vrijgegeven.");
@@ -85,7 +79,12 @@ namespace Dokterspraktijk.Application.Services.Implementation
             DateOnly datum,
             TimeOnly tijd)
         {
-            Afspraak? afspraak = ZoekAfspraak(patientVoornaam, patientAchternaam, dokterNaam, datum, tijd);
+            Afspraak? afspraak = ZoekAfspraak(
+                patientVoornaam,
+                patientAchternaam,
+                dokterNaam,
+                datum,
+                tijd);
 
             if (afspraak == null)
             {
@@ -97,7 +96,7 @@ namespace Dokterspraktijk.Application.Services.Implementation
 
         public ResultaatDto DownloadDoktersattestVoorAfspraak(int afspraakId)
         {
-            Doktersattest? doktersattest = _doktersattestRepository.ZoekOpAfspraakId(afspraakId);
+            Doktersattest? doktersattest = _unitOfWork.Doktersattesten.ZoekOpAfspraakId(afspraakId);
 
             if (doktersattest == null)
             {
@@ -115,7 +114,7 @@ namespace Dokterspraktijk.Application.Services.Implementation
             }
 
             doktersattest.IsGedownload = true;
-            _doktersattestRepository.WerkBij(doktersattest);
+            _unitOfWork.Doktersattesten.WerkBij(doktersattest);
 
             return ResultaatDto.Succes("Het doktersattest werd gedownload.");
         }
@@ -127,7 +126,12 @@ namespace Dokterspraktijk.Application.Services.Implementation
             DateOnly datum,
             TimeOnly tijd)
         {
-            Afspraak? afspraak = ZoekAfspraak(patientVoornaam, patientAchternaam, dokterNaam, datum, tijd);
+            Afspraak? afspraak = ZoekAfspraak(
+                patientVoornaam,
+                patientAchternaam,
+                dokterNaam,
+                datum,
+                tijd);
 
             if (afspraak == null)
             {
@@ -139,7 +143,7 @@ namespace Dokterspraktijk.Application.Services.Implementation
 
         public DoktersattestDto? ZoekDoktersattestOpAfspraakId(int afspraakId)
         {
-            Doktersattest? doktersattest = _doktersattestRepository.ZoekOpAfspraakId(afspraakId);
+            Doktersattest? doktersattest = _unitOfWork.Doktersattesten.ZoekOpAfspraakId(afspraakId);
 
             if (doktersattest == null)
             {
@@ -162,21 +166,23 @@ namespace Dokterspraktijk.Application.Services.Implementation
             DateOnly datum,
             TimeOnly tijd)
         {
-            Patient? patient = _patientRepository.ZoekOpNaam(patientVoornaam, patientAchternaam);
+            Patient? patient = _unitOfWork.Patienten.ZoekOpNaam(
+                patientVoornaam,
+                patientAchternaam);
 
             if (patient == null)
             {
                 return null;
             }
 
-            Dokter? dokter = _dokterRepository.ZoekOpNaam(dokterNaam);
+            Dokter? dokter = _unitOfWork.Dokters.ZoekOpNaam(dokterNaam);
 
             if (dokter == null)
             {
                 return null;
             }
 
-            return _afspraakRepository.ZoekOpPatientDokterDatumEnTijd(
+            return _unitOfWork.Afspraken.ZoekOpPatientDokterDatumEnTijd(
                 patient.Id,
                 dokter.Id,
                 datum,

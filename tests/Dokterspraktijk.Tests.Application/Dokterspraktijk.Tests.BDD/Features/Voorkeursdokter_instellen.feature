@@ -6,13 +6,12 @@ zodat ik bij nieuwe afspraken indien mogelijk bij dezelfde dokter terechtkom
 
 @tag1
 Scenario: Een patiënt stelt een voorkeursdokter in
-	Given patiënt Rawan Laghmouchi heeft nog geen voorkeursdokter
+	Given patiënt Sara Peeters heeft nog geen voorkeursdokter
 	When zij dokter Timmermans als voorkeursdokter instelt
 	Then wordt dokter Timmermans bewaard als haar voorkeursdokter
 
 Scenario: Een voorkeursdokter wordt gebruikt bij een nieuwe afspraak
-	Given patiënt Rawan Laghmouchi heeft dokter Timmermans als voorkeursdokter ingesteld
-	And dokter Timmermans heeft op 20-05-2026 een beschikbaar tijdslot om 11:00
-	When patiënt Rawan Laghmouchi een nieuwe afspraak wil plannen op 20-05-2026
+	Given patiënt Sara Peeters heeft dokter Timmermans als voorkeursdokter ingesteld
+	And dokter Timmermans heeft op 20-07-2026 een beschikbaar tijdslot om 11:00
+	When patiënt Sara Peeters een nieuwe afspraak wil plannen op 20-07-2026
 	Then wordt dokter Timmermans voorgesteld als voorkeursdokter
-

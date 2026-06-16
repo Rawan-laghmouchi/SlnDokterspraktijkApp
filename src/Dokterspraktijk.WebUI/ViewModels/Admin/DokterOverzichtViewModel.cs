@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.Eventing.Reader;
-
-namespace Dokterspraktijk.WebUI.ViewModels.Admin
+﻿namespace Dokterspraktijk.WebUI.ViewModels.Admin
 {
     public class DokterOverzichtViewModel
     {

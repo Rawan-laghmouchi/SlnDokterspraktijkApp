@@ -158,7 +158,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             {
                 await this.ScenarioStartAsync();
 #line 9
- await testRunner.GivenAsync("dokter Timmermans heeft een afgeronde consultatie met patiënt Rawan Laghmouchi", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+ await testRunner.GivenAsync("dokter Timmermans heeft een afgeronde consultatie met patiënt Sara Peeters", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 10
  await testRunner.AndAsync("er is een doktersattest opgesteld voor deze consultatie", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
@@ -195,7 +195,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             {
                 await this.ScenarioStartAsync();
 #line 15
- await testRunner.GivenAsync("dokter Timmermans heeft een geplande consultatie met patiënt Rawan Laghmouchi", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+ await testRunner.GivenAsync("dokter Timmermans heeft een geplande consultatie met patiënt Sara Peeters", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 16
  await testRunner.WhenAsync("dokter Timmermans een doktersattest probeert vrij te geven", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");

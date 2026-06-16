@@ -1,5 +1,4 @@
 ﻿using Dokterspraktijk.Application.Dto_s;
-
 namespace Dokterspraktijk.WebUI.ViewModels.Admin
 {
     public class AdminDashboardViewModel

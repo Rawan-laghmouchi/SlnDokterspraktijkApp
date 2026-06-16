@@ -2,7 +2,8 @@
 {
     public class DokterKeuzeViewModel
     {
-        public string Naam { get; set; }
-        public string Specialisatie { get; set; }
+        public string Naam { get; set; } = string.Empty;
+
+        public string Specialisatie { get; set; } = string.Empty;
     }
 }

@@ -140,7 +140,7 @@ namespace Dokterspraktijk.Tests.Application.BDD.Features
         [global::Xunit.TraitAttribute("Category", "tag1")]
         [global::Xunit.InlineDataAttribute("JPG-bestand", "geaccepteerd", "0", new string[0])]
         [global::Xunit.InlineDataAttribute("PNG-bestand", "geaccepteerd", "1", new string[0])]
-        [global::Xunit.InlineDataAttribute("PDF-bestand", "geweigerd", "2", new string[0])]
+        [global::Xunit.InlineDataAttribute("PDF-bestand", "geaccepteerd", "2", new string[0])]
         public async global::System.Threading.Tasks.Task EenBestandWordtGevalideerdBijHetToevoegenAanEenAfspraakaanvraag(string bestandstype, string resultaat, string @__pickleIndex, string[] exampleTags)
         {
             string[] @__tags = new string[] {
@@ -168,7 +168,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             {
                 await this.ScenarioStartAsync();
 #line 9
- await testRunner.GivenAsync("patiënt Rawan Laghmouchi heeft een afspraakaanvraag voor een huidprobleem", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+ await testRunner.GivenAsync("patiënt Sara Peeters heeft een afspraakaanvraag voor een huidprobleem", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 10
  await testRunner.WhenAsync(string.Format("zij een {0} toevoegt aan de afspraakaanvraag", bestandstype), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");

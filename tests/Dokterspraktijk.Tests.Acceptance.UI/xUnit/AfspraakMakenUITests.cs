@@ -1,4 +1,5 @@
-﻿using Dokterspraktijk.Tests.Acceptance.UI.Shared.Pages;
+﻿using Dokterspraktijk.Tests.Acceptance.UI.BDD.Support.TestData;
+using Dokterspraktijk.Tests.Acceptance.UI.Shared.Pages;
 using Microsoft.Playwright;
 using Xunit;
 
@@ -35,21 +36,29 @@ namespace Dokterspraktijk.Tests.Acceptance.UI.XUnit
 
             try
             {
+                LoginPagina loginPagina = new LoginPagina(page);
+
+                await loginPagina.OpenAsync(BasisUrl);
+
+                await loginPagina.LoginAsync(
+                    TestGebruikers.PatientEmail,
+                    TestGebruikers.PatientWachtwoord);
+
                 AfspraakMakenPagina afspraakMakenPagina = new AfspraakMakenPagina(page);
 
                 await afspraakMakenPagina.OpenAsync(BasisUrl);
 
                 await afspraakMakenPagina.KiesDokterAsync("Timmermans");
-                await afspraakMakenPagina.KiesDatumAsync("2026-06-15");
+                await afspraakMakenPagina.KiesDatumAsync("2026-06-24");
                 await afspraakMakenPagina.BekijkBeschikbaarhedenAsync();
 
-                await afspraakMakenPagina.KiesTijdslotAsync("10:30");
+                await afspraakMakenPagina.KiesTijdslotAsync("16:30");
 
                 await afspraakMakenPagina.VulPatientgegevensInAsync(
                     "Hans",
                     "Vandenbogaerde",
-                    "hans.vandenbogaerde.ui.xunit@gmail.be",
-                    "+32 470 12 34 56",
+                    "hans.vandenbogaerde@gmail.be",
+                    "+32 411 11 11 11",
                     "00.01.01-001.01");
 
                 await afspraakMakenPagina.KiesAfspraakcategorieAsync("Consultatie");
@@ -94,19 +103,27 @@ namespace Dokterspraktijk.Tests.Acceptance.UI.XUnit
 
             try
             {
+                LoginPagina loginPagina = new LoginPagina(page);
+
+                await loginPagina.OpenAsync(BasisUrl);
+
+                await loginPagina.LoginAsync(
+                    TestGebruikers.PatientEmail,
+                    TestGebruikers.PatientWachtwoord);
+
                 AfspraakMakenPagina afspraakMakenPagina = new AfspraakMakenPagina(page);
 
                 await afspraakMakenPagina.OpenAsync(BasisUrl);
 
                 await afspraakMakenPagina.KiesDokterAsync("Timmermans");
-                await afspraakMakenPagina.KiesDatumAsync("2026-06-15");
+                await afspraakMakenPagina.KiesDatumAsync("2026-06-24");
                 await afspraakMakenPagina.BekijkBeschikbaarhedenAsync();
 
                 await afspraakMakenPagina.VulPatientgegevensInAsync(
                     "Hans",
                     "Vandenbogaerde",
-                    "hans.vandenbogaerde.ui.zondertijdslot.xunit@gmail.be",
-                    "+32 470 12 34 56",
+                    "hans.vandenbogaerde@gmail.be",
+                    "+32 411 11 11 11",
                     "00.01.01-001.01");
 
                 await afspraakMakenPagina.KiesAfspraakcategorieAsync("Consultatie");

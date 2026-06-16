@@ -2,8 +2,6 @@
 
 @{
 	ViewData["Title"] = "Maak een afspraak";
-	string minimumDatum = DateOnly.FromDateTime(DateTime.Today).ToString("yyyy-MM-dd");
-	<div asp-validation-summary="All" class="text-danger mb-3"></div>
 }
 
 <main class="container app-container py-3">
@@ -108,21 +106,15 @@
 				<input asp-for="Datum"
 					   type="date"
 					   class="form-control"
-					   min="@minimumDatum"
+					   min="@Model.MinimumDatum"
 					   onchange="this.form.submit()"
 					   data-testid="datum-veld" />
 
 				<span asp-validation-for="Datum" class="text-danger small"></span>
 
-				<p class="text-muted small mt-2 mb-2">
+				<p class="text-muted small mt-2 mb-0">
 					De praktijk is gesloten tijdens het weekend.
 				</p>
-
-				<button type="submit"
-						class="btn btn-link p-0 app-link-action"
-						data-testid="beschikbaarheden-knop">
-					Bekijk beschikbaarheden
-				</button>
 			</div>
 		</div>
 	</form>
@@ -130,6 +122,7 @@
 	<form asp-controller="Afspraak" asp-action="Create" method="post">
 		<input type="hidden" asp-for="DokterNaam" />
 		<input type="hidden" asp-for="Datum" />
+
 		<div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
 		<div class="card app-soft-card mb-4">
@@ -210,7 +203,7 @@
 			<div class="card-body p-4">
 				<h5 class="card-title fw-semibold mb-3">
 					<span class="step-badge">5</span>
-					Kies de afspraakcategorie
+					Afspraakcategorie
 				</h5>
 
 				<select asp-for="Reden" class="form-select" data-testid="reden-select">
@@ -227,7 +220,9 @@
 		</div>
 
 		<div class="d-flex justify-content-center">
-			<button type="submit" class="btn btn-primary rounded-pill px-5 py-2 fw-semibold" data-testid="afspraak-bevestigen-knop">
+			<button type="submit"
+					class="btn btn-primary rounded-pill px-5 py-2 fw-semibold"
+					data-testid="afspraak-bevestigen-knop">
 				Afspraak bevestigen
 			</button>
 		</div>

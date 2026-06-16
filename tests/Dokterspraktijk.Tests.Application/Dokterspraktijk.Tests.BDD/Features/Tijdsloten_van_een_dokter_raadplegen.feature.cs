@@ -134,20 +134,17 @@ namespace Dokterspraktijk.Tests.Application.BDD.Features
             await this.TestTearDownAsync();
         }
         
-        [global::Xunit.FactAttribute(DisplayName="De patiënt raadpleegt de tijdsloten van een dokter op een bepaalde dag kunnen raa" +
-            "dplegen")]
+        [global::Xunit.FactAttribute(DisplayName="De patiënt raadpleegt de tijdsloten van een dokter op een bepaalde dag")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Tijdsloten van een dokter raadplegen")]
-        [global::Xunit.TraitAttribute("Description", "De patiënt raadpleegt de tijdsloten van een dokter op een bepaalde dag kunnen raa" +
-            "dplegen")]
+        [global::Xunit.TraitAttribute("Description", "De patiënt raadpleegt de tijdsloten van een dokter op een bepaalde dag")]
         [global::Xunit.TraitAttribute("Category", "tag1")]
-        public async global::System.Threading.Tasks.Task DePatientRaadpleegtDeTijdslotenVanEenDokterOpEenBepaaldeDagKunnenRaadplegen()
+        public async global::System.Threading.Tasks.Task DePatientRaadpleegtDeTijdslotenVanEenDokterOpEenBepaaldeDag()
         {
             string[] tagsOfScenario = new string[] {
                     "tag1"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "0";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("De patiënt raadpleegt de tijdsloten van een dokter op een bepaalde dag kunnen raa" +
-                    "dplegen", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("De patiënt raadpleegt de tijdsloten van een dokter op een bepaalde dag", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 8
@@ -173,11 +170,11 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
                             "10:00",
                             "beschikbaar"});
 #line 9
- await testRunner.GivenAsync("dokter Timmermans heeft op 15-05-2026 de volgende tijdsloten:", ((string)(null)), table5, "Given ");
+ await testRunner.GivenAsync("dokter Timmermans heeft op 15-07-2026 de volgende tijdsloten:", ((string)(null)), table5, "Given ");
 #line hidden
 #line 14
- await testRunner.WhenAsync("patiënt Rawan Laghmouchi de tijdsloten van dokter Timmermans op 15-05-2026 raadpl" +
-                        "eegt", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+ await testRunner.WhenAsync("patiënt Sara Peeters de tijdsloten van dokter Timmermans op 15-07-2026 raadpleegt" +
+                        "", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
                 global::Reqnroll.Table table6 = new global::Reqnroll.Table(new string[] {
                             "Tijd",

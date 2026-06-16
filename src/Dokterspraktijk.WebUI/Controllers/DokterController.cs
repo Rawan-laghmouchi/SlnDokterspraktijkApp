@@ -1,5 +1,4 @@
 ﻿using Dokterspraktijk.Application.Dto_s;
-using Dokterspraktijk.Application.Repositories;
 using Dokterspraktijk.Application.Services.Interfaces;
 using Dokterspraktijk.Domain.Entities;
 using Dokterspraktijk.WebUI.ViewModels;
@@ -13,17 +12,17 @@ namespace Dokterspraktijk.WebUI.Controllers
     public class DokterController : Controller
     {
         private readonly IAfspraakService _afspraakService;
-        private readonly IPatientRepository _patientRepository;
         private readonly IDoktersattestService _doktersattestService;
+        private readonly IUnitOfWork _unitOfWork;
 
         public DokterController(
             IAfspraakService afspraakService,
-            IPatientRepository patientRepository,
-            IDoktersattestService doktersattestService)
+            IDoktersattestService doktersattestService,
+            IUnitOfWork unitOfWork)
         {
             _afspraakService = afspraakService;
-            _patientRepository = patientRepository;
             _doktersattestService = doktersattestService;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
@@ -136,6 +135,13 @@ namespace Dokterspraktijk.WebUI.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
+            string dokterNaam = GeefDokterNaamVoorIngelogdeGebruiker();
+
+            if (afspraak.DokterNaam != dokterNaam)
+            {
+                return Forbid();
+            }
+
             _afspraakService.RondConsultatieAf(
                 afspraak.DokterNaam,
                 afspraak.PatientVoornaam,
@@ -157,20 +163,22 @@ namespace Dokterspraktijk.WebUI.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            _afspraakService.AnnuleerAfspraak(
-                afspraak.PatientVoornaam,
-                afspraak.PatientAchternaam,
-                afspraak.DokterNaam,
-                afspraak.Datum,
-                afspraak.Tijd);
+            string dokterNaam = GeefDokterNaamVoorIngelogdeGebruiker();
 
-            return RedirectToAction(nameof(Details), new { id = id });
+            if (afspraak.DokterNaam != dokterNaam)
+            {
+                return Forbid();
+            }
+
+            _afspraakService.AnnuleerAfspraakOpId(id);
+
+            return RedirectToAction(nameof(Afspraken));
         }
 
         [HttpGet]
         public IActionResult Patienten(string? zoekterm)
         {
-            List<Patient> patienten = _patientRepository.GeefAllePatienten();
+            List<Patient> patienten = _unitOfWork.Patienten.GeefAllePatienten();
 
             if (!string.IsNullOrWhiteSpace(zoekterm))
             {
@@ -203,6 +211,7 @@ namespace Dokterspraktijk.WebUI.Controllers
 
             return View(viewModel);
         }
+
         [HttpGet]
         public IActionResult Afspraken(string? status)
         {

@@ -26,7 +26,7 @@ namespace Dokterspraktijk.Tests.Application.BDD.Features
         
         private static string[] featureTags = ((string[])(null));
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Een Consultatie afronden", "Als dokter\r\nwil ik een consultatie kunnen afronden\r\nzodat de afspraak de juiste s" +
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Een consultatie afronden", "Als dokter\r\nwil ik een consultatie kunnen afronden\r\nzodat de afspraak de juiste s" +
                 "tatus krijgt en vervolgacties mogelijk worden", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
 #line 1 "Consultatie_afronden.feature"
@@ -135,7 +135,7 @@ namespace Dokterspraktijk.Tests.Application.BDD.Features
         }
         
         [global::Xunit.FactAttribute(DisplayName="Een dokter rondt een geplande consultatie af")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Een Consultatie afronden")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Een consultatie afronden")]
         [global::Xunit.TraitAttribute("Description", "Een dokter rondt een geplande consultatie af")]
         [global::Xunit.TraitAttribute("Category", "tag1")]
         public async global::System.Threading.Tasks.Task EenDokterRondtEenGeplandeConsultatieAf()
@@ -158,8 +158,8 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             {
                 await this.ScenarioStartAsync();
 #line 9
- await testRunner.GivenAsync("dokter Timmermans heeft een geplande afspraak met patiënt Rawan Laghmouchi op 15-" +
-                        "05-2026 om 10:30", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+ await testRunner.GivenAsync("dokter Timmermans heeft een geplande afspraak met patiënt Sara Peeters op 15-07-2" +
+                        "026 om 10:30", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 10
  await testRunner.WhenAsync("dokter Timmermans de consultatie afrondt", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
@@ -172,7 +172,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
         }
         
         [global::Xunit.FactAttribute(DisplayName="Een reeds afgeronde consultatie kan niet opnieuw afgerond worden")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Een Consultatie afronden")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Een consultatie afronden")]
         [global::Xunit.TraitAttribute("Description", "Een reeds afgeronde consultatie kan niet opnieuw afgerond worden")]
         public async global::System.Threading.Tasks.Task EenReedsAfgerondeConsultatieKanNietOpnieuwAfgerondWorden()
         {

@@ -158,8 +158,8 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             {
                 await this.ScenarioStartAsync();
 #line 9
- await testRunner.GivenAsync("patiënt Rawan Laghmouchi heeft een afspraak bij dokter Timmermans op 15-05-2026 o" +
-                        "m 10:30", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+ await testRunner.GivenAsync("patiënt Sara Peeters heeft een afspraak bij dokter Timmermans op 15-07-2026 om 10" +
+                        ":30", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 10
  await testRunner.WhenAsync("zij deze afspraak annuleert", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
@@ -196,8 +196,8 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             {
                 await this.ScenarioStartAsync();
 #line 15
- await testRunner.GivenAsync("patiënt Rawan Laghmouchi heeft een afgeronde afspraak bij de dokter Timmermans op" +
-                        " 10-05-2026", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+ await testRunner.GivenAsync("patiënt Sara Peeters heeft een afgeronde afspraak bij de dokter Timmermans op 10-" +
+                        "07-2026", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 16
  await testRunner.WhenAsync("zij deze afspraak probeert te annuleren", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");

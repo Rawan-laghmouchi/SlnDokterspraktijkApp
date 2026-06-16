@@ -1,60 +1,29 @@
-﻿@using Dokterspraktijk.Application.Dto_s
-@model DokterAfspraakDetailsViewModel
+﻿@model DokterAfspraakDetailsViewModel
 
 @{
 	ViewData["Title"] = "Afspraakdetails";
-
-	AfspraakDto afspraak = Model.Afspraak;
-	DoktersattestDto? doktersattest = Model.Doktersattest;
 }
 
 <section class="container my-5">
 
-	<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
-		<div>
-			<a asp-controller="Dokter"
-			   asp-action="Afspraken"
-			   class="text-decoration-none fw-semibold text-success">
-				<i class="bi bi-arrow-left me-1"></i>
-				Terug naar afspraken beheren
-			</a>
+	<div class="mb-5">
+		<a asp-controller="Dokter"
+		   asp-action="Afspraken"
+		   class="text-decoration-none fw-semibold text-success">
+			<i class="bi bi-arrow-left me-1"></i>
+			Terug naar afspraken beheren
+		</a>
 
-			<h1 class="fw-bold mt-3 mb-2">
-				Afspraakdetails
-			</h1>
+		<h1 class="fw-bold mt-3 mb-2">
+			Afspraakdetails
+		</h1>
 
-			<p class="text-muted mb-0">
-				Bekijk de afspraakgegevens en voer acties uit waar nodig.
-			</p>
-		</div>
-
-		@if (afspraak.Status == "Gepland")
-		{
-			<div class="d-flex gap-2 flex-wrap">
-				<form asp-controller="Dokter"
-					  asp-action="Afronden"
-					  asp-route-id="@afspraak.Id"
-					  method="post">
-					<button type="submit" class="btn btn-primary rounded-pill px-4">
-						<i class="bi bi-check2-circle me-1"></i>
-						Afronden
-					</button>
-				</form>
-
-				<form asp-controller="Dokter"
-					  asp-action="Annuleren"
-					  asp-route-id="@afspraak.Id"
-					  method="post">
-					<button type="submit" class="btn btn-outline-danger rounded-pill px-4">
-						<i class="bi bi-x-circle me-1"></i>
-						Annuleren
-					</button>
-				</form>
-			</div>
-		}
+		<p class="text-muted mb-0">
+			Bekijk de afspraakgegevens van de patiënt.
+		</p>
 	</div>
 
-	<div class="row g-4">
+	<div class="row g-4 align-items-start">
 		<div class="col-12 col-xl-8">
 
 			<div class="card p-4 mb-4">
@@ -70,28 +39,28 @@
 							</h2>
 
 							<p class="text-muted mb-0">
-								Afspraak bij Dr. @afspraak.DokterNaam
+								Afspraak bij Dr. @Model.Afspraak.DokterNaam
 							</p>
 						</div>
 					</div>
 
 					<div>
-						@if (afspraak.Status == "Gepland")
+						@if (Model.Afspraak.Status == "Gepland")
 						{
 							<span class="badge rounded-pill text-bg-success px-3 py-2">
-								@afspraak.Status
+								@Model.Afspraak.Status
 							</span>
 						}
-						else if (afspraak.Status == "Geannuleerd")
+						else if (Model.Afspraak.Status == "Geannuleerd")
 						{
 							<span class="badge rounded-pill text-bg-danger px-3 py-2">
-								@afspraak.Status
+								@Model.Afspraak.Status
 							</span>
 						}
 						else
 						{
 							<span class="badge rounded-pill text-bg-secondary px-3 py-2">
-								@afspraak.Status
+								@Model.Afspraak.Status
 							</span>
 						}
 					</div>
@@ -101,28 +70,28 @@
 					<div class="col-md-3">
 						<div class="bg-light border rounded-4 p-3 h-100">
 							<div class="small text-muted fw-bold">Datum</div>
-							<div class="fw-semibold">@afspraak.Datum.ToString("dd/MM/yyyy")</div>
+							<div class="fw-semibold">@Model.Afspraak.Datum.ToString("dd/MM/yyyy")</div>
 						</div>
 					</div>
 
 					<div class="col-md-3">
 						<div class="bg-light border rounded-4 p-3 h-100">
 							<div class="small text-muted fw-bold">Tijd</div>
-							<div class="fw-semibold">@afspraak.Tijd.ToString("HH:mm")</div>
+							<div class="fw-semibold">@Model.Afspraak.Tijd.ToString("HH:mm")</div>
 						</div>
 					</div>
 
 					<div class="col-md-3">
 						<div class="bg-light border rounded-4 p-3 h-100">
 							<div class="small text-muted fw-bold">Status</div>
-							<div class="fw-semibold">@afspraak.Status</div>
+							<div class="fw-semibold">@Model.Afspraak.Status</div>
 						</div>
 					</div>
 
 					<div class="col-md-3">
 						<div class="bg-light border rounded-4 p-3 h-100">
 							<div class="small text-muted fw-bold">Dokter</div>
-							<div class="fw-semibold">@afspraak.DokterNaam</div>
+							<div class="fw-semibold">@Model.Afspraak.DokterNaam</div>
 						</div>
 					</div>
 				</div>
@@ -135,7 +104,7 @@
 
 				<div class="bg-light border rounded-4 p-3">
 					<p class="mb-0">
-						@afspraak.Reden
+						@Model.Afspraak.Reden
 					</p>
 				</div>
 			</div>
@@ -156,7 +125,7 @@
 					<div>
 						<div class="fw-bold">Huidige status</div>
 						<div class="text-muted">
-							Deze afspraak staat momenteel op: @afspraak.Status.
+							Deze afspraak staat momenteel op: @Model.Afspraak.Status.
 						</div>
 					</div>
 				</div>
@@ -170,12 +139,12 @@
 				<div class="d-flex align-items-center gap-3 mb-4">
 					<div class="rounded-circle bg-success-subtle text-success d-flex align-items-center justify-content-center fw-bold"
 						 style="width: 56px; height: 56px;">
-						@afspraak.PatientVoornaam.Substring(0, 1)@afspraak.PatientAchternaam.Substring(0, 1)
+						@Model.Afspraak.PatientVoornaam.Substring(0, 1)@Model.Afspraak.PatientAchternaam.Substring(0, 1)
 					</div>
 
 					<div>
 						<h2 class="h5 fw-bold mb-1">
-							@afspraak.PatientVoornaam @afspraak.PatientAchternaam
+							@Model.Afspraak.PatientVoornaam @Model.Afspraak.PatientAchternaam
 						</h2>
 
 						<p class="text-muted mb-0">
@@ -186,22 +155,22 @@
 
 				<div class="mb-3">
 					<div class="small text-muted fw-bold">E-mail</div>
-					<div class="fw-semibold">@afspraak.PatientEmail</div>
+					<div class="fw-semibold">@Model.Afspraak.PatientEmail</div>
 				</div>
 
 				<div class="mb-3">
 					<div class="small text-muted fw-bold">Telefoon</div>
-					<div class="fw-semibold">@afspraak.PatientTelefoonnummer</div>
+					<div class="fw-semibold">@Model.Afspraak.PatientTelefoonnummer</div>
 				</div>
 
 				<div class="mb-3">
 					<div class="small text-muted fw-bold">Rijksregisternummer</div>
-					<div class="fw-semibold">@afspraak.PatientRijksregisternummer</div>
+					<div class="fw-semibold">@Model.Afspraak.PatientRijksregisternummer</div>
 				</div>
 
 				<a asp-controller="Dokter"
 				   asp-action="Patienten"
-				   asp-route-zoekterm="@afspraak.PatientAchternaam"
+				   asp-route-zoekterm="@Model.Afspraak.PatientAchternaam"
 				   class="btn btn-appointment-outline w-100 mt-2">
 					Patiënt opzoeken
 				</a>
@@ -212,19 +181,19 @@
 					Doktersattest
 				</h2>
 
-				@if (afspraak.Status != "Afgerond")
+				@if (Model.Afspraak.Status != "Afgerond")
 				{
 					<p class="text-muted mb-0">
 						Een doktersattest kan pas worden vrijgegeven nadat de consultatie is afgerond.
 					</p>
 				}
-				else if (doktersattest != null && doktersattest.IsVrijgegeven)
+				else if (Model.IsDoktersattestVrijgegeven)
 				{
 					<span class="badge rounded-pill text-bg-success px-3 py-2 mb-3">
 						Vrijgegeven
 					</span>
 
-					@if (doktersattest.IsGedownload)
+					@if (Model.Doktersattest.IsGedownload)
 					{
 						<p class="text-muted mb-0">
 							De patiënt heeft dit attest al gedownload.
@@ -237,7 +206,7 @@
 						</p>
 					}
 				}
-				else
+				else if (Model.MagDoktersattestVrijgeven)
 				{
 					<p class="text-muted">
 						De consultatie is afgerond. Je kan het doktersattest nu vrijgeven voor de patiënt.
@@ -245,7 +214,7 @@
 
 					<form asp-controller="Dokter"
 						  asp-action="GeefDoktersattestVrij"
-						  asp-route-id="@afspraak.Id"
+						  asp-route-id="@Model.Afspraak.Id"
 						  method="post">
 						<button type="submit" class="btn btn-primary rounded-pill px-4">
 							<i class="bi bi-file-earmark-medical me-1"></i>
@@ -263,14 +232,6 @@
 				<p class="text-muted">
 					Vanuit deze pagina kan de dokter de afspraak opvolgen en de patiëntgegevens raadplegen.
 				</p>
-
-				<a asp-controller="Afspraak"
-				   asp-action="Create"
-				   asp-route-patientVoornaam="@afspraak.PatientVoornaam"
-				   asp-route-patientAchternaam="@afspraak.PatientAchternaam"
-				   class="btn btn-appointment-outline w-100">
-					Vervolgafspraak plannen
-				</a>
 			</div>
 
 		</div>
